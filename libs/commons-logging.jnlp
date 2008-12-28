@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp
+spec="1.0+"
+codebase="http://replace_with_server/libs">
+
+    <information>
+        <title>Commons Logging</title>
+        <homepage href="http://commons.apache.org/logging/"/>
+        <vendor>see link</vendor>
+        <description>see link</description>
+        <offline-allowed/>
+    </information>
+
+
+    <shortcut online="false">
+      <desktop/>
+    </shortcut>
+
+    <security>
+        <all-permissions/>
+    </security>
+
+
+    <resources>
+        <jar href="commons-logging-1.1.1.jar"/>
+    </resources>
+
+    <component-desc/>
+
+</jnlp>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jnlp spec="1.0+" codebase="http://replace_with_server/libs">
+
+
+    <information>
+        <title>Java Swingworker</title>
+        <homepage href="https://swingworker.dev.java.net"/>
+        <vendor>see link</vendor>
+        <description>see link</description>
+        <offline-allowed/>
+    </information>
+
+
+    <security>
+        <all-permissions/>
+    </security> 
+    
+    <resources>
+        <jar href="swing-worker-1.1.jar"/>
+    </resources>
+    
+    <component-desc/>
+
+</jnlp>
+
+

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="Example Project">
+<vinfo version="1">A</vinfo>
+<vinfo version="2">B</vinfo>
+<vinfo version="3">C</vinfo>
+<vinfo version="4">D</vinfo>
+</project>

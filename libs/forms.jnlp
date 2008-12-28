@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp
+spec="1.0+"
+codebase="http://replace_with_server/libs">
+
+    <information>
+        <title>JGoodies Forms</title>
+        <homepage href="http://www.jgoodies.com"/>
+        <vendor>see link</vendor>
+        <description>see link</description>
+        <offline-allowed/>
+    </information>
+
+
+    <shortcut online="false">
+      <desktop/>
+    </shortcut>
+
+    <security>
+        <all-permissions/>
+    </security>
+
+
+    <resources>
+        <jar href="forms-1.2.0.jar"/>
+    </resources>
+
+    <component-desc/>
+
+</jnlp>

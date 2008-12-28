@@ -1,0 +1,53 @@
+package af.commons.io;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
+public class FileTools {
+
+	public static void unpack(File file, File directory) throws IOException {
+		if (!directory.exists()) {
+			if (!directory.mkdirs()) {
+				throw new IOException("Could not create directory "+directory.getAbsolutePath()+".");
+			}
+		}
+		int BUFFER = 2048;
+		BufferedOutputStream dest = null;
+		BufferedInputStream is = null;
+		ZipEntry entry;
+		ZipFile zipfile = new ZipFile(file);
+		Enumeration e = zipfile.entries();
+		while(e.hasMoreElements()) {
+			entry = (ZipEntry) e.nextElement();
+			System.out.println("Extracting: " +entry);
+			is = new BufferedInputStream
+			(zipfile.getInputStream(entry));
+			int count;
+			byte data[] = new byte[BUFFER];
+			File fo = new File(directory, entry.getName());
+			if (fo.getParentFile() != null && !fo.getParentFile().exists()) {
+				if (!fo.getParentFile().mkdirs()) {
+					throw new IOException("Could not create directory "+fo.getParentFile().getAbsolutePath()+".");
+				}
+			}
+			FileOutputStream fos = new 
+			FileOutputStream(fo);
+			dest = new 
+			BufferedOutputStream(fos, BUFFER);
+			while ((count = is.read(data, 0, BUFFER)) 
+					!= -1) {
+				dest.write(data, 0, count);
+			}
+			dest.flush();
+			dest.close();
+			is.close();
+		}
+	}
+
+}
