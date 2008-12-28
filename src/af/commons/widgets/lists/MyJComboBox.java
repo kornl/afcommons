@@ -8,7 +8,10 @@ import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 
 public class MyJComboBox<E> extends JComboBox {
-
+	
+	public MyJComboBox(E[] objects, String[] names) {
+       super(new MyJComboBoxModel<E>(Arrays.asList(objects), Arrays.asList(names)));
+    }
 
     public MyJComboBox() {
         super(new MyJComboBoxModel<E>());
