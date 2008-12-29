@@ -76,7 +76,7 @@ public class LoggingSystem {
      */
     public static LoggingSystem getInstance() {
         if (instance == null)
-            throw new RuntimeException("Call LoggingSystem:init first!");
+            throw new RuntimeException("Call LoggingSystem.init() first!");
         return instance;
     }
 
