@@ -1,6 +1,8 @@
 package af.commons.io;
 
 import java.io.File;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * Derived FileFilter class. Filters file by a single extension.
@@ -8,14 +10,13 @@ import java.io.File;
  * and implements the filter in java.io.
  */
 
-// apparently java has 2 different file filters.... noice.
 public class FileExtensionFilter
         extends javax.swing.filechooser.FileFilter
         implements java.io.FileFilter {
 
-    // extension of files to accept
-    private String extension;
-    // description of extension
+    /** List of extensions of files to accept */
+    private List<String> extension;
+    /** description of extension */
     private String description;
 
     /**
@@ -35,16 +36,46 @@ public class FileExtensionFilter
      */
      public FileExtensionFilter(String description, String extension) {
         this.description = description;
-        this.extension = extension;
+        this.extension = new Vector<String>();
+        this.extension.add(extension);
     }
 
+     /**
+      * Constructor
+      *
+      * @param extension extension of files to accept
+      */
+     public FileExtensionFilter(List<String> extension) {
+    	 String descr = "";
+    	 for (String s : extension) {
+    		 descr = s+" ";
+    	 }
+         this.description = descr;
+         this.extension = extension;
+     }
+
+     /**
+      * Constructor
+      *
+      * @param description description of extension
+      * @param extension extension of files to accept
+      */
+      public FileExtensionFilter(String description, List<String> extension) {
+         this.description = description;
+         this.extension = extension;
+     }
+     
+     
     /**
-     * accept file if it has the correct extension or is a directory
+     * accept file if it has the correct extension
      * @param f
      * @return
      */
-    public boolean accept(File f) {
-        return f.isDirectory() || f.toString().endsWith("." + extension);
+    public boolean accept(File f) {    	
+    	for (String ext : extension) {
+    		if (f.getName().endsWith("." + ext)) return true; 
+    	}
+        return false;
     }
 
     /**
@@ -53,4 +84,5 @@ public class FileExtensionFilter
     public String getDescription() {
         return description;
     }
+
 }

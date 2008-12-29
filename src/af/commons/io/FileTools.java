@@ -49,5 +49,16 @@ public class FileTools {
 			is.close();
 		}
 	}
+	
+	/**
+	 * Returns the filename without last suffix.
+	 * Example: getBaseName("test.txt") returns "test".
+	 * @return filename without last suffix.
+	 */
+	public static String getBaseName(File file) {
+		String name = file.getName();
+		if (name.lastIndexOf('.') == -1) return name;
+		return name.substring(0, name.lastIndexOf('.'));
+	}
 
 }
