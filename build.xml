@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="afcommons">
+	
+	<dirname property="content.root" file="${ant.file}"/>
+	<property name="dist" location="${content.root}/dist"/>
+	<property name="output.dir" location="${content.root}/classes"/>
+	
+	<property file="${content.root}/imported.properties"/>
+	
+	<target name="clean" description="cleanup all">
+			<delete dir="${output.dir}"/>
+			<delete dir="${dist}"/>				
+			<mkdir dir="${dist}"/>
+			<mkdir dir="${output.dir}"/>			
+	</target>
+	
+	
+	  <!-- JDK definitions -->
+	  <!-- TODO check whether these are necessary -->
+	  <path id="jdk.classpath.path">
+	    <fileset dir="${jdk.home}">
+	      <include name="jre/lib/charsets.jar"/>
+	      <include name="jre/lib/deploy.jar"/>
+	      <include name="jre/lib/javaws.jar"/>
+	      <include name="jre/lib/jce.jar"/>
+	      <include name="jre/lib/jsse.jar"/>
+	      <include name="jre/lib/plugin.jar"/>
+	      <include name="jre/lib/rt.jar"/>
+	      <include name="jre/lib/ext/dnsns.jar"/>
+	      <include name="jre/lib/ext/localedata.jar"/>
+	      <include name="jre/lib/ext/sunjce_provider.jar"/>
+	      <include name="jre/lib/ext/sunpkcs11.jar"/>
+	    </fileset>
+	  </path>
+	
+	  <property name="jdk.classpath" value="jdk.classpath.path"/>
+	
+	<!-- Compiler options -->
+
+	<property name="compiler.debug" value="on"/>
+	<property name="compiler.generate.no.warnings" value="off"/>
+	<property name="compiler.args" value=""/>
+	<property name="compiler.max.memory" value="128m"/>
+	
+	<path id="sourcepath">
+	        <dirset dir="${content.root}">
+	            <include name="src"/>
+	        </dirset>
+	</path>
+
+	<path id="libraries.classpath">
+	        <fileset dir="lib">
+	            <include name="commons-logging-1.1.1.jar"/>
+	            <include name="jxlayer.jar"/>
+	        	<include name="swing-worker-1.1.jar"/>
+	        	<include name="Filters.jar"/>
+	        	<include name="log4j-1.2.15.jar"/>
+	        	<include name="forms-1.2.0.jar"/>
+	        	<include name="mail.jar"/>
+	        </fileset>
+	</path>
+	
+	<path id="complete.classpath">
+	        <path refid="libraries.classpath"/>
+	</path>
+	
+	<target name="compile">
+	  	<mkdir dir="${output.dir}"/>
+	    <javac destdir="${output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
+	           memorymaximumsize="${compiler.max.memory}" fork="true" executable="${jdk.home}/bin/javac">
+	      <compilerarg line="${compiler.args}"/>
+	      <classpath refid="complete.classpath"/>
+	      <src refid="sourcepath"/>	      
+	    </javac>
+	  </target>
+		
+	<target name="make_jar" depends="compile">
+
+			<jar jarfile="${dist}/commons.jar" basedir="classes"/>
+		
+			<signjar alias="hothorn" storepass="${passwd.sign}">
+		      <path>
+		        <fileset dir="${dist}" includes="rcode.jar"/>
+		      </path>
+		    </signjar>
+		
+		    <copy todir="${dist}">
+		      <fileset dir="${content.root}/lib">
+		      	<include name="**"/>
+		      </fileset>
+		    </copy>
+	</target>
+	
+</project>
