@@ -18,6 +18,7 @@ public class FileExtensionFilter
     private List<String> extension;
     /** description of extension */
     private String description;
+    private boolean acceptDirectories;
 
     /**
      * Constructor
@@ -26,6 +27,16 @@ public class FileExtensionFilter
      */
     public FileExtensionFilter(String extension) {
         this(extension, extension);
+    }
+    
+    /**
+     * Constructor
+     *
+     * @param extension extension of files to accept
+     */
+    public FileExtensionFilter(String extension, boolean acceptDirectories) {
+        this(extension, extension);
+        this.acceptDirectories = acceptDirectories;
     }
 
     /**
@@ -53,6 +64,19 @@ public class FileExtensionFilter
          this.description = descr;
          this.extension = extension;
      }
+     
+     /**
+      * Constructor
+      *
+      * @param description description of extension
+      * @param extension extension of files to accept
+      */
+      public FileExtensionFilter(String description, String extension, boolean acceptDirectories) {
+         this.description = description;
+         this.extension = new Vector<String>();
+         this.extension.add(extension);
+         this.acceptDirectories = acceptDirectories;
+     }
 
      /**
       * Constructor
@@ -74,6 +98,7 @@ public class FileExtensionFilter
     public boolean accept(File f) {    	
     	for (String ext : extension) {
     		if (f.getName().endsWith("." + ext)) return true; 
+    		if (acceptDirectories && f.isDirectory()) return true;
     	}
         return false;
     }
