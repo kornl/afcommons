@@ -74,7 +74,7 @@
 		    </javac>
 		  	<mkdir dir="${output.dir}/af/commons/images"/>
 		  	<copy todir="${output.dir}/af/commons/images">
-		  	    <fileset dir="${commons.src.dir}/af/commons/images"/>
+		  	    <fileset dir="${content.root}/src/af/commons/images"/>
 		  	</copy>
 		 
 			<jar jarfile="${dist}/afcommons.jar" basedir="classes"/>
