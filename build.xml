@@ -62,21 +62,22 @@
 	
 	<path id="complete.classpath">
 	        <path refid="libraries.classpath"/>
-	</path>
-	
-	<target name="compile">
-	  	<mkdir dir="${output.dir}"/>
-	    <javac destdir="${output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
-	           memorymaximumsize="${compiler.max.memory}" fork="true" executable="${jdk.home}/bin/javac">
-	      <compilerarg line="${compiler.args}"/>
-	      <classpath refid="complete.classpath"/>
-	      <src refid="sourcepath"/>	      
-	    </javac>
-	  </target>
+	</path>	
 		
-	<target name="make_jar" depends="compile">
-
-			<jar jarfile="${dist}/commons.jar" basedir="classes"/>
+	<target name="make_jar" depends="clean">
+	 	    <mkdir dir="${output.dir}"/>
+		    <javac destdir="${output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
+		           memorymaximumsize="${compiler.max.memory}" fork="true" executable="${jdk.home}/bin/javac">
+		      <compilerarg line="${compiler.args}"/>
+		      <classpath refid="complete.classpath"/>
+		      <src refid="sourcepath"/>	      
+		    </javac>
+		  	<mkdir dir="${output.dir}/af/commons/images"/>
+		  	<copy todir="${output.dir}/af/commons/images">
+		  	    <fileset dir="${commons.src.dir}/af/commons/images"/>
+		  	</copy>
+		 
+			<jar jarfile="${dist}/afcommons.jar" basedir="classes"/>
 		
 			<signjar alias="hothorn" storepass="${passwd.sign}">
 		      <path>
