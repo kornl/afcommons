@@ -67,10 +67,10 @@ public abstract class Wizard {
             wizard.addWindowListener(new WindowAdapter() {
                 public void windowClosing(WindowEvent e) {
                     int result = JOptionPane.showConfirmDialog(wizard, 
-                    	"Do You really want to exit the programm?");
+                    	"Do you really want to exit the program?", "Do you really want to exit the program?", JOptionPane.YES_NO_OPTION);
                     		// "You can't close the Wizard in between!\nPlease Continue.\nDo You really want to exit the programm?");
                     if (result == JOptionPane.OK_OPTION) {
-                        //ControlClient.exit();
+                        System.exit(0);
                     }
                 }
             });
