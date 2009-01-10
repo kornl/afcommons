@@ -1,19 +1,24 @@
 package af.commons.widgets.dialogs;
 
-import af.commons.widgets.WidgetFactory;
-import af.commons.widgets.buttons.OkCancelButtonPane;
-import af.commons.widgets.lists.MyJComboBox;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import af.commons.widgets.WidgetFactory;
+import af.commons.widgets.buttons.OkCancelButtonPane;
+import af.commons.widgets.lists.MyJComboBox;
+
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 
 public class ComboBoxDialog<E> extends JDialog implements ActionListener {
     private MyJComboBox<E> cb;

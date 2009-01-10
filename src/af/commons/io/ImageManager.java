@@ -1,14 +1,17 @@
 package af.commons.io;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class ImageManager {
     

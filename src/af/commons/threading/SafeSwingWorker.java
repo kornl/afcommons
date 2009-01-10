@@ -6,8 +6,6 @@ import java.util.concurrent.CancellationException;
 
 import org.jdesktop.swingworker.SwingWorker;
 
-import af.commons.errorhandling.DefaultExceptionHandler;
-
 
 /**
  * This SwingWorker handles exceptions thrown by the doInBackground() method.
@@ -19,9 +17,9 @@ import af.commons.errorhandling.DefaultExceptionHandler;
 
 public abstract class SafeSwingWorker<T, V> extends SwingWorker<T, V> {
     // observable buffer
-    private SwingWorkerMsgBuffer<V> msgBuffer = new SwingWorkerMsgBuffer<V>();
+	protected SwingWorkerMsgBuffer<V> msgBuffer = new SwingWorkerMsgBuffer<V>();
     // observing object which wants to be called when worker is finished
-    private SwingWorkerObserver observer = null;
+    protected SwingWorkerObserver observer = null;
 
 
     /**
@@ -62,8 +60,9 @@ public abstract class SafeSwingWorker<T, V> extends SwingWorker<T, V> {
     protected void onFailure(Throwable t) {
         // dont know what to do with exception, pass it to the DefaultHandler
         // if you dont want this, override
-        DefaultExceptionHandler deh = new DefaultExceptionHandler();
-        deh.handle(t);
+        /* DefaultExceptionHandler deh = new DefaultExceptionHandler();
+        deh.handle(t); */
+    	throw new RuntimeException(t);
     }
 
     /**

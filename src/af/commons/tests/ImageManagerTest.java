@@ -1,9 +1,9 @@
 package af.commons.tests;
 
-import af.commons.io.ImageManager;
-
 import java.io.File;
 import java.io.IOException;
+
+import af.commons.io.ImageManager;
 
 public class ImageManagerTest {
     public static void main(String[] args) {

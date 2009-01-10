@@ -44,8 +44,8 @@ public class ProgressDialog<T, V> extends JFrame implements PropertyChangeListen
      * @param abortable is it ok to abort the task by closing the
      * @param jp 
      */
-    public ProgressDialog(SafeSwingWorker<T, V> task, boolean abortable, JPanel jp) {    	
-        super("Setup... please wait!");
+    public ProgressDialog(String title, SafeSwingWorker<T, V> task, boolean abortable, JPanel jp) {    	
+        super(title);
         this.task = task;
         this.jp = jp;
         task.addPropertyChangeListener(this);
@@ -125,7 +125,7 @@ public class ProgressDialog<T, V> extends JFrame implements PropertyChangeListen
             onExit();
         }
         if (e.getActionCommand().equals(OKButtonPane.CANCEL_CMD)) {
-            // if cancel was presse, onExit still handles it
+            // if cancel was pressed, onExit still handles it
             onExit();
         }
     }
