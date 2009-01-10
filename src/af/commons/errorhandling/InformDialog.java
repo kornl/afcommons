@@ -55,13 +55,15 @@ public class InformDialog extends JDialog implements ActionListener{
     protected final String informMsg;
     // to disable the whole dialog
     protected LockableUI lockableUI;
-
+    
+    protected String developerAdress;
 
     protected InformDialog(Component parent, String developerAdress) {
         informMsg = "An error occured!  Please inform " + developerAdress +
                 " about the possible bug. If you have internet access you can probably use the form below. " +
                 "Otherwise send a mail manually with a short description.";
         setModal(true);
+        this.developerAdress = developerAdress;
 
         setTitle("Inform about bug");
 
@@ -170,7 +172,7 @@ public class InformDialog extends JDialog implements ActionListener{
                 String email = tfEMail.getText();
                 String otherContact = tfOtherContact.getText();
                 String desc = taDesc.getText();
-                Mailman mailman = new Mailman();
+                Mailman mailman = new Mailman(developerAdress);
                 mailman.sendErrorMessage(name, email, otherContact, desc, getAttachedFiles());
                 return null;
             }

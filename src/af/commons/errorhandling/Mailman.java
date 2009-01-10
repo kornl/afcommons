@@ -33,8 +33,13 @@ public class Mailman {
 
     private String subjectPrefix = "[Bug]";
 
+    public Mailman() {}
 
-    public void sendErrorMessage(String userName, String email, String otherContact, String desc, List<File> attachedFiles)
+    public Mailman(String to) {
+    	this.to = to;
+	}
+
+	public void sendErrorMessage(String userName, String email, String otherContact, String desc, List<File> attachedFiles)
             throws MessagingException{
         String subject = subjectPrefix + " " + userName + " : " +
             (desc.length() > 30 ?  desc.substring(0, 30) : desc);
