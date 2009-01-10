@@ -7,6 +7,7 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -26,7 +27,7 @@ import com.jgoodies.forms.layout.FormLayout;
 /**
  *
  */
-public class ProgressDialog<T, V> extends JFrame implements PropertyChangeListener, ActionListener {
+public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListener, ActionListener {
     private static final Log logger = LogFactory.getLog(ProgressDialog.class);
 
 
@@ -44,8 +45,8 @@ public class ProgressDialog<T, V> extends JFrame implements PropertyChangeListen
      * @param abortable is it ok to abort the task by closing the
      * @param jp 
      */
-    public ProgressDialog(String title, SafeSwingWorker<T, V> task, boolean abortable, JPanel jp) {    	
-        super(title);
+    public ProgressDialog(JFrame owner, String title, SafeSwingWorker<T, V> task, boolean abortable, JPanel jp) {    	
+        super(owner, title);
         this.task = task;
         this.jp = jp;
         task.addPropertyChangeListener(this);
