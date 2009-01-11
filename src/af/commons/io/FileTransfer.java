@@ -31,9 +31,6 @@ public class FileTransfer {
 	}
 	
     public File copyFileToLocalDir(String path, String name, File localDir) throws IOException {
-        InputStream is = null;
-        FileOutputStream fos = null;
-
         logger.info("Retrieving File:" + path + "/" + name);
         URL resource = getClass().getResource(path + "/" + name);
         if (resource.toString().startsWith("file:")) {
@@ -45,24 +42,30 @@ public class FileTransfer {
                 throw new IOException(e.getMessage()); 
             }
         }
-        File file = new File(localDir, name);
-        logger.info("Copying from " + resource + " to " + file.getAbsolutePath() + ".");
-        is = resource.openConnection().getInputStream();
-        fos = new FileOutputStream(file);
-        byte[] buffer = new byte[8];
-        for (int len = is.read(buffer); len != -1; len = is.read(buffer))
-            fos.write(buffer, 0, len);
-        if (is != null) {
-            is.close();
-        }
-        if (fos != null) {
-            fos.close();
-        }
-        logger.info("Copy completed.");
-        return file;        
+        return copyResourceToLocalDir(resource, name, localDir);
+    }
+    
+    public static File copyResourceToLocalDir(URL resource, String name, File localDir) throws IOException { 
+        InputStream is = null;
+        FileOutputStream fos = null;
+    	File file = new File(localDir, name);
+    	logger.info("Copying from " + resource + " to " + file.getAbsolutePath() + ".");
+    	is = resource.openConnection().getInputStream();
+    	fos = new FileOutputStream(file);
+    	byte[] buffer = new byte[8];
+    	for (int len = is.read(buffer); len != -1; len = is.read(buffer))
+    		fos.write(buffer, 0, len);
+    	if (is != null) {
+    		is.close();
+    	}
+    	if (fos != null) {
+    		fos.close();
+    	}
+    	logger.info("Copy completed.");
+    	return file;     
     }
 
-    public void copyFile(File in, File out) throws IOException {
+    public static void copyFile(File in, File out) throws IOException {
     	if (out.exists()) { out.delete(); }
         FileChannel inChannel = new FileInputStream(in).getChannel();
         FileChannel outChannel = new FileOutputStream(out).getChannel();
