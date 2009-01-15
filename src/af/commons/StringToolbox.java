@@ -65,9 +65,9 @@ public class StringToolbox {
 		System.out.println("Test: "+arrayToString(s));
 	}
 	
-	public static String arrayToString(String[] strings) {
+	public static String arrayToString(Object[] strings) {
 		String result = "[";
-		for(String s : strings) {
+		for(Object s : strings) {
 			result += s+", ";
 		}
 		if (!result.equals("[")) {
