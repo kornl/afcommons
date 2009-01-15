@@ -61,5 +61,18 @@ public class StringToolbox {
 	public static void main(String[] args) {
 		System.out.println("Test: "+getSubstringBefore("test.more.txt", ".", 2));
 		System.out.println("Test: "+getSubstringAfter("test.more.txt", ".", 2));
+		String[] s = {"a","n","aaa"};
+		System.out.println("Test: "+arrayToString(s));
+	}
+	
+	public static String arrayToString(String[] strings) {
+		String result = "[";
+		for(String s : strings) {
+			result += s+", ";
+		}
+		if (!result.equals("[")) {
+			result = result.substring(0, result.length()-2);
+		}
+		return result+"]";
 	}
 }
