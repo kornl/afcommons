@@ -1,9 +1,8 @@
 package af.commons.widgets.validate;
 
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
-
-import javax.swing.JTextField;
 
 abstract public class ValidatedTextField<E> extends JTextField implements ValidatedComponent<E> {
     private String name;
@@ -41,6 +40,10 @@ abstract public class ValidatedTextField<E> extends JTextField implements Valida
         calcBgColor();
     }
 
+
+    public void setValue(E x){
+        setText(x.toString());
+    }
 
     public void setText(String t) {
         super.setText(t);
