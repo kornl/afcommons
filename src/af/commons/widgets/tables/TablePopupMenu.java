@@ -28,13 +28,27 @@ public class TablePopupMenu extends MyJPopupMenu {
         return table;
     }
 
-    public void actionPerformed(ActionEvent e) {
-        Point p = getInvocationPoint();
+    public boolean isPointOnCell(Point p) {
+        if (!table.contains(p))
+            return false;
         int row = table.rowAtPoint(p);
         int col = table.columnAtPoint(p);
-        System.out.println(row + ":" + col);
-        if (0 <= row && row < table.getRowCount() && 0 <= col && col < table.getColumnCount())
+        return 0 <= row && row < table.getRowCount() && 0 <= col && col < table.getColumnCount();
+    }
+
+    @Override
+    public void show(Component invoker, int x, int y) {
+        if (isPointOnCell(new Point(x,y)))
+            super.show(invoker, x, y);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (isPointOnCell(getInvocationPoint())) {
+            Point p = getInvocationPoint();
+            int row = table.rowAtPoint(p);
+            int col = table.columnAtPoint(p);
             actionPerformed(row, col, e.getActionCommand());
+        }
     }
 
     // implement for dealing with (legal) clicks on cells

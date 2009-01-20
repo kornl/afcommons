@@ -54,8 +54,8 @@ public class MyJPopupMenu extends JPopupMenu implements ActionListener {
     }
 
     public void show(Component invoker, int x, int y) {
-        super.show(invoker, x, y);
         this.invocationPoint = new Point(x,y);
+        super.show(invoker, x, y);
     }
 
     public Point getInvocationPoint() {
