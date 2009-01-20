@@ -1,14 +1,17 @@
 package af.commons.widgets;
 
-import java.awt.Component;
-import java.awt.Point;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
-
-public class MyJPopupMenu extends JPopupMenu {
+//TODO inspect all subclasses, move some to table popup
+public class MyJPopupMenu extends JPopupMenu implements ActionListener {
     private Point invocationPoint;
+
+    public MyJPopupMenu() {
+        
+    }
 
     public MyJPopupMenu(String[] labels, String[] cmds) {
         for (int i=0; i<labels.length; i++) {
@@ -29,6 +32,19 @@ public class MyJPopupMenu extends JPopupMenu {
         }
     }
 
+    protected JMenuItem makeMenuItem(String name, String action) {
+        return makeMenuItem(name, action, true);
+    }
+
+    protected JMenuItem makeMenuItem(String name, String action, boolean enabled) {
+        JMenuItem item = new JMenuItem(name);
+        item.setActionCommand(action);
+        item.addActionListener(this);
+        item.setEnabled(enabled);
+        return (item);
+    }
+
+
     public JMenuItem getJMenuItem(int i) {
         return (JMenuItem) getComponent(i);
     }
@@ -44,5 +60,9 @@ public class MyJPopupMenu extends JPopupMenu {
 
     public Point getInvocationPoint() {
         return invocationPoint;
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        
     }
 }

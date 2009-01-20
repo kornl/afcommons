@@ -10,6 +10,10 @@ import java.awt.event.ActionListener;
 public class TablePopupMenu extends MyJPopupMenu {
     private JTable table;
 
+    public TablePopupMenu(JTable table) {
+        this.table = table;
+    }
+
     public TablePopupMenu(JTable table, String[] labels, String[] cmds) {
         super(labels, cmds);
         this.table = table;
