@@ -7,6 +7,6 @@ public interface ValidatedComponent<E> {
     //public E getValidatedValueAndInform();
     public String getValidationErrorMsg();
 
-    public String getName();
+    public String getDescriptiveName();
 }
 

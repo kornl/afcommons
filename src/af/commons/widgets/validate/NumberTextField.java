@@ -59,7 +59,7 @@ abstract public class NumberTextField<E extends Number> extends ValidatedTextFie
     }
     
     public String getValidationErrorMsg() {
-        return getName() + ": Only " + type + " values in " +
+        return getDescriptiveName() + ": Only " + type + " values in " +
                 (minInclusive ? "[" : "]") +
                 min + ", " + ((max.doubleValue()==Double.MAX_VALUE)?"Inf":max) +
                 (maxInclusive ? "]" : "[") +

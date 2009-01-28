@@ -5,22 +5,22 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 abstract public class ValidatedTextField<E> extends JTextField implements ValidatedComponent<E> {
-    private String name;
+    private String descriptiveName;
     private final Color normalCol;
     private final Color errorCol = new Color(255, 100, 100);
 
-    public ValidatedTextField(String name) {
-        this.name = name;
+    public ValidatedTextField(String descriptiveName) {
+        this.descriptiveName = descriptiveName;
         normalCol = getBackground();
     }
 
-    public ValidatedTextField(String name, int cols) {
-        this(name);
+    public ValidatedTextField(String descriptiveName, int cols) {
+        this(descriptiveName);
         setColumns(cols);
     }
 
-    public String getName() {
-        return name;
+    public String getDescriptiveName() {
+        return descriptiveName;
     }
 
     protected void calcBgColor() {
