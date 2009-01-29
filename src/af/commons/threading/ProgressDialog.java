@@ -61,7 +61,10 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
 
         makeComponents();
         doTheLayout();
-        task.execute();
+    }
+ 
+    public void execute() {
+    	task.execute();
     }
 
     /**
