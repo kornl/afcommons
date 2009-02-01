@@ -32,12 +32,12 @@ public class MyListModel<T> extends AbstractListModel {
         return data.get(index);
     }
 
-    void addElement(T element){
+    public void addElement(T element){
         data.add(element);
         fireContentsChanged();
     }
 
-    void addElements(List<T> elements){
+    public void addElements(List<T> elements){
         data.addAll(elements);
         fireContentsChanged();
     }
