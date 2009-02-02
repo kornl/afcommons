@@ -1,11 +1,13 @@
 package af.commons.widgets.tables;
 
-import af.commons.widgets.MyJPopupMenu;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JTable;
+
+import af.commons.widgets.MyJPopupMenu;
 
 public class TablePopupMenu extends MyJPopupMenu {
     private JTable table;
