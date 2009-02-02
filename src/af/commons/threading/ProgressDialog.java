@@ -30,7 +30,6 @@ import com.jgoodies.forms.layout.FormLayout;
 public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListener, ActionListener {
     private static final Log logger = LogFactory.getLog(ProgressDialog.class);
 
-
     private static final long serialVersionUID = 1L;
 
     private final SafeSwingWorker<T, V> task;
@@ -64,6 +63,7 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
     }
  
     public void execute() {
+    	logger.info("Executing: "+this.getTitle());
     	task.execute();
     }
 

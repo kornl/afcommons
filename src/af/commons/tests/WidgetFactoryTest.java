@@ -23,8 +23,7 @@ public class WidgetFactoryTest implements ActionListener {
     }
 
     public static void main(String[] args) {
-        WidgetFactoryTest wft = new WidgetFactoryTest();
-
+        new WidgetFactoryTest();
     }
 
     public void actionPerformed(ActionEvent e) {
