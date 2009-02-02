@@ -19,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class HTMLPaneWithButtons extends JTextPane implements HyperlinkListener {
 
-	private static final long serialVersionUID = 1L;
+
 	private static Log logger = LogFactory.getLog(HTMLPaneWithButtons.class);
     private HTMLEditorKit kit;
     private HTMLDocument doc;

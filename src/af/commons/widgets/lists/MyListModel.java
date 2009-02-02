@@ -8,7 +8,7 @@ import javax.swing.AbstractListModel;
 
 public class MyListModel<T> extends AbstractListModel {
 
-	private static final long serialVersionUID = 1L;
+
 	private List<T> data;
 
 

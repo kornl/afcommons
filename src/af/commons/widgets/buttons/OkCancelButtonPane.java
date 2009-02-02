@@ -6,7 +6,7 @@ import java.util.Arrays;
  * 
  */
 public class OkCancelButtonPane extends HorizontalButtonPane {
-	private static final long serialVersionUID = 1L;
+
 
     public OkCancelButtonPane() {
         this("Ok", "Cancel");

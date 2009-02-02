@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
 public class InfiniteProgressPanel extends JComponent implements MouseListener, KeyListener {
 	private static final Log logger = LogFactory.getLog(InfiniteProgressPanel.class);
 
-	private static final long serialVersionUID = 1L;
+
 
 	public interface AbortListener {
         public void abort();

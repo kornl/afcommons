@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
  */
 public class VInfoPanel extends JPanel {
 
-	private static final long serialVersionUID = 1L;
+
 
     JTextPane jtAbout = new JTextPane();
     VReader vreader;

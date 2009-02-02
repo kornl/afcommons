@@ -6,7 +6,7 @@ import javax.swing.table.DefaultTableModel;
 
 class RowHeader extends ExtendedJTable {
 
-	private static final long serialVersionUID = 1L;
+
 
 	public RowHeader(ExtendedJTable table, String[] rowNames) {
         Object[][] data = new Object[rowNames.length][1];
@@ -33,7 +33,7 @@ class RowHeader extends ExtendedJTable {
         /**
 		 * 
 		 */
-		private static final long serialVersionUID = 1L;
+	
 
 		public Model(Object[][] objects, Object[] objects1) {
             super(objects, objects1);

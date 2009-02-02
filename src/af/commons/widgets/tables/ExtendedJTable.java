@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class ExtendedJTable extends JTable{
 
-	private static final long serialVersionUID = 1L;
+
 	/* ***  Members      *****/
     protected int visibleRowCount = 10;
     protected int prefferedWidth = 100;

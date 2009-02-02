@@ -22,7 +22,7 @@ import af.commons.widgets.buttons.OKButtonPane;
  */
 public class VInfoFrame extends JFrame implements ActionListener {
 
-	private static final long serialVersionUID = 1L;
+
     
 	/**
      * Constructor

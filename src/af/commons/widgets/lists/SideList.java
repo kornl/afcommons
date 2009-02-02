@@ -10,7 +10,7 @@ import javax.swing.JList;
 public class SideList<T> extends JList {
     //private SplitList splitList;
 
-	private static final long serialVersionUID = 1L;
+
 
 	public SideList(MyListModel<T> dataModel) {
         super(dataModel);

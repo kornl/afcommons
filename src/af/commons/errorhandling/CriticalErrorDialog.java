@@ -6,7 +6,7 @@ import af.commons.cleanup.CleanUpOnShutDown;
 
 
 public class CriticalErrorDialog extends BasicErrorDialog implements ActionListener {
-	private static final long serialVersionUID = 1L;
+
 
     /**
      * Constructor (no details panel shown, no info on throwable)

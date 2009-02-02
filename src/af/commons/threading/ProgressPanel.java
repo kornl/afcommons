@@ -29,7 +29,7 @@ import com.jgoodies.forms.layout.FormLayout;
 public class ProgressPanel<T,V> extends JPanel implements PropertyChangeListener, Observer {
 	private static final Log logger = LogFactory.getLog(ProgressPanel.class);
 
-	private static final long serialVersionUID = 1L;
+
 
     // label for headings / status messages
     private JLabel label;
