@@ -101,7 +101,7 @@ public class ErrorHandler {
      * @param e cause of error
      */
     public void makeCritErrDialog(String msg, Throwable e) {
-        new CriticalErrorDialog(msg, e);
+        new CriticalErrorDialog(msg==null?"No message/information available.":msg, e);
     }
 
     /**
@@ -110,7 +110,7 @@ public class ErrorHandler {
      * @param e cause of error
      */
     public void makeRecovErrDialog(String msg, Throwable e) {
-        new RecoverableErrorDialog(msg, e);
+        new RecoverableErrorDialog(msg==null?"No message/information available.":msg, e);
     }
 
     /**
@@ -118,7 +118,7 @@ public class ErrorHandler {
      * @param msg error message
      */
     public void makeRecovErrDialog(String msg) {
-        new RecoverableErrorDialog(msg);
+        new RecoverableErrorDialog(msg==null?"No message/information available.":msg);
     }
 
     /**
