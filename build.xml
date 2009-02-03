@@ -4,7 +4,8 @@
 	<dirname property="content.root" file="${ant.file}"/>
 	<property name="dist" location="${content.root}/dist"/>
 	<property name="output.dir" location="${content.root}/classes"/>
-	
+
+
 	<property file="${content.root}/imported.properties"/>
 	
 	<target name="clean" description="cleanup all">
@@ -67,7 +68,7 @@
 	<target name="make_jar" depends="clean">
 	 	    <mkdir dir="${output.dir}"/>
 		    <javac destdir="${output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
-		           memorymaximumsize="${compiler.max.memory}" fork="true" executable="${jdk.home}/bin/javac">
+		           memorymaximumsize="${compiler.max.memory}" fork="true">
 		      <compilerarg line="${compiler.args}"/>
 		      <classpath refid="complete.classpath"/>
 		      <src refid="sourcepath"/>	      
