@@ -2,6 +2,8 @@ package af.commons.threading;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,8 +30,6 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class ProgressPanel<T,V> extends JPanel implements PropertyChangeListener, Observer {
 	private static final Log logger = LogFactory.getLog(ProgressPanel.class);
-
-
 
     // label for headings / status messages
     private JLabel label;
@@ -104,20 +104,6 @@ public class ProgressPanel<T,V> extends JPanel implements PropertyChangeListener
         setBorder(new EmptyBorder(10,10,10,10));
     }
 
-//	/*
-//        Log running time for debugging.
-//	 */
-//    private void  logRunningTime(int progress) {
-//        Date date = Calendar.getInstance().getTime();
-//        long laufzeit = date.getTime() - this.date.getTime();
-//        long sec = (laufzeit/1000) % 60;
-//        long min = (laufzeit/60000);
-//        logger.info("Task ("+progress+"%) is running for "+min+" minutes and "+sec+" seconds.");
-//	}
-
-    /*
-	    Not really used ATM.
-     */
     public JProgressBar getProgressBar() {
         return progressBar;
     }
@@ -141,8 +127,7 @@ public class ProgressPanel<T,V> extends JPanel implements PropertyChangeListener
 //				if (progress==0) {
 //					getProgressBar().setString("");
 //				}
-                // debug info
-//                logRunningTime(progress);
+				//getProgressBar().setString(logRunningTime(progress));
             }
 		}
 	}
@@ -157,6 +142,19 @@ public class ProgressPanel<T,V> extends JPanel implements PropertyChangeListener
     public void update(Observable o, Object arg) {
         V msg = (V) arg;
         textArea.append(msg.toString() + "\n");
+    }
+    
+    protected Date date;
+	/**
+     * Log running time.
+	 */
+    protected String logRunningTime(int progress) {
+        Date date = Calendar.getInstance().getTime();
+        long laufzeit = date.getTime() - this.date.getTime();
+        long sec = (laufzeit/1000) % 60;
+        long min = (laufzeit/60000);
+        logger.info("Task ("+progress+"%) is running for "+min+" minutes and "+sec+" seconds.");
+        return min+":"+sec;
     }
 
 }

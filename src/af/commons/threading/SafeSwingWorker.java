@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Observer;
 import java.util.concurrent.CancellationException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingworker.SwingWorker;
 
 
@@ -16,6 +18,8 @@ import org.jdesktop.swingworker.SwingWorker;
  */
 
 public abstract class SafeSwingWorker<T, V> extends SwingWorker<T, V> {
+	
+	protected static final Log logger = LogFactory.getLog(SafeSwingWorker.class);
     // observable buffer
 	protected SwingWorkerMsgBuffer<V> msgBuffer = new SwingWorkerMsgBuffer<V>();
     // observing object which wants to be called when worker is finished
@@ -112,6 +116,6 @@ public abstract class SafeSwingWorker<T, V> extends SwingWorker<T, V> {
                 throw new RuntimeException("This should not happen!");
             }
         }
-    }
+    }    
 
 }

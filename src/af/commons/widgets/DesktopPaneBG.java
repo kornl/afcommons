@@ -31,7 +31,8 @@ public class DesktopPaneBG extends JDesktopPane {
     private int oldwidth=0;
     private int oldheight=0;
 
-    protected enum LayoutType {HORIZONTAL, VERTICAL, BLOCK};
+    protected enum LayoutType {HORIZONTAL, VERTICAL, BLOCK}
+    
     private final LayoutType layout = HORIZONTAL;
 
 
