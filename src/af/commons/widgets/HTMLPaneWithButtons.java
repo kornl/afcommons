@@ -1,21 +1,19 @@
 package af.commons.widgets;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.StringWriter;
-import java.util.Hashtable;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-import javax.swing.JEditorPane;
-import javax.swing.JTextPane;
+import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.Element;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.HTMLFrameHyperlinkEvent;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.StringWriter;
+import java.util.Hashtable;
 
 public class HTMLPaneWithButtons extends JTextPane implements HyperlinkListener {
 
@@ -123,6 +121,15 @@ public class HTMLPaneWithButtons extends JTextPane implements HyperlinkListener 
     protected void fireActionPerformed(ActionEvent event) {
         String cmd = event.getActionCommand();
         cmdToListener.get(cmd).actionPerformed(event);
+    }
+
+    public void clear() {
+        // dont really know what i am doing here but seems to work
+        setDocument(new HTMLDocument());
+        setEditorKit(kit);
+        doc = (HTMLDocument) getDocument();
+        Element html = doc.getRootElements()[0];
+        body = html.getElement(0);
     }
 
 //    public void addActionListener(ActionListener listener) {
