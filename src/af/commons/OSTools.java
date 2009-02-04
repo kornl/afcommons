@@ -164,15 +164,15 @@ public class OSTools {
         return exitCode;
     }
     
-    public static String guessDesktop() {
+    public static File guessDesktop() {
     	if (OSTools.isWindows()) {
     		File desktop = new File(System.getProperty("user.home")+"/Desktop");
-            if (desktop.exists()) return desktop.getAbsolutePath();
+            if (desktop.exists()) return desktop;
         } else {
         	File desktop = new File(System.getProperty("user.home")+"/Desktop");
-            if (desktop.exists()) return desktop.getAbsolutePath();
+            if (desktop.exists()) return desktop;
         }
-    	return "";
+    	return null;
     }
     
     /**
