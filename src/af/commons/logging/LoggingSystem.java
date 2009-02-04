@@ -48,7 +48,10 @@ public class LoggingSystem {
 
         configureLog4J();
     }
-
+    
+    public static boolean alreadyInitiated() {
+    	return instance != null;
+    }
 
     /**
      * Call this to setup the singelton instance at the beginning. Only one call allowed.
