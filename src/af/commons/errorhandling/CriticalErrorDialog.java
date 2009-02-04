@@ -2,8 +2,6 @@ package af.commons.errorhandling;
 
 import java.awt.event.ActionListener;
 
-import af.commons.cleanup.CleanUpOnShutDown;
-
 
 public class CriticalErrorDialog extends BasicErrorDialog implements ActionListener {
 
@@ -35,7 +33,7 @@ public class CriticalErrorDialog extends BasicErrorDialog implements ActionListe
      * close on exit
      */
     protected void onExit() {
-        CleanUpOnShutDown.getInstance().cleanUpAll();
+        //TODO CleanUpOnShutDown.getInstance().cleanUpAll();
     }
 
     /**

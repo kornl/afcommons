@@ -16,7 +16,6 @@ import javax.swing.border.EmptyBorder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import af.commons.cleanup.CleanUpOnShutDown;
 import af.commons.errorhandling.ErrorHandler;
 import af.commons.widgets.buttons.OKButtonPane;
 import af.commons.widgets.buttons.OkCancelButtonPane;
@@ -170,7 +169,7 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
                 // cant abort, really quit?
                 int i = JOptionPane.showConfirmDialog(this, "This task is not abortable!\nReally quit program?", "Quit?", JOptionPane.YES_NO_OPTION);
                 if (i == JOptionPane.YES_OPTION) {
-                    CleanUpOnShutDown.getInstance().cleanUpAll();
+                	//TODO CleanUpOnShutDown.getInstance().cleanUpAll();
                 }
             }
         }
