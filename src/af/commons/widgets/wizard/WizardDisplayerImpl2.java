@@ -1,9 +1,11 @@
 package af.commons.widgets.wizard;
 
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+
 import org.netbeans.api.wizard.displayer.WizardDisplayerImpl;
 import org.netbeans.spi.wizard.Wizard;
-
-import java.awt.*;
 
 public class WizardDisplayerImpl2 extends WizardDisplayerImpl {
     public static Object showWizard(Wizard wizard, int width, int height) {
