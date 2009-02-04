@@ -58,6 +58,7 @@
 	        	<include name="log4j-1.2.15.jar"/>
 	        	<include name="forms-1.2.0.jar"/>
 	        	<include name="mail.jar"/>
+                <include name="wizard.jar"/>
 	        </fileset>
 	</path>
 	
