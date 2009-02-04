@@ -33,7 +33,7 @@ public class WindowsDesktop {
         		desktopDir.getAbsolutePath() +
         		"\\" + name  + ".lnk\")");
         if (iconpath!=null) {
-        	cmds.add("objSC.IconLocation = "+iconpath);
+        	cmds.add("objSC.IconLocation = \""+iconpath+"\"");
         }
         //TargetPath = Path to source file or folder
         cmds.add("objSC.TargetPath = \"" + installDir + "\\run.exe\"");		

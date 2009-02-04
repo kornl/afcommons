@@ -13,8 +13,8 @@ public class StarterTest {
 	 */
 	public static void main(String[] args) {
 		WindowsDesktop wd = new WindowsDesktop();
-		wd.setIconpath("\"notepad.exe, 0\"");
-		wd.setIconpath("\"C:\\Documents and Settings\\biostat\\icon32.ico\"");
+		wd.setIconpath("notepad.exe, 0");
+		wd.setIconpath("C:\\Documents and Settings\\biostat\\icon32.ico");
 		try {
 			wd.createDesktopEntry("testStarter", new File("C:\\"));
 		} catch (IOException e) {
