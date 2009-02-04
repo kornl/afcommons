@@ -14,6 +14,45 @@ import af.commons.OSTools;
 public class WindowsDesktop {
 
 	protected String iconpath = null;
+	protected String description = null;	
+	protected String hotkey = null;
+	protected String arguments = null;
+	protected String exec = null;
+	protected String workingDir = null;
+	
+	public void setWorkingDir(String workingDir) {
+		this.workingDir = workingDir;
+	}
+
+	public void setExec(String exec) {
+		this.exec = exec;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+     * Set Hotkey like objSC.HotKey = "CTRL+ALT+SHIFT+X"; 
+     */	
+	public void setHotkey(String hotkey) {
+		this.hotkey = hotkey;
+	}
+
+	public void setArguments(String arguments) {
+		this.arguments = arguments;
+	}
+
+	/**
+	 * Set WindowStyle like objSC.WindowStyle = 1   
+	 * @param windowsstyle
+	 * 			1 = normal; 3 = maximize window; 7 = minimize
+	 */
+	public void setWindowsstyle(Integer windowsstyle) {
+		this.windowsstyle = windowsstyle;
+	}
+
+	protected Integer windowsstyle = null;
 	
 	/**
 	 * Sets the icon for the desktop entry.
@@ -23,7 +62,17 @@ public class WindowsDesktop {
 		this.iconpath = iconpath;
 	}
 	
-    public void createDesktopEntry(File desktopDir, String name, File installDir)
+	/**
+	 * Sets the icon for the desktop entry like "notepad.exe, 0".
+	 * @param iconpath Absolute path which will be used to specify the icon for the desktop entry.
+	 */
+	public void setIconpath(String exepath, int nr) {
+		this.iconpath = exepath+", "+nr;
+	}
+	
+	
+	
+    public void createDesktopEntry(File desktopDir, String name)
             throws IOException {       
     	
         List<String> cmds = new Vector<String>();
@@ -34,36 +83,33 @@ public class WindowsDesktop {
         if (iconpath!=null) {
         	cmds.add("objSC.IconLocation = \""+iconpath+"\"");
         }
-        //TargetPath = Path to source file or folder
-        cmds.add("objSC.TargetPath = \"" + installDir + "\\run.exe\"");		
-        cmds.add("objSC.WorkingDirectory = \"" + installDir.getAbsolutePath() + "\"");
-		cmds.add("objSC.Save");
-
-        //Description - Description of the shortcut
-        //objSC.Description = "Shortcut to MyLog file"
-
-//        ' HotKey ? hot key sequence to launch the shortcut
-//        objSC.HotKey = "CTRL+ALT+SHIFT+X"
-
-//        ' IconLocation ? Path of icon to use for the shortcut file
-//        objSC.IconLocation = "notepad.exe, 0"  ' 0 is the index
-
-//        ' Arguments ? Any additional parameters to pass to TargetPath
-//        objSC.Arguments = "c:\mylog.txt"
-
-//        ' WindowStyle ? Type of window to create
-//        objSC.WindowStyle = 1   ' 1 = normal; 3 = maximize window; 7 = minimize
-
-        // WorkingDirectory ? Location of the working directory for the source app
+        if (description!=null) {
+        	cmds.add("objSC.Description = \""+iconpath+"\"");
+        }
+        if (hotkey!=null) {
+        	cmds.add("objSC.HotKey = \""+iconpath+"\"");
+        }
+        if (arguments!=null) {
+        	cmds.add("objSC.Arguments = \""+iconpath+"\"");
+        }
+        if (windowsstyle!=null) {
+        	cmds.add("objSC.WindowStyle = "+windowsstyle);
+        }
         
-        File makeLinkVbsFile = new File(installDir, "makeLink.vbs");
+        //TargetPath = Path to source file or folder
+        cmds.add("objSC.TargetPath = \"" + exec + "\"");	
+        if (workingDir!=null) {
+        	cmds.add("objSC.WorkingDirectory = \"" + workingDir + "\"");
+        }
+		cmds.add("objSC.Save");
+        
+        File makeLinkVbsFile = new File(System.getProperty("java.io.tmpdir"), "makeLink.vbs");
         OSTools.makeShellScript(makeLinkVbsFile, cmds);
-        OSTools.runShellScript(makeLinkVbsFile, installDir);
+        OSTools.runShellScript(makeLinkVbsFile, new File(System.getProperty("java.io.tmpdir")));
     }
 
-	public void createDesktopEntry(String string, File installDir) throws IOException {
-		createDesktopEntry(OSTools.guessDesktop(), string, installDir);
-		
+	public void createDesktopEntry(String string) throws IOException {
+		createDesktopEntry(OSTools.guessDesktop(), string);		
 	}
 
 }
