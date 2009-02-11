@@ -17,7 +17,7 @@ public class CustomComponentListener2 extends WizardPage.CustomComponentListener
                 ((SplitList) component).addSplitListChangeListener(
                         new SplitListChangeListener() {
                             public void modelStateChanged(java.util.List left, java.util.List right) {
-                                customComponentNotifier.userInputReceived(component, right);
+                                customComponentNotifier.userInputReceived(component, null);
                     }
                 });
             }
