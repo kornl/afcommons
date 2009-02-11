@@ -11,8 +11,8 @@ public class DataManager {
         this.data = data;
     }
 
-    public List<DataVal> getVals(String page, String name, String group) {
-        java.util.List<DataVal> result = new ArrayList<DataVal>();
+    public List<DataVal> getDataVals(String page, String name, String group) {
+        List<DataVal> result = new ArrayList<DataVal>();
         for (Object k:data.keySet()) {
             String key = k.toString();
             Object val = data.get(k);
@@ -26,16 +26,37 @@ public class DataManager {
         return result;
     }
 
-    public List<DataVal> getValsInPage(String page, String group) {
-        return getVals(page, null, group);
+    public <E> List<E> getVals(String page, String name, String group, Class<E> c) {
+        List<DataVal> dvs = getDataVals(page, name, group);
+        List<E> result = new ArrayList<E>();
+        for (DataVal dv:dvs) result.add((E)dv.getVal());
+        return result;
     }
 
-    public List<DataVal> getValsInPage(String page) {
-        return getVals(page, null, null);
+
+    public List<DataVal> getDataValsInPage(String page, String group) {
+        return getDataVals(page, null, group);
     }
 
-    public DataVal getVal(String name) {
-        return getVals(null, name, null).get(0);
+    public <E> List<E> getValsInPage(String page, String group, Class<E> c) {
+        return getVals(page, null, group, c);
+    }
+
+    public <E> List<E> getValsInPage(String page, Class<E> c) {
+        return getVals(page, null, null, c);
+    }
+
+
+    public List<DataVal> getDataValsInPage(String page) {
+        return getDataVals(page, null, null);
+    }
+
+    public Object getVal(String name) {
+        return getDataVal(name).getVal();
+    }
+
+    public DataVal getDataVal(String name) {
+        return getDataVals(null, name, null).get(0);
     }
 
 

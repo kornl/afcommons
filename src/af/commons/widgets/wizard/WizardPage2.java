@@ -41,6 +41,11 @@ public class WizardPage2 extends WizardPage {
         comp.setName(s);
     }
 
+    protected boolean isInGroup(Component comp, String group) {
+        return comp.getName().endsWith("###" + group);
+    }
+
+
     @Override
     protected CustomComponentListener createCustomComponentListener() {
         return new CustomComponentListener2();
