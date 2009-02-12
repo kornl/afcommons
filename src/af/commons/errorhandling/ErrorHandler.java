@@ -103,6 +103,16 @@ public class ErrorHandler {
     public void makeCritErrDialog(String msg, Throwable e) {
         new CriticalErrorDialog(msg==null?"No message/information available.":msg, e);
     }
+    
+    /**
+     * creates a dialog for a criticial non-recoverable error
+     * @param msg error message
+     * @param e cause of error
+     */
+    public void makeCritErrDialog(String msg) {
+        new CriticalErrorDialog(msg==null?"No message/information available.":msg);
+    }
+
 
     /**
      * creates a dialog for a recoverable error
