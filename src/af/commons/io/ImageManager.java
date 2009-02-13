@@ -106,5 +106,16 @@ public class ImageManager {
 
         ImageIO.write(bufferedImage, "jpg", resizedFile);
     }
+    
+    public static BufferedImage getBufferedImage(Image i) {
+    	BufferedImage bufferedImage = new BufferedImage(i.getWidth(null), i.getHeight(null),
+                BufferedImage.TYPE_INT_RGB);
+    	 Graphics g = bufferedImage.createGraphics();
+         
+         g.drawImage(i, 0, 0, null);
+         g.dispose();
+
+         return bufferedImage;
+    }
 
 }
