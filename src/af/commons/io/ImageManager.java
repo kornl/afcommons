@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 public class ImageManager {
     
@@ -23,25 +24,66 @@ public class ImageManager {
 		return cOp.filter(bufferedImage, null);
 	}
 	
-    public static void resize(File originalFile, File resizedFile, int newWidth, float quality, boolean soften)
-        throws IOException {
+	public static void addBorder(File originalFile, File resizedFile, int newWidth, int newHeight, float quality, boolean soften) throws IOException {
+        Image i = new ImageIcon(originalFile.getCanonicalPath()).getImage();        
+        BufferedImage bufferedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics g = bufferedImage.createGraphics();
+        // Clear background and paint the image.
+        g.setColor(Color.white);
+        g.fillRect(0, 0, newWidth, newHeight);
+        g.drawImage(i, (newWidth-i.getWidth(null))/2, (newHeight-i.getHeight(null))/2, null);
+        g.dispose();
+        if (soften) {
+            bufferedImage = soften(bufferedImage); 
+        }
+        ImageIO.write(bufferedImage, "jpg", resizedFile);
+	}
+	
+    public static void resize(File originalFile, File resizedFile, int newWidth, int newHeight, float quality, boolean soften) throws IOException {
 
-//        if (quality < 0 || quality > 1) {
-//            throw new IllegalArgumentException("Quality has to be between 0 and 1");
-//        }
-
-        ImageIcon ii = new ImageIcon(originalFile.getCanonicalPath());
-        Image i = ii.getImage();
-        Image resizedImage = null;
+        Image i = new ImageIcon(originalFile.getCanonicalPath()).getImage();
 
         int iWidth = i.getWidth(null);
         int iHeight = i.getHeight(null);         
 
-        if (iWidth > iHeight) {
-            resizedImage = i.getScaledInstance(newWidth, (newWidth * iHeight) / iWidth, Image.SCALE_SMOOTH);
-        } else {
-            resizedImage = i.getScaledInstance((newWidth * iWidth) / iHeight, newWidth, Image.SCALE_SMOOTH);
+        double scale = Math.min(newWidth/(double)iWidth, newHeight/(double)iHeight);
+
+        Image resizedImage = null;
+        
+        resizedImage = i.getScaledInstance((int)(scale*iWidth), (int)(scale*iHeight), Image.SCALE_SMOOTH);
+
+        // This code ensures that all the pixels in the image are loaded.
+        Image temp = new ImageIcon(resizedImage).getImage();
+
+        // Create the buffered image.
+        BufferedImage bufferedImage = new BufferedImage(newWidth, newHeight,
+                                                        BufferedImage.TYPE_INT_RGB);
+        // Copy image to buffered image.
+        Graphics g = bufferedImage.createGraphics();
+
+        // Clear background and paint the image.
+        g.setColor(Color.white);
+        g.fillRect(0, 0, newWidth, newHeight);
+        g.drawImage(temp, (newWidth-temp.getWidth(null))/2, (newHeight-temp.getHeight(null))/2, null);
+        g.dispose();
+
+        if (soften) {
+            bufferedImage = soften(bufferedImage); 
         }
+
+        ImageIO.write(bufferedImage, "jpg", resizedFile);
+    }
+    
+    public static void resize(File originalFile, File resizedFile, int newHeight, float quality, boolean soften) throws IOException {
+
+        Image i = new ImageIcon(originalFile.getCanonicalPath()).getImage();
+
+        int iWidth = i.getWidth(null);
+        int iHeight = i.getHeight(null);         
+
+        Image resizedImage = null;
+        
+        resizedImage = i.getScaledInstance((newHeight * iWidth) / iHeight, newHeight, Image.SCALE_SMOOTH);
 
         // This code ensures that all the pixels in the image are loaded.
         Image temp = new ImageIcon(resizedImage).getImage();
