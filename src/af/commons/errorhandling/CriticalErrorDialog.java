@@ -34,6 +34,7 @@ public class CriticalErrorDialog extends BasicErrorDialog implements ActionListe
      */
     protected void onExit() {
         //TODO CleanUpOnShutDown.getInstance().cleanUpAll();
+    	System.exit(1);
     }
 
     /**
