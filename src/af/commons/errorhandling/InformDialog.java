@@ -59,7 +59,11 @@ public class InformDialog extends JDialog implements ActionListener{
     protected String developerAdress;
 
     protected InformDialog(Component parent, String developerAdress) {
-        informMsg = "An error occured!  Please inform " + developerAdress +
+    	this(parent, developerAdress, null);
+    }
+    
+    protected InformDialog(Component parent, String developerAdress, String informMsg) {
+        this.informMsg = informMsg!=null?informMsg:"An error occured!  Please inform " + developerAdress +
                 " about the possible bug. If you have internet access you can probably use the form below. " +
                 "Otherwise send a mail manually with a short description.";
         setModal(true);
@@ -81,8 +85,7 @@ public class InformDialog extends JDialog implements ActionListener{
         setVisible(true);
     }
 
-
-    protected void makeComponents() {
+	protected void makeComponents() {
         // TODO make this a new widget? multiline-label?
         taHeader = new JTextArea(4,40);
         taHeader.setEditable(false);
@@ -109,21 +112,36 @@ public class InformDialog extends JDialog implements ActionListener{
         p.setLayout(layout);
         CellConstraints cc = new CellConstraints();
 
-        p.add(taHeader,                                                 cc.xyw(1, 1, 3));
+        int row = 1;
+        
+        p.add(taHeader,                                                 cc.xyw(1, row, 3));
 
-        p.add(new JLabel("Your name"),                                  cc.xy(1, 3));
-        p.add(tfName,                                                   cc.xy(3, 3));
-
-        p.add(new JLabel("Email address"),                              cc.xy(1, 5));
-        p.add(tfEMail,                                                  cc.xy(3, 5));
-
-        p.add(new JLabel("Other way of contact(e.g phone)"),            cc.xy(1, 7));
-        p.add(tfOtherContact,                                           cc.xy(3, 7));
-
-        p.add(new JLabel("When / How did the error happen?"),           cc.xy(1, 9));
+        row += 2;
+        
+        p.add(new JLabel("When / How did the error happen?"),           cc.xy(1, row));
         JScrollPane sp1 = new JScrollPane(taDesc);
-        p.add(sp1,                                                      cc.xy(3, 9));
+        p.add(sp1,                                                      cc.xy(3, row));
 
+        row += 2;
+        
+        p.add(new JLabel("OPTIONAL: If you want to help or get feedback, give us some way to contact you:"), cc.xyw(1, row, 3));
+        
+        row += 2;
+
+        p.add(new JLabel("Your name"),                                  cc.xy(1, row));
+        p.add(tfName,                                                   cc.xy(3, row));
+        
+        row += 2;
+
+        p.add(new JLabel("Email address"),                              cc.xy(1, row));
+        p.add(tfEMail,                                                  cc.xy(3, row));
+        
+        row += 2;
+
+        p.add(new JLabel("Other way of contact(e.g phone)"),            cc.xy(1, row));
+        p.add(tfOtherContact,                                           cc.xy(3, row));
+        
+        row += 2;
 
         p.add(buttonPane,                                               cc.xyw(1, 15, 3, "right, bottom"));
 

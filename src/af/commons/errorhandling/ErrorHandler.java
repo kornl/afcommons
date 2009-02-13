@@ -132,10 +132,19 @@ public class ErrorHandler {
     }
 
     /**
-     * creates a dialog for a recoverable error
+     * creates a inform dialog
      * @param owner parent frame
      */
     public void makeInformDialog(Window owner) {
         new InformDialog(owner, developerAddress);
+    }
+    
+    /**
+     * creates a inform dialog
+     * @param owner parent frame
+     * @param text text to display
+     */
+    public void makeInformDialog(Window owner, String text) {
+        new InformDialog(owner, developerAddress, text);
     }
 }
