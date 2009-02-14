@@ -81,12 +81,6 @@
 		 
 			<jar jarfile="${dist}/afcommons.jar" basedir="classes"/>
 		
-			<signjar alias="hothorn" storepass="${passwd.sign}">
-		      <path>
-		        <fileset dir="${dist}" includes="rcode.jar"/>
-		      </path>
-		    </signjar>
-		
 		    <copy todir="${dist}">
 		      <fileset dir="${content.root}/lib">
 		      	<include name="**"/>
