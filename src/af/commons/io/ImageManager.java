@@ -43,6 +43,11 @@ public class ImageManager {
 
         Image i = new ImageIcon(originalFile.getCanonicalPath()).getImage();
 
+        ImageIO.write(resize(i, newWidth, newHeight, quality, soften), "jpg", resizedFile);
+    }
+    
+    public static BufferedImage resize(Image i, int newWidth, int newHeight, float quality, boolean soften) {
+
         int iWidth = i.getWidth(null);
         int iHeight = i.getHeight(null);         
 
@@ -71,7 +76,7 @@ public class ImageManager {
             bufferedImage = soften(bufferedImage); 
         }
 
-        ImageIO.write(bufferedImage, "jpg", resizedFile);
+        return bufferedImage;
     }
     
     public static void resize(File originalFile, File resizedFile, int newHeight, float quality, boolean soften) throws IOException {
