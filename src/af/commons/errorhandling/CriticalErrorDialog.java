@@ -13,7 +13,7 @@ public class CriticalErrorDialog extends BasicErrorDialog implements ActionListe
      * @param msg displayed error msg (don't pass null)
      */
     CriticalErrorDialog(String msg) {
-        super(msg);
+        super(msg, false);
     }
 
 
@@ -25,16 +25,7 @@ public class CriticalErrorDialog extends BasicErrorDialog implements ActionListe
      * @param e   throwably which caused the error (don't pass null)
      */
     CriticalErrorDialog(String msg, Throwable e) {
-        super(msg, e);
-    }
-
-    /**
-     * handler for exit action
-     * close on exit
-     */
-    protected void onExit() {
-        //TODO CleanUpOnShutDown.getInstance().cleanUpAll();
-    	System.exit(1);
+        super(msg, e, false);
     }
 
     /**

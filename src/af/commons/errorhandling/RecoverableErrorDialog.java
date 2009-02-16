@@ -12,7 +12,7 @@ public class RecoverableErrorDialog extends BasicErrorDialog implements ActionLi
      * @param msg displayed error msg (don't pass null)
      */
     protected RecoverableErrorDialog(String msg) {
-        super(msg);
+        super(msg, true);
     }
 
     /**
@@ -22,14 +22,14 @@ public class RecoverableErrorDialog extends BasicErrorDialog implements ActionLi
      * @param e   throwably which caused the error (don't pass null)
      */
     protected RecoverableErrorDialog(String msg, Throwable e) {
-        super(msg, e);
+        super(msg, e, true);
     }
 
 
     /**
      * @return label for the leftmost button: "exit"
      */
-    protected String getExitButtonLabel() {return "Ok";}
+    protected String getExitButtonLabel() {return "Exit";}
 
     /**
      * @return title for the dialog
@@ -38,4 +38,8 @@ public class RecoverableErrorDialog extends BasicErrorDialog implements ActionLi
         return 	"Recoverable Error";
     }
 
+    @Override
+    protected void onCloseWindow() {
+        dispose();
+    }
 }

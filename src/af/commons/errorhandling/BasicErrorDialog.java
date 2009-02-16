@@ -1,25 +1,19 @@
 package af.commons.errorhandling;
 
+import af.commons.logging.LoggingSystem;
+import af.commons.logging.widgets.DetailsPanel;
+import af.commons.widgets.GUIToolKit;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import af.commons.logging.LoggingSystem;
-import af.commons.logging.widgets.DetailsPanel;
-import af.commons.widgets.GUIToolKit;
-
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 
 /**
  * Base class for crit. & recoverable error dialogs. Error dialog is always a modal JFrame.
@@ -43,16 +37,20 @@ abstract public class BasicErrorDialog extends JDialog implements ActionListener
     protected final JButton bDetails = new JButton("Details");
     // button to inform about the error
     protected final JButton bInform = new JButton("Inform");
+    // ok button
+    protected final JButton bOk = new JButton("Ok");
     // exit button
     protected final JButton bExit = new JButton(getExitButtonLabel());
+    // display ok button?
+    protected final boolean withOkButton;
 
     /**
      * Constructor (no info on throwable)
      *
      * @param msg displayed error msg (don't pass null)
      */
-    protected BasicErrorDialog(String msg) {
-        this(msg, null);
+    protected BasicErrorDialog(String msg, boolean withOkButton) {
+        this(msg, null, withOkButton);
     }
 
     /**
@@ -61,10 +59,11 @@ abstract public class BasicErrorDialog extends JDialog implements ActionListener
      * @param msg displayed error msg (don't pass null)
      * @param e   throwably which caused the error (don't pass null)
      */
-    protected BasicErrorDialog(String msg, Throwable e) {
+    protected BasicErrorDialog(String msg, Throwable e, boolean withOkButton) {
         super(GUIToolKit.findActiveFrame());
         this.msg = msg;
         this.e = e;
+        this.withOkButton = withOkButton;
         setResizable(true);
         setModal(true);
         // if throwable was given, dump it to logger and std err
@@ -80,7 +79,7 @@ abstract public class BasicErrorDialog extends JDialog implements ActionListener
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onExit();
+                onCloseWindow();
             }
         });
         makeComponents();
@@ -94,6 +93,7 @@ abstract public class BasicErrorDialog extends JDialog implements ActionListener
     private void makeComponents() {
         bDetails.addActionListener(this);
         bInform.addActionListener(this);
+        bOk.addActionListener(this);
         bExit.addActionListener(this);
     }
 
@@ -107,7 +107,7 @@ abstract public class BasicErrorDialog extends JDialog implements ActionListener
         CellConstraints cc = new CellConstraints();
 
         JPanel cp = new JPanel();
-        String cols = "pref:grow, pref, 5dlu, pref, 5dlu, pref";
+        String cols = "pref:grow, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
         String rows = "pref, 5dlu, fill:pref:grow, 5dlu, pref";
         FormLayout layout = new FormLayout(cols, rows);
 
@@ -119,11 +119,13 @@ abstract public class BasicErrorDialog extends JDialog implements ActionListener
             DetailsPanel dd = LoggingSystem.getInstance().makeDetailsPanel();
             cp.add(dd, cc.xyw(1, 3, 6));
         }
-        cp.add(bExit, cc.xy(2, 5));
+        if (withOkButton)
+            cp.add(bOk, cc.xy(2, 5));
+        cp.add(bExit, cc.xy(4, 5));
         // only show button if details are not present and a factory was supplied
         if (!withDetails)
-            cp.add(bDetails, cc.xy(4, 5));
-        cp.add(bInform, cc.xy(6, 5));
+            cp.add(bDetails, cc.xy(6, 5));
+        cp.add(bInform, cc.xy(8, 5));
         cp.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(cp);
         pack();
@@ -141,6 +143,9 @@ abstract public class BasicErrorDialog extends JDialog implements ActionListener
         }
         if (e.getSource() == bExit) {
             onExit();
+        }
+        if (e.getSource() == bOk) {
+            onOk();
         }
         if (e.getSource() == bInform) {
             onInform();
@@ -165,8 +170,23 @@ abstract public class BasicErrorDialog extends JDialog implements ActionListener
      * handler for exit action
      */
     protected void onExit() {
+        System.exit(1);
+    }
+
+    /**
+     * handler for ok action
+     */
+    protected void onOk() {
         dispose();
     }
+
+    /**
+     * handler for closing of window
+     */
+    protected void onCloseWindow() {
+        System.exit(1);
+    }
+
 
     /**
      * @return label for the leftmost button, either "ok" or "exit", etc
