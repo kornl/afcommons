@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
@@ -61,7 +62,10 @@ public class VInfoPanel extends JPanel {
 		this.since = since;
 		vreader = new VReader(inputStreamList, comparator);
         jtAbout.setStyledDocument(getDocument());
-        add(new JScrollPane(jtAbout));        
+        jtAbout.setEditable(false);
+        JScrollPane js = new JScrollPane(jtAbout);
+        js.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        add(js);        
 	}
 	
 	/**
