@@ -1,21 +1,17 @@
 package af.commons.widgets.lists;
 
-import java.awt.Dimension;
+import af.commons.collections.ListUtils;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 
 //TODO make vertical version work
 
@@ -235,10 +231,10 @@ public class SplitList<T> extends JPanel implements ActionListener, ListSelectio
                 rightToLeft(rightList.getSelecectedValues());
         }
         else if (e.getSource() == allToRightButton) {
-            leftToRight(leftList.getModel().getAllElements());
+            allToRight();
         }
         else if (e.getSource() == allToLeftButton) {
-            rightToLeft(rightList.getModel().getAllElements());
+            allToLeft();
         }
         leftList.clearSelection();
         rightList.clearSelection();
@@ -265,6 +261,15 @@ public class SplitList<T> extends JPanel implements ActionListener, ListSelectio
         return rightList.getModel().getAllElements();
     }
 
+    public List<T> getSelectedValues() {
+        return getRight();
+    }
+
+    public List<String> getSelectedStrings() {
+        return ListUtils.toString(getRight());
+    }
+
+
     public void setLeft(List<T> data) {
         leftList.setModel(new MyListModel(data));
         revalidate();
@@ -276,6 +281,15 @@ public class SplitList<T> extends JPanel implements ActionListener, ListSelectio
         revalidate();
         modelStateChanged();
     }
+
+    public void allToLeft() {
+        rightToLeft(rightList.getModel().getAllElements());
+    }
+
+    public void allToRight() {
+        leftToRight(leftList.getModel().getAllElements());
+    }
+
 
     public void setVisibleRowCount(int n) {
         leftList.setVisibleRowCount(n);
