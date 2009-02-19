@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jnlp spec="1.0+" codebase="http://replace_with_server/libs">
+
+
+    <information>
+        <title>IText</title>
+        <homepage href="http://www.lowagie.com/iText/"/>
+        <vendor>see link</vendor>
+        <description>see link</description>
+        <offline-allowed/>
+    </information>
+
+
+    <security>
+        <all-permissions/>
+    </security> 
+    
+    <resources>
+        <jar href="iText-2.1.2u.jar"/>
+    </resources>
+    
+    <component-desc/>
+
+</jnlp>
+
+
