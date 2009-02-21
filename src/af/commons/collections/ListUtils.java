@@ -1,15 +1,28 @@
 package af.commons.collections;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListUtils {
     public static <E> List<String> toString(List<E> xs) {
-        List<String> result = new ArrayList<String>();
-        for (E x:xs)
-            result.add(xs.toString());
+        return transform(xs, "toString", String.class);
+    }
+
+    public static <E, F> List<F> transform(List<E> xs, String method, Class<F> targetClass) {
+        List<F> result = new ArrayList<F>();
+        if (xs.isEmpty())
+            return result;
+        try {
+            Method m = xs.get(0).getClass().getMethod(method);
+            for (E x : xs)
+                result.add((F) m.invoke(x));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return result;
     }
+
 
     public static <E> List<E> copyAndAdd(List<E> xs, E x) {
         List<E> result = new ArrayList<E>();
