@@ -6,10 +6,10 @@ import java.util.List;
 
 public class ListUtils {
     public static <E> List<String> toString(List<E> xs) {
-        return transform(xs, "toString", String.class);
+        return transform(xs, "toString");
     }
 
-    public static <E, F> List<F> transform(List<E> xs, String method, Class<F> targetClass) {
+    public static <E, F> List<F> transform(List<E> xs, String method) {
         List<F> result = new ArrayList<F>();
         if (xs.isEmpty())
             return result;
@@ -30,5 +30,4 @@ public class ListUtils {
         result.add(x);
         return result;
     }
-
 }
