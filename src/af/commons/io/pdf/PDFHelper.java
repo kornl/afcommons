@@ -11,8 +11,15 @@ import com.lowagie.text.pdf.PdfWriter;
 
 public class PDFHelper {
 	
-	//image.scaleToFit(imgWidth,imgHeight);
-	
+	/**
+	 * Returns a com.lowagie.text.Image from a image or PDF file.
+	 * In the second case the first page of the PDF file is returned as image.
+	 * @param writer
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 * @throws BadElementException
+	 */	
 	public static Image getImage(PdfWriter writer, File file) throws IOException, BadElementException {
 		Image image = null;
 		if(isPDF(file)) {
@@ -25,6 +32,14 @@ public class PDFHelper {
 		return image;
 	}
 
+	/**
+	 * Returns a com.lowagie.text.Image from the first page of a PDF file. 
+	 * @param writer
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 * @throws BadElementException
+	 */
 	public static Image getPdfImage(PdfWriter writer, File file) throws IOException, BadElementException {
 		PdfReader reader = new PdfReader(file.getAbsolutePath());
 		PdfImportedPage importedPage = writer.getImportedPage(reader, 1);
