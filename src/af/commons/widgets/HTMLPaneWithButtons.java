@@ -17,64 +17,13 @@ import javax.swing.text.html.HTMLFrameHyperlinkEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class HTMLPaneWithButtons extends JTextPane implements HyperlinkListener {
-
+public class HTMLPaneWithButtons extends HTMLPane implements HyperlinkListener {
 
 	private static Log logger = LogFactory.getLog(HTMLPaneWithButtons.class);
-    private HTMLEditorKit kit;
-    private HTMLDocument doc;
-    //    private List<ActionListener> listeners = new ArrayList<ActionListener>();
-    private Element body;
     protected Hashtable<String, ActionListener> cmdToListener = new Hashtable<String, ActionListener>();
 
     public HTMLPaneWithButtons() {
-        setContentType("text/html");
-        addHyperlinkListener(this);
-        setEditable(false);
-        kit = (HTMLEditorKit) getEditorKit();
-        doc = (HTMLDocument) getDocument();
-        Element html = doc.getRootElements()[0];
-        body = html.getElement(0);
-    }
-
-//    public void appendLine(String s) {
-//        appendHTML(s + "<br>");
-//    }
-
-    public void appendParagraph(String s) {
-        appendHTML("<P align=\"left\">" + s + "</P>");
-    }
-
-    public void appendHeadline(String s) {
-        appendHTML("<h1>" + s + "</h1>");
-    }
-
-//    public void appendButton(String label, ActionListener al) {
-//        String cmd = ""+cmdToListener.size();
-//        cmdToListener.put(cmd, al);
-//        appendHTML(makeButtonString(label, cmd));
-//    }
-
-    public void appendHTML(String s) {
-        try {
-            doc.insertBeforeEnd(body, s);
-            setCaretPosition(doc.getLength());
-            logger.debug("HTML: "+s);
-        } catch (Exception e) {
-            //TODO we dont pass this along, bad style, etc, STFU
-            e.printStackTrace();
-        }
-    }
-
-    public void print2() {
-        try {
-            StringWriter sw = new StringWriter();
-            kit.write(sw, doc, 0, doc.getLength());
-            System.out.println(sw.getBuffer().toString());
-        } catch (Exception e) {
-            //TODO we dont pass this along, bad style, etc, STFU
-            e.printStackTrace();
-        }
+        addHyperlinkListener(this);        
     }
 
     public String makeButtonString(String label, ActionListener al) {
@@ -92,18 +41,6 @@ public class HTMLPaneWithButtons extends JTextPane implements HyperlinkListener 
     public String makeButtonString(String label, String cmd) {
         String s = "<a href=\"" + cmd + "\">" + label + "</a>";
         return s;
-    }
-
-    public String makeBold(String s) {
-        return "<B>" + s + "</B>";
-    }
-
-    public String makeBoldItalics(String s) {
-        return "<B><i>" + s + "</i></B>";
-    }
-
-    public String makeBoldUnderlined(String s) {
-        return "<B><u>" + s + "</u></B>";
     }
 
     public void hyperlinkUpdate(HyperlinkEvent e) {
@@ -124,18 +61,4 @@ public class HTMLPaneWithButtons extends JTextPane implements HyperlinkListener 
         String cmd = event.getActionCommand();
         cmdToListener.get(cmd).actionPerformed(event);
     }
-
-    public void clear() {
-        // dont really know what i am doing here but seems to work
-        setDocument(new HTMLDocument());
-        setEditorKit(kit);
-        doc = (HTMLDocument) getDocument();
-        Element html = doc.getRootElements()[0];
-        body = html.getElement(0);
-    }
-
-//    public void addActionListener(ActionListener listener) {
-//        listeners.add(listener);
-//
-//    }
 }
