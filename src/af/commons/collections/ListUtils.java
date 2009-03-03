@@ -5,6 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListUtils {
+
+    public static String[] toStringArray(List xs) {
+        String[] res = new String[xs.size()];
+        for (int i=0; i<xs.size(); i++)
+            res[i] = xs.toString();
+        return res;
+    }
+
     public static <E> List<String> toString(List<E> xs) {
         return transform(xs, "toString");
     }
