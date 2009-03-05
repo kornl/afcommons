@@ -1,9 +1,8 @@
 package af.commons.widgets.lists;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.DefaultComboBoxModel;
 
 public class MyJComboBoxModel<E> extends DefaultComboBoxModel {
     // implements javax.swing.ListModel
@@ -47,4 +46,8 @@ public class MyJComboBoxModel<E> extends DefaultComboBoxModel {
         return objects.indexOf(o);
     }
 
+    public void addElement(String name, E obj) {
+        addElement(name);
+        objects.add(obj);
+    }
 }

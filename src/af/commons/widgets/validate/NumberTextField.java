@@ -82,4 +82,13 @@ abstract public class NumberTextField<E extends Number> extends ValidatedTextFie
         this.maxInclusive = maxInclusive;
         calcBgColor();
     }
+
+    public void setMin(E min) {
+        setRange(min, max, true, true);
+    }
+
+    public void setMax(E max) {
+        setRange(min, max, true, true);
+    }
+
 }
