@@ -1,18 +1,13 @@
 package af.commons.io;
 
-import java.awt.Component;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import af.commons.widgets.MyJFileChooser;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.*;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import javax.swing.JFileChooser;
-
-import af.commons.widgets.MyJFileChooser;
 
 public class FileTools {
 
@@ -90,4 +85,8 @@ public class FileTools {
             return null;
     }
 
+    public static File selectFile(Component comp) {
+        MyJFileChooser fc = MyJFileChooser.makeMyJFileChooser();
+        return fc.showOpenDialog(comp) == JFileChooser.APPROVE_OPTION ? fc.getSelectedFile() : null;
+    }
 }
