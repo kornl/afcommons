@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,9 +13,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
@@ -26,16 +22,18 @@ import javax.swing.Timer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * Panel that shows some animated symbol for an arbitrary long process. 
+ * 
+ */
 public class InfiniteProgressPanel extends JComponent implements MouseListener, KeyListener {
 	private static final Log logger = LogFactory.getLog(InfiniteProgressPanel.class);
-
-
 
 	public interface AbortListener {
         public void abort();
     }
 
-    protected Star star = null;
+    protected AnimatedObject animatedObject = null;
 
     protected static final int FADE_DELAY = 200;
     protected static final float SHIELD = 0.70f;
@@ -113,7 +111,7 @@ public class InfiniteProgressPanel extends JComponent implements MouseListener, 
         addKeyListener(this);
         setVisible(true);
         requestFocus();
-        star = new Star(barsCount);
+        animatedObject = new Star(barsCount);
         anim = new Animator(true);
         timer = new Timer(delay, anim);
         timer.start();
@@ -159,9 +157,9 @@ public class InfiniteProgressPanel extends JComponent implements MouseListener, 
     	g2.setColor(new Color(255, 255, 255, (int) (alphaLevel * shield)));
     	g2.fillRect(0, 0, getWidth(), getHeight());
 
-    	if (star!=null) {
-    		star.paint(g2, alphaLevel, width / 2, height / 2);
-    		double maxY = star.getMaxY();
+    	if (animatedObject!=null) {
+    		animatedObject.paint(g2, alphaLevel, width / 2, height / 2);
+    		double maxY = animatedObject.getMaxY();
 
     		String text1 = text;
     		String text2 = "[Hit Esc to abort]";
@@ -220,7 +218,7 @@ public class InfiniteProgressPanel extends JComponent implements MouseListener, 
                     exit();
                     break;
             }
-            star.rotate();
+            animatedObject.next();
             repaint();
         }
     }
@@ -256,80 +254,3 @@ public class InfiniteProgressPanel extends JComponent implements MouseListener, 
     }
 }
 
-class Star extends Area {
-    private Area[] ticker = null;
-    int alphaLevel = 0;
-    double fixedAngle;
-    AffineTransform rotator;
-    Point center;
-
-
-    public Star(int barsCount) {
-        center = new Point(0, 0);
-        ticker = new Area[barsCount];
-        fixedAngle = 2.0 * Math.PI / ((double) barsCount);
-
-        for (int i = 0; i < barsCount; i++) {
-            Area t = buildPrimitive();
-            AffineTransform toBorder = AffineTransform.getTranslateInstance(45.0, -6.0);
-
-            t.transform(toBorder);
-            t.transform(getRotator(i));
-            ticker[i] = t;
-        }
-    }
-
-    public int getBarsCount() {
-        return ticker.length;
-    }
-
-    private AffineTransform getRotator(int i) {
-        return AffineTransform.getRotateInstance(i * fixedAngle, center.getX(), center.getY());
-    }
-
-    private Area buildPrimitive() {
-        Rectangle2D.Double body = new Rectangle2D.Double(6, 0, 30, 12);
-        Ellipse2D.Double head = new Ellipse2D.Double(0, 0, 12, 12);
-        Ellipse2D.Double tail = new Ellipse2D.Double(30, 0, 12, 12);
-
-        Area tick = new Area(body);
-        tick.add(new Area(head));
-        tick.add(new Area(tail));
-
-        return tick;
-    }
-
-    public synchronized void rotate() {
-        for (Area t : ticker)
-            t.transform(getRotator(1));
-    }
-
-    public synchronized void moveTo(int x, int y) {
-        AffineTransform move = AffineTransform.getTranslateInstance(x - center.x, y - center.y);
-
-        for (Area t : ticker) {
-            t.transform(move);
-        }
-        center = new Point(x, y);
-    }
-
-    public synchronized void paint(Graphics2D g2, int alphaLevel, int x, int y) {
-        moveTo(x, y);
-        for (int i = 0; i < getBarsCount(); i++) {
-            int b = getBarsCount()/2;
-            int channel = 224 - 128 / (Math.abs( (b/2 - i)*(b/2 - i) ) +1);
-            g2.setColor(new Color(channel, channel, channel, alphaLevel));
-            g2.fill(ticker[i]);
-        }
-    }
-
-    public synchronized double getMaxY() {
-        double maxY = 0;
-        for (Area t : ticker) {
-            Rectangle2D bounds = t.getBounds2D();
-            if (bounds.getMaxY() > maxY)
-                maxY = bounds.getMaxY();
-        }
-        return maxY;
-    }
-}
