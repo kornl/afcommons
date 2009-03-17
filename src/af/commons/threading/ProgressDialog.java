@@ -1,27 +1,21 @@
 package af.commons.threading;
 
+import af.commons.errorhandling.ErrorHandler;
+import af.commons.widgets.buttons.OKButtonPane;
+import af.commons.widgets.buttons.OkCancelButtonPane;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import af.commons.errorhandling.ErrorHandler;
-import af.commons.widgets.buttons.OKButtonPane;
-import af.commons.widgets.buttons.OkCancelButtonPane;
-
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 
 /**
  *
@@ -46,6 +40,7 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
     public ProgressDialog(JFrame owner, String title, SafeSwingWorker<T, V> task, boolean abortable, JPanel jp) {    	
         super(owner, title);
         this.task = task;
+        if (jp == null) jp = new JPanel();
         this.jp = jp;
         task.addPropertyChangeListener(this);
         this.abortable = abortable;

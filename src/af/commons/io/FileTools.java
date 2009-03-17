@@ -65,6 +65,11 @@ public class FileTools {
         return selectFile(comp, new File(prevDir), fileSelectionMode);
     }
 
+    public static File selectFile(Component comp, int fileSelectionMode) {
+        return selectFile(comp, "", fileSelectionMode);
+    }
+
+
     /**
      * Opens a JFileChooser for selecting a file or directory.
      * @param prevFile previously chosen file

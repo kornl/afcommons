@@ -1,11 +1,9 @@
 package af.commons.widgets;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 public class AnimatedImage implements AnimatedObject {
 
@@ -32,7 +30,6 @@ public class AnimatedImage implements AnimatedObject {
 		return 200;
 	}
 
-	@Override
 	public void paint(Graphics2D g2, int alphaLevel, int x, int y) {
 		try {
 			Image img = ImageIO.read(AnimatedImage.class.getResource("animated/"+name+"-"+nr+".png"));
@@ -45,7 +42,6 @@ public class AnimatedImage implements AnimatedObject {
 		}    		
 	}
 
-	@Override
 	public void next() {
 		nr++;
 		if (nr>max) nr=0;
