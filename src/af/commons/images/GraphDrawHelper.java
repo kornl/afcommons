@@ -2,6 +2,8 @@ package af.commons.images;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.QuadCurve2D;
 
 /**
  * 
@@ -79,7 +81,28 @@ public class GraphDrawHelper {
 
 	public static void malVollenPfeil(Graphics g, int x1, int y1, int x2,
 			int y2, int l) {
-		g.drawLine(x1, y1, x2, y2);
+		
+		Graphics2D g2d = (Graphics2D) g;
+
+		double a = x2-x1;
+		double b = y2-y1;
+		
+		double d1 = 100*Math.signum(y2-y1+0.1);
+		double d2 = -a/(b+0.1)*d1;
+		
+		double d = Math.sqrt(a*a+b*b);
+		double s = d/(Math.sqrt(d1*d1+d2*d2)*2);
+		
+		int c1 = (int)((x1+x2)/2+d1*s);
+		int c2 = (int)((y1+y2)/2+d2*s);
+		
+	    QuadCurve2D quadcurve = new QuadCurve2D.Float(x1, y1, c1, c2 ,x2, y2);
+	    
+	    g2d.draw(quadcurve);	    
+	    
+	    x1 = c1;
+	    y1 = c2;
+	    
 		int dx = (x2 - x1);
 		int dy = (y2 - y1);
 		double q;
