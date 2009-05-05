@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.QuadCurve2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * 
@@ -84,24 +85,14 @@ public class GraphDrawHelper {
 		
 		Graphics2D g2d = (Graphics2D) g;
 
-		double a = x2-x1;
-		double b = y2-y1;
+		int[] c = GraphDrawHelper.getControlPoints(x1, y1, x2, y2);
 		
-		double d1 = 100*Math.signum(y2-y1+0.1);
-		double d2 = -a/(b+0.1)*d1;
-		
-		double d = Math.sqrt(a*a+b*b);
-		double s = d/(Math.sqrt(d1*d1+d2*d2)*2);
-		
-		int c1 = (int)((x1+x2)/2+d1*s);
-		int c2 = (int)((y1+y2)/2+d2*s);
-		
-	    QuadCurve2D quadcurve = new QuadCurve2D.Float(x1, y1, c1, c2 ,x2, y2);
+	    QuadCurve2D quadcurve = new QuadCurve2D.Float(x1, y1, c[0], c[1] ,x2, y2);
 	    
 	    g2d.draw(quadcurve);	    
 	    
-	    x1 = c1;
-	    y1 = c2;
+	    x1 = c[0];
+	    y1 = c[1];
 	    
 		int dx = (x2 - x1);
 		int dy = (y2 - y1);
@@ -283,5 +274,32 @@ public class GraphDrawHelper {
 					(int) line_pts[i][0], (int) line_pts[i][1]);
 		malVollenPfeil(g, (int) line_pts[MAX_LINES - 1][0],
 				(int) line_pts[MAX_LINES - 1][1], x2, y2, 6);
+	}
+	
+	static public int[] getControlPoints(long x1, long y1, long x2, long y2) {
+		double a = x2-x1;
+		double b = y2-y1;
+		
+		double d1 = 100*Math.signum(y2-y1+0.1);
+		double d2 = -a/(b+0.1)*d1;
+		
+		double dd = Math.sqrt(a*a+b*b);
+		double s2 = dd/(Math.sqrt(d1*d1+d2*d2)*2);
+		
+		int c1 = (int)((x1+x2)/2+d1*s2);
+		int c2 = (int)((y1+y2)/2+d2*s2);
+		
+		return new int[] {c1,c2};
+	}
+	
+	static public int[] getDrawPoints(long x1, long y1, long x2, long y2) {
+		int[] c = GraphDrawHelper.getControlPoints(x1, y1, x2, y2);		
+		return new int[] {(int)(0.25*x1+0.25*x2+0.5*c[0]),(int)(0.25*y1+0.25*y2+0.5*c[1])};
+	}
+	
+	static public Rectangle2D getBounds(long x1, long y1, long x2, long y2) {
+		int[] c = GraphDrawHelper.getControlPoints(x1, y1, x2, y2);
+		QuadCurve2D quadcurve = new QuadCurve2D.Float(x1, y1, c[0], c[1] ,x2, y2);
+		return quadcurve.getBounds2D();
 	}
 }
