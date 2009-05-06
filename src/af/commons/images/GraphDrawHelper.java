@@ -81,7 +81,7 @@ public class GraphDrawHelper {
 	 */
 
 	public static void malVollenPfeil(Graphics g, int x1, int y1, int x2,
-			int y2, int l) {
+			int y2, int l, boolean curve) {
 		
 		Graphics2D g2d = (Graphics2D) g;
 
@@ -89,10 +89,13 @@ public class GraphDrawHelper {
 		
 	    QuadCurve2D quadcurve = new QuadCurve2D.Float(x1, y1, c[0], c[1] ,x2, y2);
 	    
-	    g2d.draw(quadcurve);	    
-	    
-	    x1 = c[0];
-	    y1 = c[1];
+	    if (curve) {	    
+	    	g2d.draw(quadcurve);
+	    	x1 = c[0];
+		    y1 = c[1];		    
+	    } else {
+	    	g.drawLine(x1, y1, x2, y2);
+	    }	    
 	    
 		int dx = (x2 - x1);
 		int dy = (y2 - y1);
@@ -273,7 +276,7 @@ public class GraphDrawHelper {
 			g.drawLine((int) line_pts[i - 1][0], (int) line_pts[i - 1][1],
 					(int) line_pts[i][0], (int) line_pts[i][1]);
 		malVollenPfeil(g, (int) line_pts[MAX_LINES - 1][0],
-				(int) line_pts[MAX_LINES - 1][1], x2, y2, 6);
+				(int) line_pts[MAX_LINES - 1][1], x2, y2, 6, false);
 	}
 	
 	static public int[] getControlPoints(long x1, long y1, long x2, long y2) {
