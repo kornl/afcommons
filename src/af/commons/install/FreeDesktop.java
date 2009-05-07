@@ -51,6 +51,7 @@ public class FreeDesktop {
             }
             if (this.ioex!=null) throw ioex;
         }
+        file.setExecutable(true);
 	}
 
 	public void setApplication(String application) {
