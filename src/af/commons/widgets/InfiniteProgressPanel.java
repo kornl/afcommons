@@ -99,10 +99,23 @@ public class InfiniteProgressPanel extends JComponent implements MouseListener, 
         addKeyListener(this);
         setVisible(true);
         requestFocus();
-        animatedObject = new Star(barsCount);
+        if (animatedObject==null) animatedObject = new Star(barsCount);
         anim = new Animator(true);
         timer = new Timer(delay, anim);
         timer.start();
+    }
+    
+    public void setAnimatedObject(Object o) {
+    	if (o instanceof AnimatedObject) {
+    		animatedObject = (AnimatedObject)o;
+    	} else if (o instanceof String) {
+    		if (o.equals("Juggler")) {
+    			animatedObject = new AnimatedImage(AnimatedImage.juggle);
+    		} else if (o.equals("StarWars")) {
+    			//animatedObject = new AnimatedImage(AnimatedImage.juggle);
+    		}		
+    	}
+    	
     }
 
     public void stop() {
