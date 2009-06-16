@@ -1,9 +1,13 @@
 package af.commons.widgets;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.Action;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 //TODO inspect all subclasses, move some to table popup
 public class MyJPopupMenu extends JPopupMenu implements ActionListener {

@@ -1,12 +1,13 @@
 package af.commons.widgets.wizard;
 
-import af.commons.widgets.validate.IntegerTextField;
-import af.commons.widgets.validate.RealTextField;
-import org.netbeans.spi.wizard.WizardPage;
-
-import java.awt.*;
+import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.netbeans.spi.wizard.WizardPage;
+
+import af.commons.widgets.validate.IntegerTextField;
+import af.commons.widgets.validate.RealTextField;
 
 public class WizardPage2 extends WizardPage {
     private String id;

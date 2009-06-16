@@ -1,10 +1,11 @@
 package af.commons.widgets.wizard;
 
-import af.commons.widgets.lists.SplitList;
-import af.commons.widgets.lists.SplitListChangeListener;
+import java.awt.Component;
+
 import org.netbeans.spi.wizard.WizardPage;
 
-import java.awt.*;
+import af.commons.widgets.lists.SplitList;
+import af.commons.widgets.lists.SplitListChangeListener;
 
 public class CustomComponentListener2 extends WizardPage.CustomComponentListener {
         public boolean accept(Component component) {

@@ -3,18 +3,14 @@ package af.commons.io.pdf;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.List;
-import java.util.Vector;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Cell;
 import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
 import com.lowagie.text.Image;
-import com.lowagie.text.Paragraph;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfPTable;

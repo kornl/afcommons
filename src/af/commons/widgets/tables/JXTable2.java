@@ -1,12 +1,13 @@
 package af.commons.widgets.tables;
 
+import java.awt.Component;
+import java.awt.event.MouseEvent;
+
+import javax.swing.table.TableModel;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.JXTable;
-
-import javax.swing.table.TableModel;
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class JXTable2 extends JXTable {
     protected static final Log logger = LogFactory.getLog(JXTable2.class);

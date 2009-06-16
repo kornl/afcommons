@@ -1,19 +1,25 @@
 package af.commons.errorhandling;
 
-import af.commons.logging.LoggingSystem;
-import af.commons.logging.widgets.DetailsPanel;
-import af.commons.widgets.GUIToolKit;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import af.commons.logging.LoggingSystem;
+import af.commons.logging.widgets.DetailsPanel;
+import af.commons.widgets.GUIToolKit;
+
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 
 /**
  * Base class for crit. & recoverable error dialogs. Error dialog is always a modal JFrame.

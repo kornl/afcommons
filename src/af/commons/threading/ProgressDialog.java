@@ -1,21 +1,27 @@
 package af.commons.threading;
 
-import af.commons.errorhandling.ErrorHandler;
-import af.commons.widgets.buttons.OKButtonPane;
-import af.commons.widgets.buttons.OkCancelButtonPane;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import af.commons.errorhandling.ErrorHandler;
+import af.commons.widgets.buttons.OKButtonPane;
+import af.commons.widgets.buttons.OkCancelButtonPane;
+
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
 
 /**
  *

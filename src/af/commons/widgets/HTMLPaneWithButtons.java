@@ -2,16 +2,12 @@ package af.commons.widgets;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.StringWriter;
 import java.util.Hashtable;
 
 import javax.swing.JEditorPane;
-import javax.swing.JTextPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-import javax.swing.text.Element;
 import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.HTMLFrameHyperlinkEvent;
 
 import org.apache.commons.logging.Log;
