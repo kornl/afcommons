@@ -13,6 +13,9 @@ import javax.swing.JSlider;
 public class FloatingPointSlider extends JSlider {
 
 	protected int scale = 0;
+	protected Double min = 0.0;
+	protected Double max = 1.0;
+	protected int ticks = 10;
 	
 	public static final int IDENTITY = 0;
 	public static final int LOGARITHMIC = 1;
@@ -20,8 +23,16 @@ public class FloatingPointSlider extends JSlider {
 	
 	protected static final int RESOLUTION = 100;
 	
-	protected static final int labelLength = 6;
+	protected int labelLength = 6;
 	
+	public int getLabelLength() {
+		return labelLength;
+	}
+
+	public void setLabelLength(int labelLength) {
+		this.labelLength = labelLength;
+	}
+
 	public FloatingPointSlider(Double min, Double max, int ticks)  {
 		this(min, max, ticks, IDENTITY);
 	}
@@ -36,6 +47,10 @@ public class FloatingPointSlider extends JSlider {
 	
 	public FloatingPointSlider(Double min, Double max, int ticks, int scale)  {
 		super(0,ticks*RESOLUTION);
+		this.min = min;
+		this.max = max;
+		this.ticks = ticks;
+		this.scale = scale;
 		/* Check scales */
 		if (max <= min) throw new IllegalArgumentException("max has to be greater than min.");		
 		if (scale == LOGARITHMIC && min <= 0) throw new IllegalArgumentException("min has to be greater than 0 on the logarithmic scale.");		
@@ -44,12 +59,7 @@ public class FloatingPointSlider extends JSlider {
 		Hashtable<Integer, JComponent> dict = new Hashtable<Integer, JComponent>(); 
 		for (int i = 0; i<(ticks+1)*RESOLUTION; i++) {
 			if (i%100==0) {				
-				Double d = (max-min)/ticks*(i/100)+min;
-				if (scale == LOGARITHMIC) {
-					d = Math.exp((Math.log(max)-Math.log(min))/ticks*(i/100)+Math.log(min));
-				} else if (scale == LOGISTIC) {
-					d = logisticI((logistic(max)-logistic(min))/ticks*(i/100)+logistic(min));
-				}				
+				Double d = convert(i);			
 				d = ((double)Math.round(d*Math.pow(10,labelLength-2)))/Math.pow(10,labelLength-2);
 				String label = d.toString();
 				if (d.toString().endsWith(".0")) {
@@ -68,6 +78,21 @@ public class FloatingPointSlider extends JSlider {
 		setLabelTable(dict);
 		setPaintTicks(true);
     	setPaintLabels(true);
+	}
+	
+	public double convert(int x) {
+		Double d = (max-min)/(ticks*RESOLUTION)*x+min;
+		if (scale == LOGARITHMIC) {
+			//d = Math.pow(10, (Math.log10(max)-Math.log10(min))/(ticks*RESOLUTION)*x+Math.log10(min));
+			d = Math.exp((Math.log(max)-Math.log(min))/(ticks*RESOLUTION)*x+Math.log(min));
+		} else if (scale == LOGISTIC) {
+			d = logisticI((logistic(max)-logistic(min))/(ticks*RESOLUTION)*x+logistic(min));
+		}
+		return d;
+	}
+	
+	public double getDoubleValue() {
+		return convert(getValue());
 	}
 	
 	/**
