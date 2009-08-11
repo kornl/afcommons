@@ -60,9 +60,9 @@ public class PDFHelper {
 	
 	/**
 	 * Determines whether a given file is a PDF file by extension.
-	 * Alternatively we could test whether the first 4 byte are "%PDF-".
+	 * [Alternatively we could test whether the first 4 byte are "%PDF-".]
 	 * @param file
-	 * @return Has the given file the extension ".pdf"?
+	 * @return Has the given file the extension ".pdf"? (case insensitive)
 	 */
 	public static boolean isPDF(File file) {
 		String name = file.getName();		
