@@ -76,9 +76,9 @@
 		      <classpath refid="complete.classpath"/>
 		      <src refid="sourcepath"/>	      
 		    </javac>
-		  	<mkdir dir="${output.dir}/af/commons/images"/>
-		  	<copy todir="${output.dir}/af/commons/images">
-		  	    <fileset dir="${content.root}/src/af/commons/images"/>
+		  	<mkdir dir="${output.dir}/org/af/commons/images"/>
+		  	<copy todir="${output.dir}/org/af/commons/images">
+		  	    <fileset dir="${content.root}/src/org/af/commons/images"/>
 		  	</copy>
 		 
 			<jar jarfile="${dist}/afcommons.jar" basedir="classes"/>
