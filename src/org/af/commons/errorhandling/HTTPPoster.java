@@ -25,9 +25,9 @@ public class HTTPPoster {
 	/**
 	 * 
 	 * @param urlString the URL to that we want to send a POST
-	 * @param table is ignored up to now
+	 * @param table will be send as form-data
 	 * @param files will be attached
-	 * @return
+	 * @return the response of the server
 	 * @throws IOException
 	 */
 	
