@@ -48,11 +48,9 @@ public class HTTPPoster {
 
 		for (String name : Collections.list(table.keys())) {
 			dos.writeBytes(twoHyphens + boundary + lineEnd);
-			dos.writeBytes("Content-Disposition: form-data; name=\""+name+"\";"
-					 + lineEnd);
+			dos.writeBytes("Content-Disposition: form-data; name=\""+name+"\";"+lineEnd);
 			dos.writeBytes(lineEnd);
-			dos.writeBytes(table.get(name) + lineEnd);
-			dos.writeBytes(lineEnd);			
+			dos.writeBytes(table.get(name) + lineEnd);					
 			dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 		}
 		
