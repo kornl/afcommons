@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.swing.JDialog;
@@ -57,6 +58,8 @@ public class InformDialog extends JDialog implements ActionListener{
     protected LockableUI lockableUI;
     
     protected String developerAdress;
+    
+    public String urlString = "http://www.algorithm-forge.com/test/uploader.php";
 
     protected InformDialog(Component parent, String developerAdress) {
     	this(parent, developerAdress, null);
@@ -157,8 +160,8 @@ public class InformDialog extends JDialog implements ActionListener{
      * Override this if you want to attach some files to the inform message.
      * @return list of files
      */
-    protected List<File> getAttachedFiles() throws IOException {
-        return new ArrayList<File>();
+    protected Hashtable<String, File> getAttachedFiles() throws IOException {
+        return new Hashtable<String, File>();
     }
 
 
@@ -185,13 +188,16 @@ public class InformDialog extends JDialog implements ActionListener{
 
         SafeSwingWorker<Void, Void> worker = new SafeSwingWorker<Void, Void>() {
             @Override
-            protected Void doInBackground() throws Exception {
-                String name = tfName.getText();
-                String email = tfEMail.getText();
-                String otherContact = tfOtherContact.getText();
-                String desc = taDesc.getText();
-                Mailman mailman = new Mailman(developerAdress);
-                mailman.sendErrorMessage(name, email, otherContact, desc, getAttachedFiles());
+            protected Void doInBackground() throws Exception {                
+                Hashtable<String,String> table = new Hashtable<String,String>();
+                table.put("Name", tfName.getText());
+                table.put("Email", tfEMail.getText());
+                table.put("Contact", tfOtherContact.getText());
+                table.put("Description", taDesc.getText());
+                
+                Hashtable<String,File> files = new Hashtable<String,File>();
+        		files.put("uploadedfile1", new File(""));
+                (new HTTPPoster()).post(urlString, table, files);                
                 return null;
             }
             @Override
