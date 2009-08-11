@@ -31,7 +31,6 @@ public class ListUtils {
         return result;
     }
 
-
     public static <E> List<E> copyAndAdd(List<E> xs, E x) {
         List<E> result = new ArrayList<E>();
         result.addAll(xs);

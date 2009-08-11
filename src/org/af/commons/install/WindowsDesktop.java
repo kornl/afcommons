@@ -9,7 +9,7 @@ import org.af.commons.OSTools;
 
 
 /**
- * creates windows desktop url entry
+ * Creates a Windows desktop URL entry.
  */
 
 public class WindowsDesktop {
@@ -34,7 +34,7 @@ public class WindowsDesktop {
 	}
 
 	/**
-     * Set Hotkey like objSC.HotKey = "CTRL+ALT+SHIFT+X"; 
+     * Set HotKey like objSC.HotKey = "CTRL+ALT+SHIFT+X"; 
      */	
 	public void setHotkey(String hotkey) {
 		this.hotkey = hotkey;
@@ -71,8 +71,12 @@ public class WindowsDesktop {
 		this.iconpath = exepath+", "+nr;
 	}
 	
-	
-	
+	/**
+	 * 
+	 * @param desktopDir
+	 * @param name
+	 * @throws IOException
+	 */	
     public void createDesktopEntry(File desktopDir, String name)
             throws IOException {       
     	
@@ -109,8 +113,13 @@ public class WindowsDesktop {
         OSTools.runShellScript(makeLinkVbsFile, new File(System.getProperty("java.io.tmpdir")));
     }
 
-	public void createDesktopEntry(String string) throws IOException {
-		createDesktopEntry(OSTools.guessDesktop(), string);		
+    /**
+     * 
+     * @param name
+     * @throws IOException
+     */
+	public void createDesktopEntry(String name) throws IOException {
+		createDesktopEntry(OSTools.guessDesktop(), name);		
 	}
 
 }

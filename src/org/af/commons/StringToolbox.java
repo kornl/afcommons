@@ -65,6 +65,12 @@ public class StringToolbox {
 		System.out.println("Test: "+arrayToString(s));
 	}
 	
+	/**
+	 * Converts an Object array Object[] obj to the String:
+	 * "["+obj[0].toString()+", "+obj[1].toString()+","+ ... +", "+obj[obj.length].toString()+"]"
+	 * @param strings
+	 * @return
+	 */
 	public static String arrayToString(Object[] strings) {
 		String result = "[";
 		for(Object s : strings) {
