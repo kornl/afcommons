@@ -7,9 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -27,7 +25,6 @@ import org.af.commons.widgets.buttons.OkCancelButtonPane;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.jxlayer.plaf.ext.LockableUI;
-
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -193,16 +190,13 @@ public class InformDialog extends JDialog implements ActionListener{
                 table.put("Name", tfName.getText());
                 table.put("Email", tfEMail.getText());
                 table.put("Contact", tfOtherContact.getText());
-                table.put("Description", taDesc.getText());
-                
-                Hashtable<String,File> files = new Hashtable<String,File>();
-        		files.put("uploadedfile1", new File(""));
-                (new HTTPPoster()).post(urlString, table, files);                
+                table.put("Description", taDesc.getText());                
+                (new HTTPPoster()).post(urlString, table, getAttachedFiles());                
                 return null;
             }
             @Override
             protected void onSuccess(Void result) {
-                JOptionPane.showMessageDialog(InformDialog.this, "Mail was sent.");
+                JOptionPane.showMessageDialog(InformDialog.this, "Report was sent.");
                 dispose();
             }
 

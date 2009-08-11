@@ -1,9 +1,15 @@
 package org.af.commons.errorhandling;
 
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Collections;
 import java.util.Hashtable;
-import java.io.*;
 
 /**
  * Uploads String values and Files via HTTP. 
@@ -40,6 +46,16 @@ public class HTTPPoster {
 
 		DataOutputStream dos = new DataOutputStream( conn.getOutputStream() );
 
+		for (String name : Collections.list(table.keys())) {
+			dos.writeBytes(twoHyphens + boundary + lineEnd);
+			dos.writeBytes("Content-Disposition: form-data; name=\""+name+"\";"
+					+" "+ name +" \"" +table.get(name) +"\"" + lineEnd);
+			dos.writeBytes(lineEnd);
+			dos.writeBytes(name +" "+ table.get(name) + lineEnd);
+			dos.writeBytes(lineEnd);			
+			dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+		}
+		
 		for (String name : Collections.list(files.keys())) {
 
 			dos.writeBytes(twoHyphens + boundary + lineEnd);
@@ -89,9 +105,10 @@ public class HTTPPoster {
 	public static void main(String[] args)	throws Exception {
 		String urlString = "http://www.algorithm-forge.com/test/uploader.php";
 		Hashtable<String,String> table = new Hashtable<String,String>();
+		table.put("input1", "Test formular entry");
 		Hashtable<String,File> files = new Hashtable<String,File>();
-		files.put("uploadedfile1", new File("/home/kornel/Desktop/Bildschirmfoto.png.zip"));
-		files.put("uploadedfile2", new File("/home/kornel/Desktop/quaqua-5.2.1.nested.zip"));
+		files.put("uploadedfile1", new File("/home/kornel/field.R"));
+		//files.put("uploadedfile2", new File("/home/kornel/Desktop/quaqua-5.2.1.nested.zip"));
 		String result = (new HTTPPoster()).post(urlString, table, files);
 		System.out.println(result);
 	}
