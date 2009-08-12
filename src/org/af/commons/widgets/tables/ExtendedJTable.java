@@ -17,13 +17,9 @@ import org.apache.commons.logging.LogFactory;
 
 public class ExtendedJTable extends JTable{
 
-
-	/* ***  Members      *****/
     protected int visibleRowCount = 10;
     protected int prefferedWidth = 100;
 	protected static final Log logger = LogFactory.getLog(ExtendedJTable.class);
-
-    /* ***  Contructors      *****/
 
     public ExtendedJTable() {}
 
@@ -32,7 +28,7 @@ public class ExtendedJTable extends JTable{
     }
 
     /**
-     * Single left clicks have a VERY strange behaviour, so we change them to double clicks here.
+     * Single left clicks have a VERY strange behavior, so we change them to double clicks here.
      */ 
     protected void processMouseEvent(MouseEvent e) {
     	if (e.getClickCount()>0) { logEvent(e); }
@@ -66,7 +62,6 @@ public class ExtendedJTable extends JTable{
         return visibleRowCount;
     }
 
-    /* ***  Acessors         *****/
     public Dimension getPreferredScrollableViewportSize() {
         Dimension pref = getPreferredSize();
         if (visibleRowCount != -1) {
@@ -92,7 +87,6 @@ public class ExtendedJTable extends JTable{
         return false;
     }
 
-   /* ***  Mutators         *****/
     public void setVisibleRowCount(int visibleRowCount) {
         this.visibleRowCount = visibleRowCount;
     }
@@ -126,10 +120,6 @@ public class ExtendedJTable extends JTable{
         }
         //setPreferredSize(new Dimension(sum, 400));
         //setMaximumSize(new Dimension(sum, 400));
-    }
-    
-
-
-		
+    }	
 
 }

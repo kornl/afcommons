@@ -1,4 +1,4 @@
-package org.af.commons.widgets;
+package org.af.commons.widgets.animated;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -16,7 +16,7 @@ public class AnimatedImage implements AnimatedObject {
 	protected int width = 31;
 	protected int height = 34;
 	
-	final static String juggle = "juggle"; 
+	public final static String JUGGLE = "juggle"; 
 	
 	public AnimatedImage (String name, int max) {
 		this.name = name;

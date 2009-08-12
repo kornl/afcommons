@@ -1,4 +1,4 @@
-package org.af.commons.widgets;
+package org.af.commons.widgets.animated;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -8,7 +8,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
-class Star extends Area implements AnimatedObject {
+public class Star extends Area implements AnimatedObject {
     private Area[] ticker = null;
     int alphaLevel = 0;
     double fixedAngle;

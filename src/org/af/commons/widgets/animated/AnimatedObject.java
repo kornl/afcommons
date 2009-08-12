@@ -1,4 +1,4 @@
-package org.af.commons.widgets;
+package org.af.commons.widgets.animated;
 
 import java.awt.Graphics2D;
 

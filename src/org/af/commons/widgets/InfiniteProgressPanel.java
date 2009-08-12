@@ -19,6 +19,9 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
+import org.af.commons.widgets.animated.AnimatedImage;
+import org.af.commons.widgets.animated.AnimatedObject;
+import org.af.commons.widgets.animated.Star;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -122,7 +125,7 @@ public class InfiniteProgressPanel extends JComponent implements MouseListener, 
     		animatedObject = (AnimatedObject)o;
     	} else if (o instanceof String) {
     		if (o.equals("Juggler")) {
-    			animatedObject = new AnimatedImage(AnimatedImage.juggle);
+    			animatedObject = new AnimatedImage(AnimatedImage.JUGGLE);
     		} else if (o.equals("StarWars")) {
     			//animatedObject = new AnimatedImage(AnimatedImage.juggle);
     		}		
