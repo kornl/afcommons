@@ -2,6 +2,7 @@ package org.af.commons.errorhandling;
 
 
 import java.awt.Window;
+import java.lang.reflect.Constructor;
 
 import org.apache.commons.logging.LogFactory;
 
@@ -35,9 +36,10 @@ public class ErrorHandler {
      */
     protected ErrorHandler(String developerAddress, String reportURL,
                            boolean installDefaultExceptionHandlerOnCurrentThread,
-                           boolean installDefaultExceptionHandlerOnEDT) {
+                           boolean installDefaultExceptionHandlerOnEDT, Class clazz) {
         this.developerAddress = developerAddress;
         this.reportURL = reportURL;
+        setInformDialogClass(clazz);
         if (installDefaultExceptionHandlerOnCurrentThread)
             installDefaultExceptionHandlerOnCurrentThread();
         if (installDefaultExceptionHandlerOnEDT)
@@ -53,11 +55,12 @@ public class ErrorHandler {
      *    install DefaultExceptionHandler on the current thread ?
      * @param installDefaultExceptionHandlerOnEDT
      *    installs DefaultExceptionHandler on the current thread
-      *@throws RuntimeException when developerAddress is null or init was already called before
+     * @param clazz Class of the InformDialog to be called 
+     * @throws RuntimeException when developerAddress is null or init was already called before
      */
     public static void init(String developerAddress, String reportURL,
                             boolean installDefaultExceptionHandlerOnCurrentThread,
-                            boolean installDefaultExceptionHandlerOnEDT) {
+                            boolean installDefaultExceptionHandlerOnEDT, Class clazz) {
         if (instance != null)
             throw new RuntimeException("Second call to ErrorHandler:init!");
         if (developerAddress == null)
@@ -65,7 +68,26 @@ public class ErrorHandler {
         System.out.println("Initializing ErrorHandler...");
         instance = new ErrorHandler(developerAddress, reportURL,
                 installDefaultExceptionHandlerOnCurrentThread,
-                installDefaultExceptionHandlerOnEDT);
+                installDefaultExceptionHandlerOnEDT, clazz);
+    }
+    
+    /**
+     * Initialize the singleton error handler
+     *
+     * @param developerAddress
+     *    mail address of the developers, used in inform dialog (don't pass null)
+     * @param installDefaultExceptionHandlerOnCurrentThread
+     *    install DefaultExceptionHandler on the current thread ?
+     * @param installDefaultExceptionHandlerOnEDT
+     *    installs DefaultExceptionHandler on the current thread
+      *@throws RuntimeException when developerAddress is null or init was already called before
+     */
+    public static void init(String developerAddress, String reportURL,
+                            boolean installDefaultExceptionHandlerOnCurrentThread,
+                            boolean installDefaultExceptionHandlerOnEDT) {
+        init(developerAddress, reportURL,
+                installDefaultExceptionHandlerOnCurrentThread,
+                installDefaultExceptionHandlerOnEDT, InformDialog.class);
     }
 
     /**
@@ -132,12 +154,25 @@ public class ErrorHandler {
         new RecoverableErrorDialog(msg==null?"No message/information available.":msg);
     }
 
-    /**
+    protected static Class informDialog = InformDialog.class;
+    
+    public static void setInformDialogClass(Class clazz) {
+    	informDialog = clazz;
+    }
+
+	/**
      * creates a inform dialog
      * @param owner parent frame
      */
     public void makeInformDialog(Window owner) {
-        new InformDialog(owner, developerAddress, reportURL);
+    	Class[] parameterTypes = {Window.class, String.class, String.class};
+    	Constructor con;
+		try {
+			con = informDialog.getConstructor(parameterTypes);
+			con.newInstance(owner, developerAddress, reportURL);
+		} catch (Exception e) {
+			new InformDialog(owner, developerAddress, reportURL);
+		}        
     }
     
     /**
@@ -146,6 +181,15 @@ public class ErrorHandler {
      * @param text text to display
      */
     public void makeInformDialog(Window owner, String text) {
-        new InformDialog(owner, developerAddress, text);
+    	Class[] parameterTypes = {Window.class, String.class, String.class, String.class};
+    	Constructor con;
+		try {
+			con = informDialog.getConstructor(parameterTypes);
+			con.newInstance(owner, developerAddress, reportURL, text);
+		} catch (Exception e) {
+			new InformDialog(owner, developerAddress, reportURL, text);
+		}        
     }
+    
+    
 }
