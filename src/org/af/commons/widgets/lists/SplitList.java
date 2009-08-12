@@ -53,7 +53,7 @@ public class SplitList<T> extends JPanel implements ActionListener, ListSelectio
         this(left, new ArrayList<T>(), horizontal);
     }
 
-    final static String imagepath = "/af/commons/images";
+    final static String imagepath = "/org/af/commons/images";
 
     public SplitList(List<T> left, List<T> right, boolean horizontal) {
         this.horizontalOrientation = horizontal;
