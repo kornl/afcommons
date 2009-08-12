@@ -1,6 +1,7 @@
 package org.af.commons.errorhandling;
 
 
+import java.awt.Component;
 import java.awt.Window;
 import java.lang.reflect.Constructor;
 
@@ -154,7 +155,7 @@ public class ErrorHandler {
         new RecoverableErrorDialog(msg==null?"No message/information available.":msg);
     }
 
-    protected static Class informDialog = InformDialog.class;
+    protected static Class informDialog;
     
     public static void setInformDialogClass(Class clazz) {
     	informDialog = clazz;
@@ -165,12 +166,13 @@ public class ErrorHandler {
      * @param owner parent frame
      */
     public void makeInformDialog(Window owner) {
-    	Class[] parameterTypes = {Window.class, String.class, String.class};
+    	Class[] parameterTypes = {Component.class, String.class, String.class};
     	Constructor con;
 		try {
 			con = informDialog.getConstructor(parameterTypes);
 			con.newInstance(owner, developerAddress, reportURL);
 		} catch (Exception e) {
+			e.printStackTrace();
 			new InformDialog(owner, developerAddress, reportURL);
 		}        
     }
@@ -181,12 +183,13 @@ public class ErrorHandler {
      * @param text text to display
      */
     public void makeInformDialog(Window owner, String text) {
-    	Class[] parameterTypes = {Window.class, String.class, String.class, String.class};
+    	Class[] parameterTypes = {Component.class, String.class, String.class, String.class};
     	Constructor con;
 		try {
 			con = informDialog.getConstructor(parameterTypes);
-			con.newInstance(owner, developerAddress, reportURL, text);
+			con.newInstance(owner, developerAddress, reportURL, text);			
 		} catch (Exception e) {
+			e.printStackTrace();
 			new InformDialog(owner, developerAddress, reportURL, text);
 		}        
     }
