@@ -17,6 +17,9 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfWriter;
 
+/**
+ * This class contains static methods for creating PDF files with iText.
+ */
 public class PDFHelper {
 	
     public static Font font = new Font(Font.TIMES_ROMAN, 10, Font.NORMAL);

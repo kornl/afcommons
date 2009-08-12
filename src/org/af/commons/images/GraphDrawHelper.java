@@ -279,7 +279,26 @@ public class GraphDrawHelper {
 				(int) line_pts[MAX_LINES - 1][1], x2, y2, 6, false);
 	}
 	
-	static public int[] getControlPoints(long x1, long y1, long x2, long y2) {
+	/**
+	 * Returns the point in the middle of the curve from (x1,x2) to (x2,y2). 
+	 * @param x1 die Abszisse des Pfeilanfangs
+	 * @param y1 die Ordinate des Pfeilanfangs
+	 * @param x2 die Abszisse des Pfeilendes
+	 * @param y2 die Ordinate des Pfeilendes
+	 * @return point in the middle of the curve from (x1,x2) to (x2,y2)
+	 */
+	static public int[] getDrawPoints(long x1, long y1, long x2, long y2) {
+		int[] c = GraphDrawHelper.getControlPoints(x1, y1, x2, y2);		
+		return new int[] {(int)(0.25*x1+0.25*x2+0.5*c[0]),(int)(0.25*y1+0.25*y2+0.5*c[1])};
+	}
+	
+	static protected Rectangle2D getBounds(long x1, long y1, long x2, long y2) {
+		int[] c = GraphDrawHelper.getControlPoints(x1, y1, x2, y2);
+		QuadCurve2D quadcurve = new QuadCurve2D.Float(x1, y1, c[0], c[1] ,x2, y2);
+		return quadcurve.getBounds2D();
+	}
+	
+	static protected int[] getControlPoints(long x1, long y1, long x2, long y2) {
 		double a = x2-x1;
 		double b = y2-y1;
 		
@@ -293,16 +312,5 @@ public class GraphDrawHelper {
 		int c2 = (int)((y1+y2)/2+d2*s2);
 		
 		return new int[] {c1,c2};
-	}
-	
-	static public int[] getDrawPoints(long x1, long y1, long x2, long y2) {
-		int[] c = GraphDrawHelper.getControlPoints(x1, y1, x2, y2);		
-		return new int[] {(int)(0.25*x1+0.25*x2+0.5*c[0]),(int)(0.25*y1+0.25*y2+0.5*c[1])};
-	}
-	
-	static public Rectangle2D getBounds(long x1, long y1, long x2, long y2) {
-		int[] c = GraphDrawHelper.getControlPoints(x1, y1, x2, y2);
-		QuadCurve2D quadcurve = new QuadCurve2D.Float(x1, y1, c[0], c[1] ,x2, y2);
-		return quadcurve.getBounds2D();
 	}
 }

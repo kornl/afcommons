@@ -1,5 +1,7 @@
 package org.af.commons;
-
+/**
+ * This class provides various static methods for handling String objects.
+ */
 public class StringToolbox {
 		
 	/**

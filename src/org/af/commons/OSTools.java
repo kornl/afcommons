@@ -17,7 +17,6 @@ import org.af.commons.io.FilterContains;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 /**
  * The Class OSToolsLocal owns static methods to determine the Operating System
  * and to set up an OS-dependent environment.

@@ -11,7 +11,7 @@ import org.jdesktop.swingworker.SwingWorker;
 
 /**
  * This SwingWorker handles exceptions thrown by the doInBackground() method.
- * There is also a mechanism for cancelation and message publishing.
+ * There is also a mechanism for cancellation and message publishing.
  * It divides the done() method in submethods onSuccess(), onFailure() and onCancel()
  * which could be later overridden.
  * You can also register a SwingWorkerObserver, which is notified when the worker thread is done.

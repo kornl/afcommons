@@ -1,5 +1,6 @@
 package org.af.commons.io;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,16 +13,19 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * This class contains various static methods for handling ZIP files.
+ */
 public class Zipper {
-	
+
 	public static void writeIntoZip(File zipDir, File zipfile) throws IOException {
 		ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipfile));		 
-		
+
 		zipDir(zipDir, zos, "");
-		
+
 		zos.close();
 	}
-	
+
 	private static void zipDir(File zipDir, ZipOutputStream zos, String path) throws IOException {
 		String[] dirList = zipDir.list(); 
 		byte[] readBuffer = new byte[2156]; 
@@ -42,43 +46,50 @@ public class Zipper {
 			fis.close(); 
 		}
 	}
-	
-	  public static final void copyInputStream(InputStream in, OutputStream out) throws IOException {
-	    byte[] buffer = new byte[1024];
-	    int len;
 
-	    while((len = in.read(buffer)) >= 0) {
-	      out.write(buffer, 0, len);
-	    }
-	    in.close();
-	    out.close();
-	  }
+	protected static final void copyInputStream(InputStream in, OutputStream out) throws IOException {
+		byte[] buffer = new byte[1024];
+		int len;
 
-	  public static final void unzip(File file, File outputDir) throws IOException {
-	    
-		  ZipFile zipFile = new ZipFile(file); 
-		  Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zipFile.entries();
+		while((len = in.read(buffer)) >= 0) {
+			out.write(buffer, 0, len);
+		}
+		in.close();
+		out.close();
+	}
 
-	      while(entries.hasMoreElements()) {
-	        ZipEntry entry = entries.nextElement();
+	public static final void unzip(File file, File outputDir) throws IOException {	
+		if (!outputDir.exists()) {
+			if (!outputDir.mkdirs()) {
+				throw new IOException("Could not create directory "+outputDir.getAbsolutePath()+".");
+			}
+		}
+		ZipFile zipFile = new ZipFile(file); 
+		Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zipFile.entries();
 
-	        if(entry.isDirectory()) {
-	        	if (!(new File(outputDir, entry.getName())).exists()) {
-	        		(new File(outputDir, entry.getName())).mkdirs();
-	        	}
-	          continue;
-	        }
-	        
-	        // It seems to be possible to store files before there parents.
-	        if (!(new File(outputDir, entry.getName())).getParentFile().exists()) {
-	        	(new File(outputDir, entry.getName())).getParentFile().mkdirs();
-	        }	        
+		while(entries.hasMoreElements()) {
+			ZipEntry entry = entries.nextElement();
 
-	        copyInputStream(zipFile.getInputStream(entry),
-	           new BufferedOutputStream(new FileOutputStream(outputDir+System.getProperty("file.separator")+entry.getName())));
-	      }
+			if(entry.isDirectory()) {
+				if (!(new File(outputDir, entry.getName())).exists()) {
+					if (!(new File(outputDir, entry.getName())).mkdirs()) {
+						throw new IOException("Could not create directory "+(new File(outputDir, entry.getName())).getAbsolutePath()+".");
+					}
+				}
+				continue;
+			}
 
-	      zipFile.close();
-	  }
+			// It seems to be possible to store files before there parents.
+			if (!(new File(outputDir, entry.getName())).getParentFile().exists()) {
+				if (!(new File(outputDir, entry.getName())).getParentFile().mkdirs()) {
+					throw new IOException("Could not create directory "+(new File(outputDir, entry.getName())).getParentFile().getAbsolutePath()+".");
+				}
+			}	        
 
+			copyInputStream(zipFile.getInputStream(entry),
+					new BufferedOutputStream(new FileOutputStream(outputDir+System.getProperty("file.separator")+entry.getName())));
+		}
+
+		zipFile.close();
+	}
 }

@@ -13,6 +13,9 @@ import java.nio.channels.FileChannel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * Class for copying and moving files and resources.
+ */
 public class FileTransfer {
 	
 	private static final Log logger = LogFactory.getLog(FileTransfer.class);
@@ -65,6 +68,12 @@ public class FileTransfer {
     	return file;     
     }
 
+    /**
+     * Copy a file. If the destination is already existing, it will be overwritten.
+     * @param in file source
+     * @param out file destination
+     * @throws IOException
+     */
     public static void copyFile(File in, File out) throws IOException {
     	if (out.exists()) { out.delete(); }
         FileChannel inChannel = new FileInputStream(in).getChannel();
@@ -73,8 +82,7 @@ public class FileTransfer {
             inChannel.transferTo(0, inChannel.size(), outChannel);
         } catch (IOException e) {
             throw e;
-        }
-        finally {
+        } finally {
             if (inChannel != null) inChannel.close();
             if (outChannel != null) outChannel.close();
         }
@@ -82,15 +90,23 @@ public class FileTransfer {
     
     /**
      * Move a file. If the target exists, it will be overwritten.
-     * @param f
-     * @param targetDir
-     * @param name
+     * @param f file to move
+     * @param targetDir directory to that the file should be moved
+     * @param name new name of the file
      * @throws IOException
      */
     public void moveFile(File f, File targetDir, String name) throws IOException {
     	moveFile(f, targetDir, name, true);
     }
 
+    /**
+     * Move a file.
+     * @param f file to move
+     * @param targetDir directory to that the file should be moved
+     * @param name new name of the file
+     * @param overwrite should an existing file be overwritten?
+     * @throws IOException
+     */
     public void moveFile(File f, File targetDir, String name, boolean overwrite) throws IOException{
         if (!f.exists()) {
             throw new FileNotFoundException("Tried to move file but it does not exist:" + f);
@@ -116,6 +132,12 @@ public class FileTransfer {
         }*/
     }
     
+    /**
+     * Move a file. If the target exists, it will be overwritten.
+     * @param f file to move
+     * @param targetDir directory to that the file should be moved
+     * @throws IOException
+     */
     public void moveFile(File f, File targetDir) throws IOException{
         moveFile(f, targetDir, f.getName());
     }

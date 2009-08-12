@@ -9,21 +9,19 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Relocate standard output stream to log file.
  */
-
-
 public class SystemPrintStream extends PrintStream {
     private static final Log logger = LogFactory.getLog(SystemPrintStream.class);
 
     private static final ByteArrayOutputStream stream = new ByteArrayOutputStream();
-    private final String  name;
+    private final String name;
     private boolean printToConsole = true;
 
     /**
      * Constructor
      *
      * @param name Name of stream, for logging info
+     * @param printToConsole print to console?
      */
-
     public SystemPrintStream(String name, boolean printToConsole) {
         super(stream, true);
         this.printToConsole = printToConsole;
@@ -34,7 +32,6 @@ public class SystemPrintStream extends PrintStream {
     /**
      * called after each println
      */
-
     private void logLine() {
         logger.info(name + ": " + stream.toString());
         stream.reset();
