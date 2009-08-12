@@ -26,7 +26,7 @@ public class VInfoFrame extends JFrame implements ActionListener {
     
 	/**
      * Constructor
-     * @param inputStream inputStream of xml-file.
+     * @param inputStreamList inputStream of xml-file.
      * @param comparator Comparator that can compare to version strings.
      * @param since version string since when (exclusive) changes should be shown.
      */

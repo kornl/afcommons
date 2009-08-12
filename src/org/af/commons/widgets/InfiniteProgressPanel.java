@@ -26,8 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Panel that shows some animated symbol for an arbitrary long process. 
- * 
+ * Panel that shows some animated symbol for an arbitrary long process.
  */
 public class InfiniteProgressPanel extends JComponent implements MouseListener, KeyListener {
 	private static final Log logger = LogFactory.getLog(InfiniteProgressPanel.class);
@@ -245,28 +244,18 @@ public class InfiniteProgressPanel extends JComponent implements MouseListener, 
         }
     }
 
-    // consume all input events
+    public void keyReleased(KeyEvent e) {}
 
+    public void keyTyped(KeyEvent e) {}
 
-    public void keyReleased(KeyEvent e) {
-    }
+    public void mouseClicked(MouseEvent e) {}
 
-    public void keyTyped(KeyEvent e) {
-    }
+    public void mousePressed(MouseEvent e) {}
 
-    public void mouseClicked(MouseEvent e) {
-    }
+    public void mouseReleased(MouseEvent e) {}
 
-    public void mousePressed(MouseEvent e) {
-    }
+    public void mouseEntered(MouseEvent e) {}
 
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    public void mouseExited(MouseEvent e) {
-    }
+    public void mouseExited(MouseEvent e) {}
 }
 

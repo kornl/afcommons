@@ -202,7 +202,7 @@ public class OSTools {
      * @param searchDir Files which contain these Strings as substrings should be searched.
      * @param searchFile Files which contain these Strings as substrings are final candidates.
      * @param directory is the file we are looking for a directory? 
-     * @return
+     * @return first directory that meet the demands
      */
 	public static String searchDir(String[] search, String[] searchDir, String[] searchFile, boolean directory) {
 		String result = "";

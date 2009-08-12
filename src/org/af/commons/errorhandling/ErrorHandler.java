@@ -131,7 +131,6 @@ public class ErrorHandler {
     /**
      * creates a dialog for a critical non-recoverable error
      * @param msg error message
-     * @param e cause of error
      */
     public void makeCritErrDialog(String msg) {
         new CriticalErrorDialog(msg==null?"No message/information available.":msg);

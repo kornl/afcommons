@@ -29,9 +29,9 @@ public class PDFHelper {
 	/**
 	 * Returns a com.lowagie.text.Image from a image or PDF file.
 	 * In the second case the first page of the PDF file is returned as image.
-	 * @param writer
-	 * @param file
-	 * @return
+	 * @param writer PdfWriter
+	 * @param file file to read
+	 * @return Image created from the file
 	 * @throws IOException
 	 * @throws BadElementException
 	 */	
@@ -49,9 +49,9 @@ public class PDFHelper {
 
 	/**
 	 * Returns a com.lowagie.text.Image from the first page of a PDF file. 
-	 * @param writer
-	 * @param file
-	 * @return
+	 * @param writer PdfWriter
+	 * @param file file to read
+	 * @return Image created from the file 
 	 * @throws IOException
 	 * @throws BadElementException
 	 */
@@ -64,7 +64,7 @@ public class PDFHelper {
 	/**
 	 * Determines whether a given file is a PDF file by extension.
 	 * [Alternatively we could test whether the first 4 byte are "%PDF-".]
-	 * @param file
+	 * @param file file to check
 	 * @return Has the given file the extension ".pdf"? (case insensitive)
 	 */
 	public static boolean isPDF(File file) {
@@ -78,13 +78,12 @@ public class PDFHelper {
 	}
 	
 	/**
-	 * Writes a Result-List and its list of files in a PDF document.
-	 * @param document PDF document
-	 * @param writer PdfWriter
-	 * @param result Result-List
-	 * @param plots List of plot files
-	 * @throws IOException 
-	 * @throws DocumentException
+	 * Creates a PdfPTable.
+	 * @param xtable xtable.get(i) represents the i-th row of the table
+	 * @param header column headers for the table
+	 * @return PdfPTable created from the arguments
+	 * @throws BadElementException
+	 * @throws IOException
 	 */
 	public static PdfPTable createTable(List<List<Object>> xtable, List<String> header) throws BadElementException, IOException {		
 		PdfPTable table = new PdfPTable(xtable.get(0).size());

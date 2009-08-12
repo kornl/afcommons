@@ -91,9 +91,9 @@ public class FileExtensionFilter
      
      
     /**
-     * accept file if it has the correct extension
+     * Accept file if it has the correct extension
      * @param f
-     * @return
+     * @return has file the correct extension?
      */
     public boolean accept(File f) {    	
     	for (String ext : extension) {

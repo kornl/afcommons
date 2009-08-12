@@ -67,8 +67,8 @@ public class WindowsDesktop {
 	 * Sets the icon for the desktop entry like "notepad.exe, 0".
 	 * @param iconpath Absolute path which will be used to specify the icon for the desktop entry.
 	 */
-	public void setIconpath(String exepath, int nr) {
-		this.iconpath = exepath+", "+nr;
+	public void setIconpath(String iconpath, int nr) {
+		this.iconpath = iconpath+", "+nr;
 	}
 	
 	/**
