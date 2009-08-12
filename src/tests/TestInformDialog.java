@@ -13,7 +13,7 @@ public class TestInformDialog {
         LoggingSystem.init("/commons-logging.properties", false, true, new ApplicationLog());
         // TODO remove
         LoggingSystem.getInstance();
-        ErrorHandler.init("bernd_bischl@gmx.net", true, true);
+        ErrorHandler.init("bernd_bischl@gmx.net", "", true, true);
         ErrorHandler.getInstance().makeInformDialog(null);
     }
 }

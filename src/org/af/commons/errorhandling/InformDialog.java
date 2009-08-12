@@ -56,13 +56,14 @@ public class InformDialog extends JDialog implements ActionListener{
     
     protected String developerAdress;
     
-    public String urlString = "http://www.algorithm-forge.com/test/uploader.php";
+    public String urlString;
 
-    protected InformDialog(Component parent, String developerAdress) {
-    	this(parent, developerAdress, null);
+    protected InformDialog(Component parent, String developerAdress, String urlString) {
+    	this(parent, developerAdress, urlString, null);
     }
     
-    protected InformDialog(Component parent, String developerAdress, String informMsg) {
+    protected InformDialog(Component parent, String developerAdress, String urlString, String informMsg) {
+    	this.urlString = urlString;
         this.informMsg = informMsg!=null?informMsg:"An error occured!  Please inform " + developerAdress +
                 " about the possible bug. If you have internet access you can probably use the form below. " +
                 "Otherwise send a mail manually with a short description.";

@@ -22,7 +22,7 @@ public class ErrorHandler {
     protected static ErrorHandler instance;
     // to mail in case of bug
     protected final String developerAddress;
-
+    protected final String reportURL;
 
 
     /**
@@ -33,10 +33,11 @@ public class ErrorHandler {
      * @param installDefaultExceptionHandlerOnEDT
      *    installs DefaultExceptionHandler on the current thread
      */
-    protected ErrorHandler(String developerAddress,
+    protected ErrorHandler(String developerAddress, String reportURL,
                            boolean installDefaultExceptionHandlerOnCurrentThread,
                            boolean installDefaultExceptionHandlerOnEDT) {
         this.developerAddress = developerAddress;
+        this.reportURL = reportURL;
         if (installDefaultExceptionHandlerOnCurrentThread)
             installDefaultExceptionHandlerOnCurrentThread();
         if (installDefaultExceptionHandlerOnEDT)
@@ -44,7 +45,7 @@ public class ErrorHandler {
     }
 
     /**
-     * Initialize the singelton error handler
+     * Initialize the singleton error handler
      *
      * @param developerAddress
      *    mail address of the developers, used in inform dialog (don't pass null)
@@ -54,7 +55,7 @@ public class ErrorHandler {
      *    installs DefaultExceptionHandler on the current thread
       *@throws RuntimeException when developerAddress is null or init was already called before
      */
-    public static void init(String developerAddress,
+    public static void init(String developerAddress, String reportURL,
                             boolean installDefaultExceptionHandlerOnCurrentThread,
                             boolean installDefaultExceptionHandlerOnEDT) {
         if (instance != null)
@@ -62,14 +63,14 @@ public class ErrorHandler {
         if (developerAddress == null)
             throw new RuntimeException("Don't pass null for the developer mail address!");
         System.out.println("Initializing ErrorHandler...");
-        instance = new ErrorHandler(developerAddress,
+        instance = new ErrorHandler(developerAddress, reportURL,
                 installDefaultExceptionHandlerOnCurrentThread,
                 installDefaultExceptionHandlerOnEDT);
     }
 
     /**
-     * @return the singelton instance
-     * @throws RuntimeException when not intialized before.
+     * @return the singleton instance
+     * @throws RuntimeException when not initialized before.
      */
     public static ErrorHandler getInstance() {
         if (instance == null) {
@@ -96,7 +97,7 @@ public class ErrorHandler {
     }
 
     /**
-     * creates a dialog for a criticial non-recoverable error
+     * creates a dialog for a critical non-recoverable error
      * @param msg error message
      * @param e cause of error
      */
@@ -105,7 +106,7 @@ public class ErrorHandler {
     }
     
     /**
-     * creates a dialog for a criticial non-recoverable error
+     * creates a dialog for a critical non-recoverable error
      * @param msg error message
      * @param e cause of error
      */
@@ -136,7 +137,7 @@ public class ErrorHandler {
      * @param owner parent frame
      */
     public void makeInformDialog(Window owner) {
-        new InformDialog(owner, developerAddress);
+        new InformDialog(owner, developerAddress, reportURL);
     }
     
     /**

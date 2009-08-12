@@ -59,7 +59,7 @@ public class TestErrorHandling extends JFrame implements ActionListener {
             LoggingSystem.getInstance();
         }
 
-        ErrorHandler.init("bernd_bischl@gmx.net", true, true);
+        ErrorHandler.init("bernd_bischl@gmx.net", "", true, true);
 
 //        TestErrorHandling teh = new TestErrorHandling();
 //        teh.pack();

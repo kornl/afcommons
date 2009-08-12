@@ -17,8 +17,8 @@ public class JXTable2 extends JXTable {
     }
 
     /**
-     * Single left clicks have a VERY strange behaviour, so we change them to double clicks here.
-    */
+     * Single left clicks have a VERY strange behavior, so we change them to double clicks here.
+     */
     protected void processMouseEvent(MouseEvent e) {
     	if (e.getClickCount()==1 && e.getButton() == MouseEvent.BUTTON1) {
     		super.processMouseEvent(new MouseEvent((Component)e.getSource(),
