@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.Hashtable;
 
 /**
- * Uploads String values and Files via HTTP. 
+ * Uploads String values and files via HTTP. 
  */
 public class HTTPPoster {
 
@@ -23,7 +23,7 @@ public class HTTPPoster {
 	String boundary =  "*****";
 	
 	/**
-	 * 
+	 * Uploads String values and files via HTTP.
 	 * @param urlString the URL to that we want to send a POST
 	 * @param table will be send as form-data
 	 * @param files will be attached

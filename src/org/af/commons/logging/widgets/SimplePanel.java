@@ -6,7 +6,6 @@ import javax.swing.JTextArea;
 
 import org.af.commons.logging.ApplicationLog;
 
-
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 

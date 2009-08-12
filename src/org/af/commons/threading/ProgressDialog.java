@@ -19,7 +19,6 @@ import org.af.commons.widgets.buttons.OkCancelButtonPane;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 

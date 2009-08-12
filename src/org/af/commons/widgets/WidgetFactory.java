@@ -19,7 +19,6 @@ import javax.swing.plaf.FontUIResource;
 import org.af.commons.widgets.buttons.HorizontalButtonPane;
 import org.af.commons.widgets.buttons.OkCancelButtonPane;
 
-
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 

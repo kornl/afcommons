@@ -16,7 +16,6 @@ import javax.swing.event.ListSelectionListener;
 
 import org.af.commons.collections.ListUtils;
 
-
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 

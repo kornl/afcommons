@@ -17,7 +17,6 @@ import org.af.commons.widgets.WidgetFactory;
 import org.af.commons.widgets.buttons.OkCancelButtonPane;
 import org.af.commons.widgets.lists.MyJComboBox;
 
-
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
