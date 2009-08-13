@@ -13,8 +13,6 @@
 	<property name="server.algo.login" value="rjavaweb"/>
 	<property name="server.algo.pass" value="${passwd.algof}"/>
 	<property name="server.algo.htdocs" value="/var/www/afcommons/doc/"/>
-
-	<property file="${content.root}/imported.properties"/>
 	
 	<target name="clean" description="cleanup all">
 			<delete dir="${output.dir}"/>
