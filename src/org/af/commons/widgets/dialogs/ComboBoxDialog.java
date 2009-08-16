@@ -1,7 +1,7 @@
 package org.af.commons.widgets.dialogs;
 
 import java.awt.Component;
-import java.awt.Window;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -26,7 +26,7 @@ public class ComboBoxDialog<E> extends JDialog implements ActionListener {
     private E result = null;
 
     public ComboBoxDialog(Component parent, String title, String msg, List<E> values, List<String> labels, E initVal) {
-        super((Window)null, title);
+        super((Frame)null, title);
         setModal(true);
         setLocationRelativeTo(parent);
         addWindowListener(new WindowAdapter(){
