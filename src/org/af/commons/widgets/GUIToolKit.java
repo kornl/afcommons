@@ -9,11 +9,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 
+import org.af.commons.images.filter.GaussianFilter;
 import org.jdesktop.jxlayer.JXLayer;
 import org.jdesktop.jxlayer.plaf.effect.BufferedImageOpEffect;
 import org.jdesktop.jxlayer.plaf.ext.LockableUI;
-
-import com.jhlabs.image.GaussianFilter;
 
 public class GUIToolKit {
     public static Frame findActiveFrame() {
