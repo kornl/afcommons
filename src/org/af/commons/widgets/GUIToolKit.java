@@ -1,6 +1,8 @@
 package org.af.commons.widgets;
 
 import java.awt.Frame;
+import java.awt.color.ColorSpace;
+import java.awt.image.ColorConvertOp;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -25,6 +27,9 @@ public class GUIToolKit {
     }
 
     public static BufferedImageOpEffect getDefaultLockedLayerEffect() {
+    	/* ColorConvertOp grayScale =
+    	        new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);    	 
+    	return new BufferedImageOpEffect(grayScale); */
         return new BufferedImageOpEffect(new GaussianFilter(5));
     }
 
