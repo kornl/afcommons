@@ -16,8 +16,8 @@ limitations under the License.
 
 package org.af.commons.images.filter;
 
-import java.util.*;
 import java.awt.Color;
+import java.util.Random;
 
 /**
  * Some more useful math functions for image processing.

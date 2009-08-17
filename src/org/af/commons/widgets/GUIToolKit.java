@@ -1,8 +1,6 @@
 package org.af.commons.widgets;
 
 import java.awt.Frame;
-import java.awt.color.ColorSpace;
-import java.awt.image.ColorConvertOp;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;

@@ -16,7 +16,8 @@ limitations under the License.
 
 package org.af.commons.images.filter;
 
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.Kernel;
 
 /**
  * A filter which applies Gaussian blur to an image. This is a subclass of ConvolveFilter

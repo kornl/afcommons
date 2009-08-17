@@ -1,6 +1,5 @@
 package org.af.commons.io;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
