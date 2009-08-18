@@ -80,7 +80,7 @@ public class WindowsDesktopShortcut extends DesktopShortcut {
         if (hotkey!=null) {
             cmds.add("objSC.HotKey = \""+hotkey+"\"");
         }
-        if (paramStr!=null && !paramStr.isEmpty()) {
+        if (paramStr!=null && !(paramStr.length()==0)) {
             paramStr = paramStr.replaceAll("\"", "\"\"");
             cmds.add("objSC.Arguments = \""+paramStr+"\"");
         }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 
 /**
  * CreateFreeDesktopStarter is a Class for creating desktop entries according to
@@ -61,20 +62,20 @@ public class FreeDesktopShortcut extends DesktopShortcut {
                 outputStream.close();
             }
         }
-        file.setExecutable(true);
+        
         /* This is a Wrapper for file.setExecutable(true);
          * that will do that for Java >=6 and nothing for
-         * Java 5.         
+         * Java 5.
+         */         
         Class<?> c = File.class;
-	    Class[] argTypes = new Class[] { Boolean.class };
-	    Method main;
+	    Class[] argTypes = new Class[] { boolean.class };	    
 		try {
-			main = c.getDeclaredMethod("setExecutable", argTypes);
-			main.invoke(file, (Boolean)true);
+			Method main = c.getDeclaredMethod("setExecutable", argTypes);
+			main.invoke(file, true);
 		} catch (Exception e) {
 			System.out.println("No method setExecutable in Java 5.");
 		}
-		*/
+		
         
 	}
 	public void setName(String name) {
