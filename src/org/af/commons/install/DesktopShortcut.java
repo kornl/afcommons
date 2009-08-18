@@ -10,33 +10,14 @@ public abstract class DesktopShortcut {
     protected String exec = null;
     protected String iconpath = null;
 
-    protected DesktopShortcut(File shortcutDir, String name) {
+    protected DesktopShortcut(File shortcutDir, String name, File exec) {
+        this(shortcutDir, name, exec.getAbsolutePath());
+    }
+
+    protected DesktopShortcut(File shortcutDir, String name, String exec) {
         this.shortcutDir = shortcutDir;
         this.name = name;
-    }
-
-    /**
-     * Returns the targetted executable for this shortcut.
-     * @return the targetted executable for this shortcut.
-     */
-    public String getExec() {
-        return exec;
-    }
-
-    /**
-     * Sets the targetted xecutable by for this shortcut.
-     * @param exec the targetted xecutable by for this shortcut.
-     */
-    public void setExec(String exec) {
         this.exec = exec;
-    }
-
-    /**
-     * Sets the targetted xecutable by for this shortcut.
-     * @param exec the targetted xecutable by for this shortcut.
-     */
-    public void setExec(File exec) {
-        this.exec = exec.getAbsolutePath();
     }
 
     /**

@@ -24,10 +24,22 @@ public class WindowsDesktopShortcut extends DesktopShortcut {
      * Constructor
      * @param shortcutDir Directory where shortcut is created.
      * @param name Visible name of the shortcut
+     * @param exec the targetted executable for this shortcut.
      */
-    public WindowsDesktopShortcut(File shortcutDir, String name) {
-        super(shortcutDir, name);
+    public WindowsDesktopShortcut(File shortcutDir, String name, File exec) {
+        super(shortcutDir, name, exec);
     }
+
+    /**
+     * Constructor
+     * @param shortcutDir Directory where shortcut is created.
+     * @param name Visible name of the shortcut
+     * @param exec the targetted executable for this shortcut.
+     */
+    public WindowsDesktopShortcut(File shortcutDir, String name, String exec) {
+        super(shortcutDir, name, exec);
+    }
+
 
 	public void setDescription(String description) {
 		this.description = description;

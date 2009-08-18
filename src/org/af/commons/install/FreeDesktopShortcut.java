@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Method;
 
 /**
  * CreateFreeDesktopStarter is a Class for creating desktop entries according to
@@ -29,9 +28,14 @@ public class FreeDesktopShortcut extends DesktopShortcut {
      * @param shortcutDir Directory where shortcut is created.
      * @param name Visible name of the shortcut
      */
-    public FreeDesktopShortcut(File shortcutDir, String name) {
-        super(shortcutDir, name);
+    public FreeDesktopShortcut(File shortcutDir, String name, File exec) {
+        super(shortcutDir, name, exec);
     }
+
+    public FreeDesktopShortcut(File shortcutDir, String name, String exec) {
+        super(shortcutDir, name, exec);
+    }
+
 
     public void createDesktopEntry() throws IOException {
 		String filename = name+".desktop";
