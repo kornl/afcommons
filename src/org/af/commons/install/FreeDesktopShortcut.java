@@ -15,7 +15,6 @@ import java.io.PrintWriter;
 
 public class FreeDesktopShortcut extends DesktopShortcut {
 
-	protected String application = "";
 	protected String genericname = null;
 	protected String comment = "";
 	protected boolean terminal = false;
@@ -77,10 +76,6 @@ public class FreeDesktopShortcut extends DesktopShortcut {
 		}
 		*/
         
-	}
-
-	public void setApplication(String application) {
-		this.application = application;
 	}
 
 	public void setName(String name) {
