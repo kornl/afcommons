@@ -1,9 +1,9 @@
 package tests;
 
-import java.io.IOException;
-
 import org.af.commons.OSTools;
 import org.af.commons.install.FreeDesktopShortcut;
+
+import java.io.IOException;
 
 public class FreeDesktopShortcutTest {
 	public static void main(String[] args) {
@@ -12,7 +12,7 @@ public class FreeDesktopShortcutTest {
 		//fd.addParameter("CMD BATCH");
 		//fd.addParameter(new File("/home/kornel/test.R"));
 		try {
-			fd.createDesktopEntry();
+			fd.create();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -9,11 +9,27 @@ public abstract class DesktopShortcut {
     protected File shortcutDir;
     protected String exec = null;
     protected String iconpath = null;
+    protected File workingDir = null;
+    protected String paramStr = "";
+    protected String description = null;
 
+
+    /**
+     * Constructor
+     * @param shortcutDir Directory where shortcut is created.
+     * @param name Visible name of the shortcut
+     * @param exec The targetted executable for this shortcut.
+     */
     protected DesktopShortcut(File shortcutDir, String name, File exec) {
         this(shortcutDir, name, exec.getAbsolutePath());
     }
 
+    /**
+     * Constructor
+     * @param shortcutDir Directory where shortcut is created.
+     * @param name Visible name of the shortcut
+     * @param exec The targetted executable for this shortcut. You can set an executable on the path here, but in general you should use the constructor with the File argument.
+     */
     protected DesktopShortcut(File shortcutDir, String name, String exec) {
         this.shortcutDir = shortcutDir;
         this.name = name;
@@ -21,28 +37,60 @@ public abstract class DesktopShortcut {
     }
 
     /**
+     * Returns the visble name of the shortcut.
+     * @return The visble name of the shortcut.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Returns the directory the shortcut will be created in.
+     * @return The directory the shortcut will be created in.
+     */
+    public File getShortcutDir() {
+        return shortcutDir;
+    }
+
+    /**
+     * Returns the targetted executable.
+     * @return The targetted executable.
+     */
+    public String getExec() {
+        return exec;
+    }
+
+    /**
      * Add a parameter to the executable.
-     * Paramteters are automatically separated by whitespaces.
+     * Parameters are automatically separated by whitespaces.
      * Don't forget to enclose file paths in extra quotes.
      * @param param added parameter for executable target.
      */
-    public abstract void addParameter(String param);
+    public void addParameter(String param) {
+        paramStr += " " + param;
+    }
 
+    /**
+     * Add a file path as parameter to the executable.
+     * Parameters are automatically separated by whitespaces.
+     * Automatically enclosed by quotes.
+     * @param param added parameter for executable target.
+     */
     public void addParameter(File param) {
         addParameter("\"" + param.getAbsolutePath() + "\"");
     }
 
     /**
-     * 
-     * @return
+     * Return the path to the used icon.
+     * @return Path to used icon.
      */
     public String getIconpath() {
         return iconpath;
     }
 
     /**
-     * Sets the icon for the desktop entry.
-     * @param icon Icon file which absolute path will be used to specify the icon for the desktop entry.
+     * Sets the icon for the desktop shortcut.
+     * @param icon Icon file for the desktop entry.
      */
     public void setIconpath(File icon) {
         this.iconpath = icon.getAbsolutePath();
@@ -50,17 +98,57 @@ public abstract class DesktopShortcut {
 
     /**
      * Sets the icon for the desktop entry.
-     * @param iconpath Absolute path which will be used to specify the icon for the desktop entry.
+     * @param iconpath Absolute path to specify the icon for the desktop entry.
      */
     public void setIconpath(String iconpath) {
         this.iconpath = iconpath;
     }
 
+    /**
+     * Sets the working directory for the desktop shortcut.
+     * @param workingDir The working directory for the desktop shortcut.
+     */
+    public void setWorkingDir(File workingDir) {
+        this.workingDir = workingDir;
+    }
 
     /**
-     *
-     * @throws java.io.IOException
+     * Sets the working directory for the desktop shortcut.
+     * @param workingDir The working directory for the desktop shortcut.
      */
-    public abstract void createDesktopEntry() throws IOException;
+    public void setWorkingDir(String workingDir) {
+        this.workingDir = new File(workingDir);
+    }
+
+    /**
+     * Returns the working directory for the desktop shortcut.
+     * @return  The working directory for the desktop shortcut.
+     */
+    public File getWorkingDir() {
+        return workingDir;
+    }
+
+
+    /**
+     * Returns the description for this shortcut.
+     * @return The description for this shortcut.
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Sets the description for this shortcut.
+     * @param description The description for this shortcut.
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Creates the shortcut. Call this once after you have passed all relevant settings.
+     * @throws java.io.IOException If something bad happens while writing the link.
+     */
+    public abstract void create() throws IOException;
 
 }

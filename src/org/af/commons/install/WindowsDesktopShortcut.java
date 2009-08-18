@@ -14,17 +14,14 @@ import java.util.Vector;
 
 public class WindowsDesktopShortcut extends DesktopShortcut {
 
-	protected String description = null;
 	protected String hotkey = null;
-	protected String workingDir = null;
     protected Integer windowsstyle = null;
-    protected String paramStr = "";
 
     /**
      * Constructor
      * @param shortcutDir Directory where shortcut is created.
      * @param name Visible name of the shortcut
-     * @param exec the targetted executable for this shortcut.
+     * @param exec The targetted executable for this shortcut.
      */
     public WindowsDesktopShortcut(File shortcutDir, String name, File exec) {
         super(shortcutDir, name, exec);
@@ -34,16 +31,12 @@ public class WindowsDesktopShortcut extends DesktopShortcut {
      * Constructor
      * @param shortcutDir Directory where shortcut is created.
      * @param name Visible name of the shortcut
-     * @param exec the targetted executable for this shortcut.
+     * @param exec The targetted executable for this shortcut. You can set an executable on the path here, but in general you should use the constructor with the File argument.
      */
     public WindowsDesktopShortcut(File shortcutDir, String name, String exec) {
         super(shortcutDir, name, exec);
     }
 
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
 
 	/**
      * Set HotKey like objSC.HotKey = "CTRL+ALT+SHIFT+X"; 
@@ -71,51 +64,39 @@ public class WindowsDesktopShortcut extends DesktopShortcut {
 		this.iconpath = iconpath+", "+nr;
 	}
 	
-	/**
-	 * 
-	 * @throws IOException
-	 */	
-    public void createDesktopEntry() throws IOException {
-    	
+    @Override
+    public void create() throws IOException {
+
         List<String> cmds = new Vector<String>();
         cmds.add("set objWSHShell = CreateObject(\"WScript.Shell\")");
         cmds.add("set objSC = objWSHShell.CreateShortcut(\"" + shortcutDir.getAbsolutePath() +
-        		"\\" + name  + ".lnk\")");
+                "\\" + name  + ".lnk\")");
         if (iconpath!=null) {
-        	cmds.add("objSC.IconLocation = \""+iconpath+"\"");
+            cmds.add("objSC.IconLocation = \""+iconpath+"\"");
         }
         if (description!=null) {
-        	cmds.add("objSC.Description = \""+description+"\"");
+            cmds.add("objSC.Description = \""+description+"\"");
         }
         if (hotkey!=null) {
-        	cmds.add("objSC.HotKey = \""+hotkey+"\"");
+            cmds.add("objSC.HotKey = \""+hotkey+"\"");
         }
         if (paramStr!=null && !paramStr.isEmpty()) {
-        	cmds.add("objSC.Arguments = \""+paramStr+"\"");
+            paramStr = paramStr.replaceAll("\"", "\"\"");
+            cmds.add("objSC.Arguments = \""+paramStr+"\"");
         }
         if (windowsstyle!=null) {
-        	cmds.add("objSC.WindowStyle = "+windowsstyle);
+            cmds.add("objSC.WindowStyle = "+windowsstyle);
         }
-        
+
         //TargetPath = Path to source file or folder
-        cmds.add("objSC.TargetPath = \"" + exec + "\"");	
+        cmds.add("objSC.TargetPath = \"" + exec + "\"");
         if (workingDir!=null) {
-        	cmds.add("objSC.WorkingDirectory = \"" + workingDir + "\"");
+            cmds.add("objSC.WorkingDirectory = \"" + workingDir.getAbsolutePath() + "\"");
         }
-		cmds.add("objSC.Save");
-        
+        cmds.add("objSC.Save");
+
         File makeLinkVbsFile = new File(System.getProperty("java.io.tmpdir"), "makeLink.vbs");
         OSTools.makeShellScript(makeLinkVbsFile, cmds);
         OSTools.runShellScript(makeLinkVbsFile, new File(System.getProperty("java.io.tmpdir")));
     }
-
-    public void addParameter(String param) {
-        param = param.replaceAll("\"", "\"\"");
-        paramStr = paramStr + " " + param;
-    }
-
-    public void setWorkingDir(String workingDir) {
-        this.workingDir = workingDir;
-    }
-
 }

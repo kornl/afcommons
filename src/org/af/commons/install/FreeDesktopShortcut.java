@@ -16,27 +16,31 @@ import java.io.PrintWriter;
 public class FreeDesktopShortcut extends DesktopShortcut {
 
 	protected String genericname = null;
-	protected String comment = "";
 	protected boolean terminal = false;
-	protected String path = "";
-	protected String paramStr = "";
-	protected IOException ioex = null;
 
     /**
      * Constructor
      * @param shortcutDir Directory where shortcut is created.
      * @param name Visible name of the shortcut
+     * @param exec The targetted executable for this shortcut.
      */
     public FreeDesktopShortcut(File shortcutDir, String name, File exec) {
         super(shortcutDir, name, exec);
     }
 
+    /**
+     * Constructor
+     * @param shortcutDir Directory where shortcut is created.
+     * @param name Visible name of the shortcut
+     * @param exec The targetted executable for this shortcut. You can set an executable on the path here, but in general you should use the constructor with the File argument.
+     */
     public FreeDesktopShortcut(File shortcutDir, String name, String exec) {
         super(shortcutDir, name, exec);
     }
 
 
-    public void createDesktopEntry() throws IOException {
+    @Override
+    public void create() throws IOException {
 		String filename = name+".desktop";
         PrintWriter outputStream = null;
 		File file = new File(shortcutDir, filename);
@@ -48,19 +52,15 @@ public class FreeDesktopShortcut extends DesktopShortcut {
 			if (genericname != null) outputStream.println("GenericName="+genericname);
 			outputStream.println("Type=Application");
 			if (iconpath != null) outputStream.println("Icon="+iconpath);
-			if (comment != null) outputStream.println("Comment="+comment);
+			if (description != null) outputStream.println("Comment="+description);
 			outputStream.println("Terminal="+(terminal==false?"false":"true"));			
 			outputStream.println("Exec="+exec + " " + paramStr );			
 			outputStream.println("# Desktop Entry created by CreateFreeDesktopStarter");
-        } catch (IOException ioex) {
-        	this.ioex = ioex;        	
         } finally {
             if (outputStream != null) {
                 outputStream.close();
             }
-            if (this.ioex!=null) throw ioex;
         }
-
         file.setExecutable(true);
         /* This is a Wrapper for file.setExecutable(true);
          * that will do that for Java >=6 and nothing for
@@ -77,7 +77,6 @@ public class FreeDesktopShortcut extends DesktopShortcut {
 		*/
         
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -86,31 +85,7 @@ public class FreeDesktopShortcut extends DesktopShortcut {
 		this.genericname = genericname;
 	}
 
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-
 	public void setTerminal(boolean terminal) {
 		this.terminal = terminal;
 	}
-
-    
-	public void addParameter(String param) {
-        paramStr += " " + param;
-//	    param.replaceAll("\\", "\\\\\\\\");
-//		param.replaceAll("`", "\\\\`");
-//		param.replaceAll("\"", "\\\\\"");
-//		param.replaceAll("$", "\\\\$");
-//        this.exec += " \""+param+"\"";
-	}
-
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-	public void setIoex(IOException ioex) {
-		this.ioex = ioex;
-	}
-	
 }
