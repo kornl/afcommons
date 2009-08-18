@@ -37,7 +37,6 @@ public class FreeDesktopShortcut extends DesktopShortcut {
 		String filename = name+".desktop";
         PrintWriter outputStream = null;
 		File file = new File(shortcutDir, filename);
-		System.out.println("File: "+file.getAbsolutePath());
 		try {
 			outputStream = new PrintWriter(new FileWriter(file));
 			outputStream.println("[Desktop Entry]");
