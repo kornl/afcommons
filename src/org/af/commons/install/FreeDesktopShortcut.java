@@ -14,35 +14,41 @@ import java.lang.reflect.Method;
  * See http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-1.0.html
  */
 
-public class FreeDesktop {
+public class FreeDesktopShortcut extends DesktopShortcut {
 
 	protected String application = "";
 	protected String name = "";
 	protected String genericname = null;
-	protected String iconpath = "";
 	protected String comment = "";
 	protected boolean terminal = false;
-	protected String exec = "";
 	protected String path = "";
-	
+	protected String paramStr = "";
 	protected IOException ioex = null;
-	
-    public void createDesktopEntry(File desktopDir, String nameOfEntry)
-            throws IOException {
-		String filename = nameOfEntry+".desktop";
+
+    /**
+     * Constructor
+     * @param shortcutDir Directory where shortcut is created.
+     * @param name Visible name of the shortcut
+     */
+    public FreeDesktopShortcut(File shortcutDir, String name) {
+        super(shortcutDir, name);
+    }
+
+    public void createDesktopEntry() throws IOException {
+		String filename = name+".desktop";
         PrintWriter outputStream = null;
-		File file = new File(desktopDir, filename);		
+		File file = new File(shortcutDir, filename);
 		try {
 			outputStream = new PrintWriter(new FileWriter(file));
 			outputStream.println("[Desktop Entry]");
 			outputStream.println("Version=1.0");
-			outputStream.println("Name="+nameOfEntry);
+			outputStream.println("Name="+name);
 			if (genericname != null) outputStream.println("GenericName="+genericname);
 			outputStream.println("Type=Application");
 			outputStream.println("Icon="+iconpath);
 			outputStream.println("Comment="+comment);
 			outputStream.println("Terminal="+(terminal==false?"false":"true"));			
-			outputStream.println("Exec="+exec);			
+			outputStream.println("Exec="+exec + " " + paramStr );			
 			outputStream.println("# Desktop Entry created by CreateFreeDesktopStarter");
         } catch (IOException ioex) {
         	this.ioex = ioex;	
@@ -81,21 +87,6 @@ public class FreeDesktop {
 		this.genericname = genericname;
 	}
 
-	/**
-	 * Sets the icon for the desktop entry.
-	 * @param icon Icon file which absolute path will be used to specify the icon for the desktop entry.
-	 */
-	public void setIconpath(File icon) {
-		this.iconpath = icon.getAbsolutePath();
-	}
-
-	/**
-	 * Sets the icon for the desktop entry.
-	 * @param iconpath Absolute path which will be used to specify the icon for the desktop entry.
-	 */
-	public void setIconpath(String iconpath) {
-		this.iconpath = iconpath;
-	}
 
 	public void setComment(String comment) {
 		this.comment = comment;
@@ -105,16 +96,14 @@ public class FreeDesktop {
 		this.terminal = terminal;
 	}
 
-	public void setExec(String exec) {
-		this.exec = exec;
-	}
-	
+    
 	public void addParameter(String param) {
-		param.replaceAll("\\", "\\\\\\\\");
-		param.replaceAll("`", "\\\\`");
-		param.replaceAll("\"", "\\\\\"");
-		param.replaceAll("$", "\\\\$");
-		this.exec += " \""+param+"\"";
+        paramStr += " " + param;
+//	    param.replaceAll("\\", "\\\\\\\\");
+//		param.replaceAll("`", "\\\\`");
+//		param.replaceAll("\"", "\\\\\"");
+//		param.replaceAll("$", "\\\\$");
+//        this.exec += " \""+param+"\"";
 	}
 
 	public void setPath(String path) {
