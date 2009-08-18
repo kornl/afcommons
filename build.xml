@@ -60,7 +60,6 @@
 	            <include name="commons-logging-1.1.1.jar"/>
 	            <include name="jxlayer.jar"/>
 	        	<include name="swing-worker-1.1.jar"/>
-	        	<include name="Filters.jar"/>
 	        	<include name="iText-2.1.4.jar"/>
 	        	<include name="log4j-1.2.15.jar"/>
 	        	<include name="forms-1.2.0.jar"/>
