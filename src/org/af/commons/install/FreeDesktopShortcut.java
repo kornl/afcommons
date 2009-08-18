@@ -17,7 +17,6 @@ import java.lang.reflect.Method;
 public class FreeDesktopShortcut extends DesktopShortcut {
 
 	protected String application = "";
-	protected String name = "";
 	protected String genericname = null;
 	protected String comment = "";
 	protected boolean terminal = false;
@@ -38,6 +37,7 @@ public class FreeDesktopShortcut extends DesktopShortcut {
 		String filename = name+".desktop";
         PrintWriter outputStream = null;
 		File file = new File(shortcutDir, filename);
+		System.out.println("File: "+file.getAbsolutePath());
 		try {
 			outputStream = new PrintWriter(new FileWriter(file));
 			outputStream.println("[Desktop Entry]");
@@ -45,13 +45,13 @@ public class FreeDesktopShortcut extends DesktopShortcut {
 			outputStream.println("Name="+name);
 			if (genericname != null) outputStream.println("GenericName="+genericname);
 			outputStream.println("Type=Application");
-			outputStream.println("Icon="+iconpath);
-			outputStream.println("Comment="+comment);
+			if (iconpath != null) outputStream.println("Icon="+iconpath);
+			if (comment != null) outputStream.println("Comment="+comment);
 			outputStream.println("Terminal="+(terminal==false?"false":"true"));			
 			outputStream.println("Exec="+exec + " " + paramStr );			
 			outputStream.println("# Desktop Entry created by CreateFreeDesktopStarter");
         } catch (IOException ioex) {
-        	this.ioex = ioex;	
+        	this.ioex = ioex;        	
         } finally {
             if (outputStream != null) {
                 outputStream.close();
@@ -59,10 +59,10 @@ public class FreeDesktopShortcut extends DesktopShortcut {
             if (this.ioex!=null) throw ioex;
         }
 
+        file.setExecutable(true);
         /* This is a Wrapper for file.setExecutable(true);
          * that will do that for Java >=6 and nothing for
-         * Java 5. 
-         */
+         * Java 5.         
         Class<?> c = File.class;
 	    Class[] argTypes = new Class[] { Boolean.class };
 	    Method main;
@@ -72,6 +72,7 @@ public class FreeDesktopShortcut extends DesktopShortcut {
 		} catch (Exception e) {
 			System.out.println("No method setExecutable in Java 5.");
 		}
+		*/
         
 	}
 
