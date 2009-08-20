@@ -1,6 +1,6 @@
 package org.af.commons.install;
 
-import org.af.commons.OSTools;
+import org.af.commons.tools.OSTools;
 
 import java.io.File;
 import java.io.IOException;

@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.af.commons.collections.ListUtils;
+import org.af.commons.tools.ListTools;
 
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
@@ -272,7 +272,7 @@ public class SplitList<T> extends JPanel implements ActionListener, ListSelectio
     }
 
     public List<String> getSelectedStrings() {
-        return ListUtils.toString(getRight());
+        return ListTools.toString(getRight());
     }
 
 

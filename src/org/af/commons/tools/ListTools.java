@@ -1,10 +1,10 @@
-package org.af.commons.collections;
+package org.af.commons.tools;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListUtils {
+public class ListTools {
 
     public static String[] toStringArray(List xs) {
         String[] res = new String[xs.size()];

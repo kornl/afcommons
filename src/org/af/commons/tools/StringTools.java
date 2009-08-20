@@ -1,8 +1,8 @@
-package org.af.commons;
+package org.af.commons.tools;
 /**
  * This class provides various static methods for handling String objects.
  */
-public class StringToolbox {
+public class StringTools {
 		
 	/**
 	 * Returns the substring up to the i-th occurrence of split.

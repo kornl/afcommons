@@ -1,4 +1,4 @@
-package org.af.commons;
+package org.af.commons.tools;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
