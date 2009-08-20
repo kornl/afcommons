@@ -123,6 +123,14 @@ public class OSTools {
     	// http://www.pathname.com/fhs/pub/fhs-2.3.html tells us, this Bourne command shell exists. 
     }
     
+    /**
+     * Runs a script. On a windows box it is executed via <code>cmd /c</code>, on a Unix system via a bash.
+     * @param script
+     * @param workingDir
+     * @param inputStreamLines
+     * @return the Process that runs this script
+     * @throws IOException
+     */
     public static Process runShellScript(File script, File workingDir, List<String> inputStreamLines) throws IOException{
     	ProcessBuilder pb;
     	if (OSTools.isWindows()) {
@@ -146,7 +154,16 @@ public class OSTools {
         return ps;
     }
 
-
+    /**
+     * Runs a script. On a windows box it is executed via <code>cmd /c</code>, on a Unix system via a bash. 
+     * @param script script to execute
+     * @param workingDir
+     * @param inputStreamLines
+     * @param outputStreamLines
+     * @return The exit code of the Process. Note that each line of the output is added to outputStreamLines.
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public static int runShellScript(File script,
                                      File workingDir,
                                      List<String> inputStreamLines,

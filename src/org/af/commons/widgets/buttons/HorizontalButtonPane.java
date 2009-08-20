@@ -9,8 +9,8 @@ import java.util.List;
  *
  */
 public class HorizontalButtonPane extends JPanel {
-    private final String[] cmds;
-    private final JButton[] buttons;
+    protected final String[] cmds;
+    protected final JButton[] buttons;
 
     public static final String OK_CMD = "OK";
     public static final String CANCEL_CMD = "CANCEL";
