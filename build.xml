@@ -5,8 +5,8 @@
 	<property name="dist" location="${content.root}/dist"/>
 	<property name="output.dir" location="${content.root}/classes"/>
 	
-	<property file="${content.root}/../imported.properties"/>
-		
+	<property file="${content.root}/imported.properties"/>
+
 	<property name="javadoc.dir" value="${content.root}/doc"/> 
 		
 	<property name="server.algo.ip" value="85.214.22.10"/>
