@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="afcommons">
-	
+
 	<dirname property="content.root" file="${ant.file}"/>
 	<property name="dist" location="${content.root}/dist"/>
 	<property name="output.dir" location="${content.root}/classes"/>
-	
+
 	<property file="${content.root}/imported.properties"/>
 
-	<property name="javadoc.dir" value="${content.root}/doc"/> 
-		
+	<property name="javadoc.dir" value="${content.root}/doc"/>
+
 	<property name="server.algo.ip" value="85.214.22.10"/>
 	<property name="server.algo.login" value="rjavaweb"/>
 	<property name="server.algo.pass" value="${passwd.algof}"/>
 	<property name="server.algo.htdocs" value="/var/www/afcommons/doc/"/>
-	
+
 	<target name="clean" description="cleanup all">
 			<delete dir="${output.dir}"/>
-			<delete dir="${dist}"/>				
+			<delete dir="${dist}"/>
 			<mkdir dir="${dist}"/>
-			<mkdir dir="${output.dir}"/>			
+			<mkdir dir="${output.dir}"/>
 	</target>
-	
-	
+
+
 	  <!-- JDK definitions -->
 	  <!-- TODO check whether these are necessary -->
 	  <path id="jdk.classpath.path">
@@ -39,16 +39,16 @@
 	      <include name="jre/lib/ext/sunpkcs11.jar"/>
 	    </fileset>
 	  </path>
-	
+
 	  <property name="jdk.classpath" value="jdk.classpath.path"/>
-	
+
 	<!-- Compiler options -->
 
 	<property name="compiler.debug" value="on"/>
 	<property name="compiler.generate.no.warnings" value="off"/>
 	<property name="compiler.args" value=""/>
 	<property name="compiler.max.memory" value="128m"/>
-	
+
 	<path id="sourcepath">
 	        <dirset dir="${content.root}">
 	            <include name="src"/>
@@ -66,43 +66,44 @@
                 <include name="wizard.jar"/>
 	        </fileset>
 	</path>
-	
+
 	<path id="complete.classpath">
 	        <path refid="libraries.classpath"/>
-	</path>	
-		
+	</path>
+
 	<target name="make_jar" depends="clean">
 	 	    <mkdir dir="${output.dir}"/>
 		    <javac destdir="${output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
-		           memorymaximumsize="${compiler.max.memory}" fork="true">
+		           memorymaximumsize="${compiler.max.memory}" fork="true"
+                   executable="${jdk.home}/bin/javac">
 		      <compilerarg line="${compiler.args}"/>
 		      <classpath refid="complete.classpath"/>
-		      <src refid="sourcepath"/>	      
+		      <src refid="sourcepath"/>
 		    </javac>
 		  	<mkdir dir="${output.dir}/org/af/commons/images"/>
 		  	<copy todir="${output.dir}/org/af/commons/images">
 		  	    <fileset dir="${content.root}/src/org/af/commons/images"/>
 		  	</copy>
-		 
+
 			<jar jarfile="${dist}/afcommons.jar" basedir="classes"/>
-		
+
 		    <copy todir="${dist}">
 		      <fileset dir="${content.root}/lib">
 		      	<include name="**"/>
 		      </fileset>
 		    </copy>
 	</target>
-	
+
     <target name="javadoc">
         <javadoc access="public" author="true" classpath="lib/wizard.jar:lib/forms-1.2.0.jar:lib/Filters.jar:lib/iText-2.1.4.jar:lib/jxlayer.jar:lib/mail.jar:lib/commons-logging-1.1.1.jar:lib/log4j-1.2.15.jar:lib/swing-worker-1.1.jar:lib/swingx-2008_05_18.jar" destdir="doc" doctitle="Algorithm-Forge Commons" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="org.af.commons.widgets.wizard,org.af.commons.logging.widgets,org.af.commons.io.pdf,org.af.commons,org.af.commons.install,org.af.commons.widgets.lists,org.af.commons.widgets.tables,org.af.commons.widgets.buttons,org.af.commons.widgets.vi,org.af.commons.errorhandling,org.af.commons.images,org.af.commons.widgets.validate,org.af.commons.io,org.af.commons.widgets.animated,org.af.commons.widgets.dialogs,org.af.commons.tools,org.af.commons.widgets,org.af.commons.threading,org.af.commons.logging" source="1.6" sourcepath="src" splitindex="true" use="true" version="true">
             <link href="http://java.sun.com/javase/6/docs/api/"/>
         </javadoc>
-        <echo>${server.algo.login} : ${server.algo.pass}</echo> 
+        <echo>${server.algo.login} : ${server.algo.pass}</echo>
     	<scp trust="true" todir="${server.algo.login}:${server.algo.pass}@${server.algo.ip}:${server.algo.htdocs}" verbose="true">
     	    	   	<fileset dir="${javadoc.dir}">
     	    	 		<include name="**/**"/>
     	    		</fileset>
-    	</scp>    
+    	</scp>
     </target>
-	
+
 </project>
