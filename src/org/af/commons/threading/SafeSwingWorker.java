@@ -1,12 +1,12 @@
 package org.af.commons.threading;
 
-import java.util.List;
-import java.util.Observer;
-import java.util.concurrent.CancellationException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingworker.SwingWorker;
+
+import java.util.List;
+import java.util.Observer;
+import java.util.concurrent.CancellationException;
 
 
 /**
@@ -53,7 +53,7 @@ public abstract class SafeSwingWorker<T, V> extends SwingWorker<T, V> {
      *
      * @param result computed value returned by the doInBackGround() method.
      */
-    protected abstract void onSuccess(T result);
+    protected void onSuccess(T result) {}
 
     /**
      * This method is called within the EDT when the doInBackground() method

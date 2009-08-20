@@ -4,7 +4,6 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.buttons.OKButtonPane;
-import org.af.commons.widgets.buttons.OkCancelButtonPane;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -20,6 +19,7 @@ import java.beans.PropertyChangeListener;
 
 /**
  * Dialog that visualizes the progess of a SafeSwingworker by using a ProgressPanel.
+ * The task is automatically started when the dialog is made visible.
  * @param <T> Result type of SafeSwingWorker
  * @param <V> Intermediate type of SafeSwingWorker
  */
@@ -28,7 +28,7 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
 
     private final SafeSwingWorker<T, V> task;
     private ProgressPanel<T, V> progressPanel;
-    private OkCancelButtonPane buttonPane = new OkCancelButtonPane();
+    private OKButtonPane buttonPane = new OKButtonPane();
     private JPanel extraPanel;
     private Component parent;
     private final boolean abortable;
@@ -47,6 +47,7 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
     public ProgressDialog(Component parent, String title, SafeSwingWorker<T, V> task,
                           boolean modal, boolean abortable, JPanel extraPanel) {
         super(SwingUtilities.getWindowAncestor(parent), title);
+        setModal(modal);
         this.parent = parent;
         this.task = task;
         if (extraPanel == null) extraPanel = new JPanel();
@@ -85,9 +86,8 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
      */
     private void makeComponents() {
         progressPanel = new ProgressPanel<T, V>(task);
-        buttonPane = new OkCancelButtonPane("Ok", "Abort");
-        buttonPane.setEnabled(0, false);
-        buttonPane.setEnabled(1, true);
+        buttonPane = new OKButtonPane("Abort");
+        buttonPane.setEnabled(true);
         buttonPane.addActionListener(this);
     }
 
@@ -113,8 +113,6 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
 
         pack();
         setLocationRelativeTo(parent);
-        setVisible(true);
-
     }
 
     /**
@@ -136,11 +134,6 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(OKButtonPane.OK_CMD)) {
-            // if button was pressed its enabled, which means we are done
-            onExit();
-        }
-        if (e.getActionCommand().equals(OKButtonPane.CANCEL_CMD)) {
-            // if cancel was pressed, onExit still handles it
             onExit();
         }
     }
@@ -170,8 +163,7 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
         if (closeOnFinish) {
             dispose();
         } else {
-            buttonPane.setEnabled(1, false);
-            buttonPane.setEnabled(0, true);
+            buttonPane.setText("Finish");
         }
     }
 
@@ -215,5 +207,12 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
                 }
             }
         }
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        if (b)
+            task.execute();
+        super.setVisible(b);
     }
 }

@@ -1,19 +1,14 @@
 package org.af.commons.widgets.buttons;
 
+import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.List;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JPanel;
 
 
 /**
  *
  */
 public class HorizontalButtonPane extends JPanel {
-    private static final long serialVersionUID = 1L;
     private final String[] cmds;
     private final JButton[] buttons;
 
@@ -57,4 +52,7 @@ public class HorizontalButtonPane extends JPanel {
         buttons[i].setEnabled(enabled);
     }
 
+    public void setText(int i, String text) {
+        buttons[i].setText(text);
+    }
 }

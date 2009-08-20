@@ -13,4 +13,8 @@ public class OKButtonPane extends HorizontalButtonPane{
         super(Arrays.asList(caption1), Arrays.asList(OK_CMD));
     }
 
+    public void setText(String text) {
+        setText(0, text);
+    }
+
 }
