@@ -203,7 +203,7 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
                 // cant abort, really quit?
                 int i = JOptionPane.showConfirmDialog(this, "This task is not abortable!\nReally quit program?", "Quit?", JOptionPane.YES_NO_OPTION);
                 if (i == JOptionPane.YES_OPTION) {
-                	//TODO CleanUpOnShutDown.getInstance().cleanUpAll();
+                	criticalAbort();
                 }
             }
         }
@@ -214,5 +214,12 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
         if (b)
             task.execute();
         super.setVisible(b);
+    }
+
+    /**
+     * Overwrite this to define what happens when the user insists on aborting an non-abortable task.
+     */
+    protected void criticalAbort() {
+        System.exit(1);
     }
 }
