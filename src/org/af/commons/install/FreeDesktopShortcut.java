@@ -7,11 +7,11 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
 /**
- * CreateFreeDesktopStarter is a Class for creating desktop entries according to
+ * Creates desktop entries according to
  * the "Desktop Entry Specification 1.0" of freedesktop.org, which is implemented  
  * for example by KDE and GNOME.
  * 
- * See http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-1.0.html
+ * See <a href="http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-1.0.html" target="_blank">http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-1.0.html</a>
  */
 
 public class FreeDesktopShortcut extends DesktopShortcut {

@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * 
- * \brief Die G9-Gui-Klasse stellt statische Methoden bereit, die auf
+ * Die G9-Gui-Klasse stellt statische Methoden bereit, die auf
  * java.awt.Graphics-Objekten arbeiten.
  * 
  * @version 26 Dec 2001
