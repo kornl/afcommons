@@ -32,7 +32,7 @@ public class TestProgressDialog {
         f.setVisible(true);
         Worker w = new Worker();
         ProgressDialog<Void, String> pd = new ProgressDialog<Void, String>(
-                lab, "pd", w, true, true);
+                f, "pd", w, true, true);
         pd.setVisible(true);
     }
 }
