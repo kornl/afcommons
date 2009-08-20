@@ -26,28 +26,77 @@ import java.beans.PropertyChangeListener;
 public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListener, ActionListener {
     private static final Log logger = LogFactory.getLog(ProgressDialog.class);
 
-    private final SafeSwingWorker<T, V> task;
+    private SafeSwingWorker<T, V> task;
     private ProgressPanel<T, V> progressPanel;
     private OKButtonPane buttonPane = new OKButtonPane();
     private JPanel extraPanel;
     private Component parent;
-    private final boolean abortable;
+    private boolean abortable;
     private boolean closeOnFinish = false;
 
 
     /**
      * Constructor
-     * @param parent Parent Component to place the dialog on.
+     * @param parent Parent frame to place the dialog on.
      * @param title Title of the dialog.
      * @param task Monitored task.
      * @param modal Use a modal dialog?
      * @param abortable Allowed to abort the task by closing the dialog? If not a warning is displayed that the application will exit.
      * @param extraPanel Additional panel, displayed above the message Panel.
      */
-    public ProgressDialog(Component parent, String title, SafeSwingWorker<T, V> task,
+    public ProgressDialog(Frame parent, String title, SafeSwingWorker<T, V> task,
                           boolean modal, boolean abortable, JPanel extraPanel) {
-        super(SwingUtilities.getWindowAncestor(parent), title);
-        setModal(modal);
+
+        super(parent, title, modal);
+        init(parent, title, task, modal, abortable, extraPanel);
+    }
+
+    /**
+     * Constructor
+     * @param parent Parent frame to place the dialog on.
+     * @param title Title of the dialog.
+     * @param task Monitored task.
+     * @param modal Use a modal dialog?
+     * @param abortable Allowed to abort the task by closing the dialog? If not a warning is displayed that the application will exit.
+     */
+    public ProgressDialog(Frame parent, String title, SafeSwingWorker<T, V> task,
+                          boolean modal, boolean abortable) {
+
+        this(parent, title, task, modal, abortable, new JPanel());
+    }
+
+
+    /**
+     * Constructor
+     * @param parent Parent dialog to place the dialog on.
+     * @param title Title of the dialog.
+     * @param task Monitored task.
+     * @param modal Use a modal dialog?
+     * @param abortable Allowed to abort the task by closing the dialog? If not a warning is displayed that the application will exit.
+     * @param extraPanel Additional panel, displayed above the message Panel.
+     */
+    public ProgressDialog(Dialog parent, String title, SafeSwingWorker<T, V> task,
+                          boolean modal, boolean abortable, JPanel extraPanel) {
+        super(parent, title, modal);
+        init(parent, title, task, modal, abortable, extraPanel);
+    }
+
+    /**
+     * Constructor
+     * @param parent Parent dialog to place the dialog on.
+     * @param title Title of the dialog.
+     * @param task Monitored task.
+     * @param modal Use a modal dialog?
+     * @param abortable Allowed to abort the task by closing the dialog? If not a warning is displayed that the application will exit.
+     */
+    public ProgressDialog(Dialog parent, String title, SafeSwingWorker<T, V> task,
+                          boolean modal, boolean abortable) {
+        this(parent, title, task, modal, abortable, new JPanel());
+    }
+
+
+    protected void init(Window parent, String title, SafeSwingWorker<T, V> task,
+                          boolean modal, boolean abortable, JPanel extraPanel) {
         this.parent = parent;
         this.task = task;
         if (extraPanel == null) extraPanel = new JPanel();
@@ -65,19 +114,38 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
         makeComponents();
         doTheLayout();
     }
- 
 
     /**
      * Constructor
-     * @param parent Parent Component to place the dialog on.
+     * @param parent Parent dialog to place the dialog on.
+     * @param title Title of the dialog.
+     * @param task Monitored task.
+     * @param modal Use a modal dialog?
+     * @param abortable Allowed to abort the task by closing the dialog? If not a warning is displayed that the application will exit.
+     * @param extraPanel Additional panel, displayed above the message Panel.
+     */
+
+    public static <T, V> ProgressDialog<T, V> make(Component parent, String title, SafeSwingWorker<T, V> task,
+                          boolean modal, boolean abortable, JPanel extraPanel) {
+        Window p = SwingUtilities.getWindowAncestor(parent);
+        if (p instanceof Frame)
+            return new ProgressDialog<T, V>((Frame)p, title, task, modal, abortable, extraPanel);
+        if (p instanceof Dialog)
+            return new ProgressDialog<T, V>((Dialog)p, title, task, modal, abortable, extraPanel);
+        return null;
+    }
+
+    /**
+     * Constructor
+     * @param parent Parent dialog to place the dialog on.
      * @param title Title of the dialog.
      * @param task Monitored task.
      * @param modal Use a modal dialog?
      * @param abortable Allowed to abort the task by closing the dialog? If not a warning is displayed that the application will exit.
      */
-    public ProgressDialog(Component parent, String title, SafeSwingWorker<T, V> task,
+    public static <T, V> ProgressDialog<T, V> make(Component parent, String title, SafeSwingWorker<T, V> task,
                           boolean modal, boolean abortable) {
-        this(parent, title, task, modal, abortable, new JPanel());
+        return make(parent, title, task, modal, abortable, new JPanel());
     }
 
 

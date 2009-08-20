@@ -1,10 +1,9 @@
 package org.af.commons;
 
+import javax.swing.*;
 import java.util.Locale;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
 public class Localizer {
 
@@ -50,8 +49,10 @@ public class Localizer {
     }
 
     public String getString(String key) {
-        if (appMessages.containsKey(key))
-            return appMessages.getString(key);
-        return defMessages.getString(key);
+        try {
+            return(appMessages.getString(key));
+        } catch (MissingResourceException e) {
+            return defMessages.getString(key);
+        }
 	}
 }
