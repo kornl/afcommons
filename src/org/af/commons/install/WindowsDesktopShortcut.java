@@ -14,7 +14,7 @@ import java.util.Vector;
 
 public class WindowsDesktopShortcut extends DesktopShortcut {
 
-	protected String hotkey = null;
+    protected String hotkey = null;
     protected Integer windowsstyle = null;
 
     /**

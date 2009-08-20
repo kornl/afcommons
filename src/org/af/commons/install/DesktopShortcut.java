@@ -3,14 +3,25 @@ package org.af.commons.install;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Abstract base class to create a shortcut on the desktop.
+ * Subclasses provide implementations for different operating systems.
+ */
 public abstract class DesktopShortcut {
 
+    // visible shortcut name
     protected String name;
+    // dir to place shortcut
     protected File shortcutDir;
+    // path to executable or shell command, without parameters
     protected String exec = null;
-    protected String iconpath = null;
-    protected File workingDir = null;
+    // string of parameters for executable
     protected String paramStr = "";
+    // absolute path to shortcut icon
+    protected String iconpath = null;
+    // working directory for shortcut
+    protected File workingDir = null;
+    // description string for shortcut
     protected String description = null;
 
 

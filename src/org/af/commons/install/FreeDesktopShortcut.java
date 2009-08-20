@@ -78,15 +78,36 @@ public class FreeDesktopShortcut extends DesktopShortcut {
 		
         
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
 
-	public void setGenericname(String genericname) {
+    /**
+     * Returns the generic name for this shortcut.
+     * @return The generic name for this shortcut.
+     */
+    public String getGenericname() {
+        return genericname;
+    }
+
+    /**
+     * Sets the generic name for this shortcut.
+     * @param genericname The generic name for this shortcut.
+     */
+    public void setGenericname(String genericname) {
 		this.genericname = genericname;
 	}
 
-	public void setTerminal(boolean terminal) {
+    /**
+     * Should the targeted executable be executed in the terminal?
+     * @return <code>true</code> iff the targeted executable should be executed in the terminal.
+     */
+    public boolean isTerminal() {
+        return terminal;
+    }
+
+    /**
+     * Set whether the targeted executable be executed in the terminal.
+     * @param terminal <code>true</code> iff the targeted executable should be executed in the terminal.
+     */
+    public void setTerminal(boolean terminal) {
 		this.terminal = terminal;
 	}
 }

@@ -1,24 +1,18 @@
 package org.af.commons.threading;
 
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.border.EmptyBorder;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 
 
 /**
@@ -39,6 +33,8 @@ public class ProgressPanel<T,V> extends JPanel implements PropertyChangeListener
     private JTextArea textArea;
 	// the monitored SwingWorker
     private SafeSwingWorker<T,V> task;
+
+    protected Date date;
 
 
     /**
@@ -104,6 +100,10 @@ public class ProgressPanel<T,V> extends JPanel implements PropertyChangeListener
         setBorder(new EmptyBorder(10,10,10,10));
     }
 
+    /**
+     * Return the progress bar.
+     * @return The progress bar.
+     */
     public JProgressBar getProgressBar() {
         return progressBar;
     }
@@ -144,7 +144,6 @@ public class ProgressPanel<T,V> extends JPanel implements PropertyChangeListener
         textArea.append(msg.toString() + "\n");
     }
     
-    protected Date date;
 	/**
      * Log running time.
 	 */
