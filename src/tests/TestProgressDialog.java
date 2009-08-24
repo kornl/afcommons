@@ -31,7 +31,7 @@ public class TestProgressDialog {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setVisible(true);
         Worker w = new Worker();
-        ProgressDialog<Void, String> pd = new ProgressDialog<Void, String>(
+        ProgressDialog<Void, String> pd = ProgressDialog.make(
                 f, "pd", w, true, true);
         pd.setVisible(true);
     }

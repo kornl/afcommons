@@ -3,12 +3,12 @@ package org.af.commons.threading;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import org.af.commons.errorhandling.ErrorHandler;
+import org.af.commons.widgets.WidgetFactory;
 import org.af.commons.widgets.buttons.OKButtonPane;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +16,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 
 /**
  * Dialog that visualizes the progess of a SafeSwingworker by using a ProgressPanel.
@@ -156,7 +157,6 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
         progressPanel = new ProgressPanel<T, V>(task);
         buttonPane = new OKButtonPane("Abort");
         buttonPane.setEnabled(true);
-        buttonPane.addActionListener(this);
     }
 
     /**
@@ -174,9 +174,9 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
 
         cp.add(extraPanel, cc.xyw(1, 1, 2));
         cp.add(progressPanel, cc.xyw(1, 3, 2));
-        cp.add(buttonPane, cc.xy(2, 5));
 
-        cp.setBorder(new EmptyBorder(10, 10, 10, 10));
+        cp = WidgetFactory.makeDialogPanelWithButtons(cp, buttonPane, this);
+
         setContentPane(cp);
 
         pack();
@@ -210,7 +210,7 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
      * Should the dialog automatically be closed when the task reaches 100% ?
      * @return True iff the dialog is automatically closed when the task reaches 100%.
      */
-    public boolean isCloseOnFinish() {
+    public boolean isCloseOnTaskIsFinished() {
         return closeOnFinish;
     }
 
@@ -218,9 +218,19 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
      * Set to true if the dialog should automatically be closed when the task reaches 100%.
      * @param closeOnFinish True iff the dialog is automatically closed when the task reaches 100%.
      */
-    public void setCloseOnFinish(boolean closeOnFinish) {
+    public void setCloseOnTaskIsFinished(boolean closeOnFinish) {
         this.closeOnFinish = closeOnFinish;
     }
+
+
+    /**
+     * Called when the user clicks the finish button and the task was done.
+     * Default behaviour is simply to dispose the dialog.
+     */
+    protected void onFinish() {
+        dispose();        
+    }
+
 
     /**
      * Called when task reaches 100%.
@@ -243,7 +253,7 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
     protected void onExit() {
         if (task.isDone()) {
             // we are done, everything ok
-            dispose();
+            onFinish();
         } else {
             if (abortable) {
                 // really abort?
@@ -289,5 +299,13 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
      */
     protected void criticalAbort() {
         System.exit(1);
+    }
+
+    /**
+     * Returns the associated task for the ProgressPanel.
+     * @return The associated task for the ProgressPanel.
+     */
+    public SafeSwingWorker<T, V> getTask() {
+        return task;
     }
 }
