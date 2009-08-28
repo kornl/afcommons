@@ -13,9 +13,9 @@ public class OkApplyCancelButtonPane extends HorizontalButtonPane {
      * Constructor
      */
     public OkApplyCancelButtonPane() {
-        this(Localizer.getInstance().getString("AFCOMMONS_BUTTONS_OK"),
+        this(Localizer.getInstance().getString("AFCOMMONS_WIDGETS_BUTTONS_OK"),
                 Localizer.getInstance().getString("AFCOMMONS_BUTTONS_APPLY"),
-                Localizer.getInstance().getString("AFCOMMONS_BUTTONS_CANCEL"));
+                Localizer.getInstance().getString("AFCOMMONS_WIDGETS_BUTTONS_CANCEL"));
     }
 
     /**

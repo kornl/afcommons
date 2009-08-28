@@ -14,7 +14,7 @@ public class OKButtonPane extends HorizontalButtonPane{
      * Constructor
      */
     public OKButtonPane() {
-        this(Localizer.getInstance().getString("AFCOMMONS_BUTTONS_OK"));
+        this(Localizer.getInstance().getString("AFCOMMONS_WIDGETS_BUTTONS_OK"));
     }
 
     /**

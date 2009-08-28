@@ -1,25 +1,18 @@
 package org.af.commons;
 
-import javax.swing.*;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Localizer {
 
     private static Localizer instance;
-    private Locale locale;;
-    private String language;
+    private Locale locale = Locale.getDefault();
+    private String language = "en";
     // store for all messages
-    private Properties props;
+    private Properties props = new Properties();
+    private List<String> bundles = new ArrayList<String>();
 
     protected Localizer() {
-        locale = Locale.getDefault();
-//        defMessages = ResourceBundle.getBundle("DefaultResources", locale);
-        Locale.setDefault(locale);
-        JOptionPane.setDefaultLocale(locale);
-
+        setLanguage("en");
 //        // do we really need this?
 //        UIManager.put("OptionPane.yesButtonText", "Yes");
 //        UIManager.put("OptionPane.noButtonText", "No");
@@ -27,21 +20,14 @@ public class Localizer {
 //        UIManager.put("OptionPane.titleText", "Select an Option");
     }
 
-    
-    public static void init(String language) {
-        System.out.println("Initializing Localizer: " + language);
-        instance = new Localizer(language);
-    }
-
 
     /**
-     * @return the singleton instance
-     * @throws RuntimeException when not initialized before.
+     * Get singleton instance.
+     * @return The singleton instance
      */
     public static Localizer getInstance() {
-        if (instance == null) {
-            throw new RuntimeException("Call ErrorHandler:init first!");
-        }
+        if (instance == null)
+            instance = new Localizer();
         return instance;
     }
 
@@ -50,6 +36,11 @@ public class Localizer {
      * @param name Name of the ResourceBundle. Has to be on the class path.
      */
     public void addResourceBundle(String name) {
+        bundles.add(name);
+        addResourceBundleProps(name);
+    }
+
+    protected void addResourceBundleProps(String name) {
         ResourceBundle rb = ResourceBundle.getBundle(name, locale);
         Enumeration<String> en = rb.getKeys();
         while (en.hasMoreElements()) {
@@ -57,6 +48,7 @@ public class Localizer {
             props.put(k, rb.getObject(k));
         }
     }
+
 
     /**
      * Returns the abbreviation of the current language, e.g. "en".
@@ -69,28 +61,40 @@ public class Localizer {
 
     /**
      * Sets the current language, e.g. "en".
-     * Note that this also sets the locale and will clear all current messages
-     * in thus Localizer.
+     * Note that this also sets the locale, will add the afcommons resource bundle
+     *  and will reload all previously added resource bundles.
      * @param lang Abbreviation of language.
      */
-    public String setLanguage(String lang) {
+    public void setLanguage(String lang) {
         this.language = lang;
+        Locale.setDefault(locale);
+        addResourceBundle("org.af.commons.widgets.ResourceBundle");
+        for (String b:bundles)
+            addResourceBundleProps(b);
     }
 
     /**
      * Get a localized string, probably for some widget or message.
      * @param key Key to access the string.
-     * @return Localized version of message string.
+     * @return Localized version of message string
+     * @exception MissingResourceException if no object for the given key can be found
      */
-    public String getString(String key) {
-        return props.getProperty(key);
+    public String getString(String key) throws MissingResourceException {
+        String s = props.getProperty(key);
+        if (s == null)
+            throw new MissingResourceException("Could not find message for key!",
+                    this.getClass().toString(), key);
+        return s;
 	}
 
     /**
-     * Deletes all currently set messages.
+     * Deletes all currently set messages and the cached list of added bundles, but will add
+     * the afcommons bundle at the end.
      */
-    public void clearAllStrings() {
+    public void clearAllAddedBundles() {
         props.clear();
+        bundles.clear();
+        addResourceBundle("org.af.commons.widgets.ResourceBundle");
     }
 
 }

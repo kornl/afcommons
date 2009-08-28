@@ -1,24 +1,30 @@
 package org.af.commons.widgets.validate;
 
+import org.af.commons.Localizer;
+
 public class RealTextField extends NumberTextField<Double> {
 
     private static final long serialVersionUID = 1L;
 
 
     public RealTextField(String name, int cols, double min, double max, boolean minInclusive, boolean maxInclusive) {
-        super(name, "real", cols, min, max, minInclusive, maxInclusive);
+        super(name, Localizer.getInstance().getString("AFCOMMONS_WIDGETS_VALIDATE_REAL"),
+                cols, min, max, minInclusive, maxInclusive);
     }
 
     public RealTextField(String name, int cols, double min, double max) {
-        super(name, "real", cols, min, max);
+        super(name, Localizer.getInstance().getString("AFCOMMONS_WIDGETS_VALIDATE_REAL"),
+                cols, min, max);
     }
 
     public RealTextField(String name, double min, double max, boolean minInclusive, boolean maxInclusive) {
-        super(name, "real", min, max, minInclusive, maxInclusive);
+        super(name, Localizer.getInstance().getString("AFCOMMONS_WIDGETS_VALIDATE_REAL"),
+                min, max, minInclusive, maxInclusive);
     }
 
     public RealTextField(String name, double min, double max) {
-        super(name, "real", min, max);
+        super(name, Localizer.getInstance().getString("AFCOMMONS_WIDGETS_VALIDATE_REAL"),
+                min, max);
     }
     public RealTextField(String name) {
         this(name, Integer.MIN_VALUE, Integer.MAX_VALUE);
