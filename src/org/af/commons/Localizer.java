@@ -6,7 +6,7 @@ public class Localizer {
 
     private static Localizer instance;
     private Locale locale = Locale.getDefault();
-    private String language = "en";
+    private String language = Locale.getDefault().getLanguage();
     // store for all messages
     private Properties props = new Properties();
     private List<String> bundles = new ArrayList<String>();
