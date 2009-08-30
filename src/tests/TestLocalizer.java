@@ -2,6 +2,7 @@ package tests;
 
 import org.af.commons.Localizer;
 import org.af.commons.widgets.WidgetFactory;
+import org.af.commons.widgets.validate.RealTextField;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,10 +24,10 @@ public class TestLocalizer extends JFrame{
 
     public static void main(String[] args) {
         Localizer loc = Localizer.getInstance();
-        loc.setLanguage("en");
+        loc.setLanguage("de");
 //        loc.addResourceBundle("MessageBundleDef");
         loc.addResourceBundle("org.af.commons.widgets.ResourceBundle");
-        System.out.println(loc.getString("AFCOMMONS_BUTTONS_APPLY"));
+        System.out.println(loc.getString("AFCOMMONS_WIDGETS_BUTTONS_OK"));
 
         new TestLocalizer();
 
@@ -49,9 +50,17 @@ public class TestLocalizer extends JFrame{
             bh.add(new JButton("bla2"));
             bh.setAlignmentX(Component.RIGHT_ALIGNMENT);
             add(bh);
-            JComponent bp = WidgetFactory.makeOkCancelButtonPanel();
-            bp.setAlignmentX(Component.RIGHT_ALIGNMENT);
-            add(bp);
+//            JComponent bp = WidgetFactory.makeOkCancelButtonPanel();
+//            bp.setAlignmentX(Component.RIGHT_ALIGNMENT);
+//            add(bp);
+//            bp = new OKButtonPane();
+//            bp.setAlignmentX(Component.RIGHT_ALIGNMENT);
+//            add(bp);
+//            bp = new OkApplyCancelButtonPane();
+//            bp.setAlignmentX(Component.RIGHT_ALIGNMENT);
+//            add(bp);
+//            add(new AddRemoveJListInteger(new Integer[]{1,2,3},"dd"));
+            add(new RealTextField("dsdsf",1,10));
         }
     }
 }

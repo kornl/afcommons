@@ -62,7 +62,7 @@ abstract public class NumberTextField<E extends Number> extends ValidatedTextFie
         Localizer loc = Localizer.getInstance();
         return getDescriptiveName() + ": " +
                 loc.getString("AFCOMMONS_WIDGETS_VALIDATE_ONLY") + " " +
-                type + " " + loc.getString("AFCOMMONS_WIDGETS_VALUES_IN") + " " +
+                type + " " + loc.getString("AFCOMMONS_WIDGETS_VALIDATE_VALUES_IN") + " " +
                 (minInclusive ? "[" : "]") +
                 min + ", " + ((max.doubleValue()==Double.MAX_VALUE)?"Inf":max) +
                 (maxInclusive ? "]" : "[" ) +

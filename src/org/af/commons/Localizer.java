@@ -82,7 +82,7 @@ public class Localizer {
     public String getString(String key) throws MissingResourceException {
         String s = props.getProperty(key);
         if (s == null)
-            throw new MissingResourceException("Could not find message for key!",
+            throw new MissingResourceException("Could not find message for key: " + key,
                     this.getClass().toString(), key);
         return s;
 	}
