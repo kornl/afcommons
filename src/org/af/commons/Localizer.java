@@ -2,6 +2,9 @@ package org.af.commons;
 
 import java.util.*;
 
+/**
+ * A Singleton that manages ResourceBundles and allows changing Locales and Languages.
+ */
 public class Localizer {
 
     private static Localizer instance;
@@ -13,11 +16,7 @@ public class Localizer {
 
     protected Localizer() {
         setLanguage("en");
-//        // do we really need this?
-//        UIManager.put("OptionPane.yesButtonText", "Yes");
-//        UIManager.put("OptionPane.noButtonText", "No");
-//        UIManager.put("OptionPane.cancelButtonText", "Cancel");
-//        UIManager.put("OptionPane.titleText", "Select an Option");
+        addResourceBundle("org.af.commons.widgets.ResourceBundle");
     }
 
 
@@ -67,8 +66,7 @@ public class Localizer {
      */
     public void setLanguage(String lang) {
         this.language = lang;
-        Locale.setDefault(locale);
-        addResourceBundle("org.af.commons.widgets.ResourceBundle");
+        Locale.setDefault(new Locale(lang));
         for (String b:bundles)
             addResourceBundleProps(b);
     }
