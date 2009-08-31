@@ -8,8 +8,6 @@ import java.util.*;
 public class Localizer {
 
     private static Localizer instance;
-    private Locale locale = Locale.getDefault();
-    private String language = Locale.getDefault().getLanguage();
     // store for all messages
     private Properties props = new Properties();
     private List<String> bundles = new ArrayList<String>();
@@ -50,11 +48,20 @@ public class Localizer {
 
 
     /**
+     * Returns the currently used Locale of the localizer.
+     * At the moment this is Locale.getDefault().
+     * @return The currently used Locale of the localizer.
+     */
+    public Locale getLocale() {
+        return Locale.getDefault();
+    }
+
+    /**
      * Returns the abbreviation of the current language, e.g. "en".
      * @return The abbreviation of the current language.
      */
     public String getLanguage() {
-        return language;
+        return getLocale().getLanguage();
     }
 
 
@@ -65,7 +72,6 @@ public class Localizer {
      * @param lang Abbreviation of language.
      */
     public void setLanguage(String lang) {
-        this.language = lang;
         Locale.setDefault(new Locale(lang));
         for (String b:bundles)
             addResourceBundleProps(b);
