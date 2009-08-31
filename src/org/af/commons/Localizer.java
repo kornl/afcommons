@@ -40,7 +40,7 @@ public class Localizer {
     }
 
     protected void addResourceBundleProps(String name) {
-        ResourceBundle rb = ResourceBundle.getBundle(name, locale);
+        ResourceBundle rb = ResourceBundle.getBundle(name);
         Enumeration<String> en = rb.getKeys();
         while (en.hasMoreElements()) {
             String k = en.nextElement();
