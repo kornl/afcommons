@@ -75,11 +75,14 @@ public class LoggingSystem {
 
     /**
      * @return Singleton instance.
-     * @throws RuntimeException when not intialized before.
      */
     public static LoggingSystem getInstance() {
-        if (instance == null)
-            throw new RuntimeException("Call LoggingSystem.init() first!");
+        if (instance == null) {
+        	init("default-commons-logging.properties",
+                false,
+                true,
+                new ApplicationLog());
+        }
         return instance;
     }
 
