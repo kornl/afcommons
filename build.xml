@@ -85,6 +85,14 @@
 		  	    <fileset dir="${content.root}/src/org/af/commons/images"/>
 		  	</copy>
 
+		   <copy todir="${output.dir}">
+		  	    <fileset dir="${content.root}/src">
+		  	       <include name="**/*.jpg"/>
+		  		   <include name="**/*.png"/>
+		  		   <include name="**/*.properties"/>
+		  		</fileset>
+		  	</copy>
+		
 			<jar jarfile="${dist}/afcommons.jar" basedir="classes"/>
 
 		    <copy todir="${dist}">
