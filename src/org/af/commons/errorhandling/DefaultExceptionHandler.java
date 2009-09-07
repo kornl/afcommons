@@ -56,7 +56,7 @@ public class DefaultExceptionHandler implements Thread.UncaughtExceptionHandler 
         if (e.getCause() != null) {
             logger.error("Caused by: " + e.getCause().getMessage(), e.getCause());
         }
-        ErrorHandler.getInstance().makeCritErrDialog(msg, e);
+        ErrorHandler.getInstance().makeErrDialog(msg, e, false);
     }
 }
 

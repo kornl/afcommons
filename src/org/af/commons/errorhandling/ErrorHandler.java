@@ -20,7 +20,8 @@ import org.apache.commons.logging.LogFactory;
 
 
 public class ErrorHandler {
-    // singelton
+
+	// singelton
     protected static ErrorHandler instance;
     // to mail in case of bug
     protected final String developerAddress;
@@ -105,7 +106,15 @@ public class ErrorHandler {
         return instance;
     }
 
-    /**
+    public String getDeveloperAddress() {
+		return developerAddress;
+	}
+
+	public String getReportURL() {
+		return reportURL;
+	}
+
+	/**
      * install the default exception handler on the current thread
      */
     private void installDefaultExceptionHandlerOnCurrentThread() {
@@ -120,39 +129,39 @@ public class ErrorHandler {
     }
 
     /**
-     * creates a dialog for a critical non-recoverable error
+     * creates a dialog for an error
      * @param msg error message
      * @param e cause of error
+     *  @param fatal is the error a fatal error and the application should be shut down
      */
-    public void makeCritErrDialog(String msg, Throwable e) {
-        new CriticalErrorDialog(msg==null?"No message/information available.":msg, e);
+    public void makeErrDialog(String msg, Throwable e, boolean fatal) {
+    	Class[] parameterTypes = {String.class, Throwable.class, boolean.class};
+    	Constructor con;
+		try {
+			con = informDialog.getConstructor(parameterTypes);
+			con.newInstance(msg, e, fatal);
+		} catch (Exception ex) {
+			// TODO What now?
+		}    
     }
     
     /**
-     * creates a dialog for a critical non-recoverable error
-     * @param msg error message
-     */
-    public void makeCritErrDialog(String msg) {
-        new CriticalErrorDialog(msg==null?"No message/information available.":msg);
-    }
-
-
-    /**
-     * creates a dialog for a recoverable error
+     * creates a dialog for an error
      * @param msg error message
      * @param e cause of error
      */
-    public void makeRecovErrDialog(String msg, Throwable e) {
-        new RecoverableErrorDialog(msg==null?"No message/information available.":msg, e);
+    public void makeErrDialog(String msg, Throwable e) {
+    	makeErrDialog(msg, e, false);
     }
-
+    
     /**
-     * creates a dialog for a recoverable error
+     * creates a dialog for an error
      * @param msg error message
      */
-    public void makeRecovErrDialog(String msg) {
-        new RecoverableErrorDialog(msg==null?"No message/information available.":msg);
+    public void makeErrDialog(String msg) {
+    	makeErrDialog(msg, null);
     }
+
 
     protected static Class informDialog;
     

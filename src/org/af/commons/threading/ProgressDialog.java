@@ -271,8 +271,8 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
                     }
                     // we could not cancel for some reason
                     if (tries <= 0 || interrupt != null) {
-                        ErrorHandler.getInstance().makeRecovErrDialog("Could not abort this task!",
-                                interrupt == null ? new RuntimeException() : interrupt);
+                        ErrorHandler.getInstance().makeErrDialog("Could not abort this task!",
+                                interrupt == null ? new RuntimeException() : interrupt, false);
                     } else {
                         dispose();
                     }
