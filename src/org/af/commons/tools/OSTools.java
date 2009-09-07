@@ -13,6 +13,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import org.af.commons.io.FilterContains;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -99,7 +101,7 @@ public class OSTools {
         PrintStream p;
         if (OSTools.isWindows()) {
             // make sure to use the write encoding for windows, so we get no problem with special charatcers like umlauts
-            p = new PrintStream(new FileOutputStream(target), true, "cp850");
+        	p = new PrintStream(new FileOutputStream(target), true, "UTF-8");
         }
         else {
             p = new PrintStream(new FileOutputStream(target));
