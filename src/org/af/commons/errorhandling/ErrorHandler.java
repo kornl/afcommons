@@ -89,7 +89,7 @@ public class ErrorHandler {
                             boolean installDefaultExceptionHandlerOnEDT) {
         init(developerAddress, reportURL,
                 installDefaultExceptionHandlerOnCurrentThread,
-                installDefaultExceptionHandlerOnEDT, InformDialog.class);
+                installDefaultExceptionHandlerOnEDT, ErrorDialog.class);
     }
 
     /**
@@ -141,7 +141,7 @@ public class ErrorHandler {
 			con = informDialog.getConstructor(parameterTypes);
 			con.newInstance(msg, e, fatal);
 		} catch (Exception ex) {
-			// TODO What now?
+			// TODO Oh, what now?
 		}    
     }
     
@@ -167,39 +167,6 @@ public class ErrorHandler {
     
     public static void setInformDialogClass(Class clazz) {
     	informDialog = clazz;
-    }
-
-	/**
-     * creates a inform dialog
-     * @param owner parent frame
-     */
-    public void makeInformDialog(Window owner) {
-    	Class[] parameterTypes = {Component.class, String.class, String.class};
-    	Constructor con;
-		try {
-			con = informDialog.getConstructor(parameterTypes);
-			con.newInstance(owner, developerAddress, reportURL);
-		} catch (Exception e) {
-			e.printStackTrace();
-			new InformDialog(owner, developerAddress, reportURL);
-		}        
-    }
-    
-    /**
-     * creates a inform dialog
-     * @param owner parent frame
-     * @param text text to display
-     */
-    public void makeInformDialog(Window owner, String text) {
-    	Class[] parameterTypes = {Component.class, String.class, String.class, String.class};
-    	Constructor con;
-		try {
-			con = informDialog.getConstructor(parameterTypes);
-			con.newInstance(owner, developerAddress, reportURL, text);			
-		} catch (Exception e) {
-			e.printStackTrace();
-			new InformDialog(owner, developerAddress, reportURL, text);
-		}        
     }
     
     

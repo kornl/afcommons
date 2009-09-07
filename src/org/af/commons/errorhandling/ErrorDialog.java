@@ -49,9 +49,9 @@ abstract public class ErrorDialog extends JDialog implements ActionListener {
     protected final Throwable e;
 
     // button to inform about the error
-    protected final JButton bInform = new JButton("Inform");
+    protected final JButton bInform = new JButton("Ok");
     // exit button
-    protected final JButton bExit = new JButton(getExitButtonLabel());
+    protected final JButton bExit = new JButton("Cancel");
     // display ok button?
     protected final boolean withOkButton;
     
@@ -79,7 +79,7 @@ abstract public class ErrorDialog extends JDialog implements ActionListener {
      * @param e   throwably which caused the error (don't pass null)
      * @param fatal is the error a fatal error and the application should be shut down
      */
-    protected ErrorDialog(String msg, Throwable e, boolean fatal) {
+    public ErrorDialog(String msg, Throwable e, boolean fatal) {
         super(GUIToolKit.findActiveFrame());
         this.msg = msg;
         this.e = e;
@@ -93,7 +93,7 @@ abstract public class ErrorDialog extends JDialog implements ActionListener {
             e.printStackTrace();
             logger.error("Exception:", e);
         }
-        setTitle(getDialogTitle());
+        setTitle("Error");
 
         // call onExit on close action, derived classes can override
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -230,17 +230,6 @@ abstract public class ErrorDialog extends JDialog implements ActionListener {
     protected void onCloseWindow() {
         
     }
-
-
-    /**
-     * @return label for the leftmost button, either "ok" or "exit", etc
-     */
-    abstract protected String getExitButtonLabel();
-
-    /**
-     * @return title for the dialog
-     */
-    abstract protected String getDialogTitle();
     
     protected JPanel getPanel(){
         JPanel p = new JPanel();
