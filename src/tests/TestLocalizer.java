@@ -1,11 +1,19 @@
 package tests;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.HeadlessException;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+
 import org.af.commons.Localizer;
 import org.af.commons.widgets.WidgetFactory;
 import org.af.commons.widgets.validate.RealTextField;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class TestLocalizer extends JFrame{
 

@@ -1,9 +1,9 @@
 package tests;
 
+import java.io.IOException;
+
 import org.af.commons.install.FreeDesktopShortcut;
 import org.af.commons.tools.OSTools;
-
-import java.io.IOException;
 
 public class FreeDesktopShortcutTest {
 	public static void main(String[] args) {

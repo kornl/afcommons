@@ -13,8 +13,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import org.af.commons.io.FilterContains;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

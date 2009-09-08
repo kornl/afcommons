@@ -1,14 +1,21 @@
 package org.af.commons.widgets.lists;
 
-import org.af.commons.Localizer;
-import org.af.commons.widgets.validate.ValidatedTextField;
-import org.af.commons.widgets.validate.ValidationException;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import org.af.commons.Localizer;
+import org.af.commons.widgets.validate.ValidatedTextField;
+import org.af.commons.widgets.validate.ValidationException;
 
 
 public class AddRemoveJList<E> extends JPanel implements ActionListener {

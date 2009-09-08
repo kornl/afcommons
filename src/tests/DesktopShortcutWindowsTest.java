@@ -1,9 +1,9 @@
 package tests;
 
-import org.af.commons.install.WindowsDesktopShortcut;
-
 import java.io.File;
 import java.io.IOException;
+
+import org.af.commons.install.WindowsDesktopShortcut;
 
 public class DesktopShortcutWindowsTest {
     public static void main(String[] args) {

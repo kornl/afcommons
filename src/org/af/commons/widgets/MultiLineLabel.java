@@ -1,7 +1,11 @@
 package org.af.commons.widgets;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+
+import javax.swing.JTextArea;
 
 /**
  * Special subclass of JTextArea to display long labels across multiple lines with word wrapping.

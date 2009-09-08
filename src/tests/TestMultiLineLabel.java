@@ -1,9 +1,10 @@
 package tests;
 
-import org.af.commons.widgets.MultiLineLabel;
+import java.awt.Color;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+
+import org.af.commons.widgets.MultiLineLabel;
 
 public class TestMultiLineLabel {
     public static void main(String[] args) {

@@ -1,9 +1,10 @@
 package tests;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 import org.af.commons.threading.ProgressDialog;
 import org.af.commons.threading.SafeSwingWorker;
-
-import javax.swing.*;
 
 
 class Worker extends SafeSwingWorker<Void, String> {

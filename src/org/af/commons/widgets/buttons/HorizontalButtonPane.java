@@ -1,8 +1,12 @@
 package org.af.commons.widgets.buttons;
 
-import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.List;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 
 /**

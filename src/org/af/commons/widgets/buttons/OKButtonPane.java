@@ -1,8 +1,8 @@
 package org.af.commons.widgets.buttons;
 
-import org.af.commons.Localizer;
-
 import java.util.Arrays;
+
+import org.af.commons.Localizer;
 
 /**
  * Horizontal button pane with 1 button: OK.

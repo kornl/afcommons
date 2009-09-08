@@ -1,12 +1,12 @@
 package org.af.commons.threading;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.jdesktop.swingworker.SwingWorker;
-
 import java.util.List;
 import java.util.Observer;
 import java.util.concurrent.CancellationException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.jdesktop.swingworker.SwingWorker;
 
 
 /**

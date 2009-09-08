@@ -20,8 +20,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import org.af.commons.io.FileTools;
-import org.af.commons.logging.LoggingSystem;
-import org.af.commons.logging.widgets.DetailsPanel;
 import org.af.commons.threading.SafeSwingWorker;
 import org.af.commons.widgets.GUIToolKit;
 import org.af.commons.widgets.buttons.OkCancelButtonPane;

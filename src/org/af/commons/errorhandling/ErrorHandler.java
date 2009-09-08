@@ -1,8 +1,6 @@
 package org.af.commons.errorhandling;
 
 
-import java.awt.Component;
-import java.awt.Window;
 import java.lang.reflect.Constructor;
 
 import org.apache.commons.logging.LogFactory;

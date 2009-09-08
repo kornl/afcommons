@@ -1,11 +1,11 @@
 package org.af.commons.install;
 
-import org.af.commons.tools.OSTools;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
+
+import org.af.commons.tools.OSTools;
 
 
 /**
