@@ -53,16 +53,12 @@ public class ErrorDialog extends JDialog implements ActionListener {
     // exit button
     protected final JButton bExit = new JButton("Cancel");
     // display ok button?
-    protected final boolean withOkButton;
+    protected final boolean fatal;
     
     // header, for err msg
     protected JTextArea taHeader;
-    // name of user
-    protected JTextField tfName;
-    // reply mail of user
-    protected JTextField tfEMail;
     // other contact details of user
-    protected JTextField tfOtherContact;
+    protected JTextField tfEMail;
     // description of error
     protected JTextArea taDesc;
     // buttons on bottom
@@ -75,15 +71,15 @@ public class ErrorDialog extends JDialog implements ActionListener {
     /**
      * Constructor
      *
-     * @param msg displayed error msg (don't pass null)
-     * @param e   throwably which caused the error (don't pass null)
+     * @param msg displayed error message (don't pass null)
+     * @param e   Throwable which caused the error (don't pass null)
      * @param fatal is the error a fatal error and the application should be shut down
      */
     public ErrorDialog(String msg, Throwable e, boolean fatal) {
         super(GUIToolKit.findActiveFrame());
         this.msg = msg;
         this.e = e;
-        this.withOkButton = fatal;
+        this.fatal = fatal;
         // if throwable was given, dump it to logger and std err
         // this prints the msg twice, but it only happens at the the end, so we don't care
         // and we make sure not to let it slip
@@ -96,7 +92,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                onCloseWindow();
+                onExit();
             }
         });
         makeComponents();
@@ -107,7 +103,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
     }
 
     /**
-     * create and initialize the widgets
+     * Create and initialize the widgets.
      */
     private void makeComponents() {
         bInform.addActionListener(this);
@@ -119,9 +115,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
         taHeader.setText(informMsg);
         taHeader.setWrapStyleWord(true);
         taHeader.setLineWrap(true);
-        tfName = new JTextField();
         tfEMail = new JTextField();
-        tfOtherContact = new JTextField();
         taDesc = new JTextArea(4,30);
         buttonPane = new OkCancelButtonPane();
         buttonPane.addActionListener(this);
@@ -129,23 +123,20 @@ public class ErrorDialog extends JDialog implements ActionListener {
 
 
     /**
-     * layout the widgets
-     * @param withDetails show the details panel?
+     * Arranges the widgets.
      */
-    protected void doTheLayout() {
+    private void doTheLayout() {
     	lockableUI = GUIToolKit.setContentPaneAsLockableJXLayer(getRootPane(), getPanel());
     	
         CellConstraints cc = new CellConstraints();
 
         JPanel cp = new JPanel();
-        String cols = "pref:grow, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
-        String rows = "pref, 5dlu, fill:pref:grow, 5dlu, pref";
+        String cols = "pref:grow, 5dlu, pref, 5dlu, pref";
+        String rows = "fill:pref:grow, 5dlu, pref";
         FormLayout layout = new FormLayout(cols, rows);
+        int row = 1;
 
         cp.setLayout(layout);
-
-        String msg2 = msg.replaceAll("\n", "<br>");
-        cp.add(new JLabel("<html>" + msg2 + "</html>"), cc.xyw(1, 1, 6));
         
         JTabbedPane dd = new JTabbedPane();
         dd.add("Report", getPanel());
@@ -169,11 +160,13 @@ public class ErrorDialog extends JDialog implements ActionListener {
             textArea.setEditable(false);
             dd.add(file.getName(), new JScrollPane(textArea));
         }
-        cp.add(dd, cc.xyw(1, 3, 6));
+        cp.add(dd, cc.xyw(1, row, 5));
         
-        cp.add(bExit, cc.xy(4, 5));
+        row +=2;
+        
+        cp.add(bExit, cc.xy(3, row));
 
-        cp.add(bInform, cc.xy(8, 5));
+        cp.add(bInform, cc.xy(5, row));
         cp.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(cp);
         pack();
@@ -181,7 +174,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
     }
 
     /**
-     * dispatch actions from buttons
+     * Dispatch actions from buttons
      *
      * @param e the action event
      */
@@ -196,6 +189,27 @@ public class ErrorDialog extends JDialog implements ActionListener {
     
 
     /**
+     * Handler for exit action. Overwrite this method if you want another behavior.
+     */
+    protected void onExit() {
+    	if (fatal) {
+    		int answer = JOptionPane.showConfirmDialog(this, "Since there was an unexpected severe error, it would be best to close the whole application. Is this okay?");
+    		if (answer == JOptionPane.OK_OPTION) {
+    			onShutdown();
+    		}
+    	}
+    	dispose();
+    }
+
+    /**
+     * Handler for shutdown. Overwrite this method if you want to do some cleanup.
+     * The default is a call of <code>System.exit(1);</code>.
+     */
+    protected void onShutdown() {
+		System.exit(1);		
+	} 
+
+    /**
      * Handler for inform button
      */
     protected void onInform() {
@@ -204,13 +218,16 @@ public class ErrorDialog extends JDialog implements ActionListener {
         SafeSwingWorker<Void, Void> worker = new SafeSwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {                
-                Hashtable<String,String> table = new Hashtable<String,String>();
-                table.put("Name", tfName.getText());
-                table.put("Email", tfEMail.getText());
-                table.put("Contact", tfOtherContact.getText());
-                table.put("Description", taDesc.getText());                
-                (new HTTPPoster()).post(ErrorHandler.getInstance().getReportURL(), table, getAttachedFiles());                
-                return null;
+            	Hashtable<String,String> table = new Hashtable<String,String>();
+            	table.put("Contact", tfEMail.getText());
+            	try {
+            		table.put("Shortinfo", "User "+ System.getProperty("user.name")+ " with Java "+System.getProperty("java.vm.version")+" on "+System.getProperty("os.name")+"; Language: "+System.getProperty("user.language")+", Desktop: "+System.getProperty("sun.desktop")+".");
+            	} catch (Exception e) { 
+            		// It is totally okay to ignore errors here...
+            	}
+            	table.put("Description", taDesc.getText());                
+            	(new HTTPPoster()).post(ErrorHandler.getInstance().getReportURL(), table, getAttachedFiles());                
+            	return null;
             }
             @Override
             protected void onSuccess(Void result) {
@@ -228,38 +245,20 @@ public class ErrorDialog extends JDialog implements ActionListener {
         };
         worker.execute();
     }
-
-    /**
-     * Handler for exit action
-     */
-    protected void onExit() {
-    	dispose();
-    }
-
-    /**
-     * Handler for ok action
-     */
-    protected void onOk() {
-        dispose();
-    }
-
-    /**
-     * Handler for closing of window
-     */
-    protected void onCloseWindow() {
-    	dispose();        
-    }    
     
     protected JPanel getPanel() {
         JPanel p = new JPanel();
         String cols = "left:pref, 5dlu, pref:grow";
-        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow";
+        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow";
         FormLayout layout = new FormLayout(cols, rows);
 
         p.setLayout(layout);
         CellConstraints cc = new CellConstraints();
 
         int row = 1;
+        
+        String msg2 = msg.replaceAll("\n", "<br>");
+        p.add(new JLabel("<html>" + msg2 + "</html>"),                  cc.xyw(1, row, 3));
         
         p.add(taHeader,                                                 cc.xyw(1, row, 3));
 
@@ -284,14 +283,18 @@ public class ErrorDialog extends JDialog implements ActionListener {
 
         return p;
     }
-
+    
+    /**
+     * Override this if you want to add an additional panel to the report panel.
+     * @return the optional JPanel for the report panel
+     */
     protected JPanel getOptionalPanel() {
-    	return  new JPanel();
+    	return new JPanel();
     }
     
     /**
      * Override this if you want to attach some files to the inform message.
-     * @return list of files
+     * @return Hashtable of files to attach for the report
      */
     protected Hashtable<String, File> getAttachedFiles() throws IOException {
         return new Hashtable<String, File>();
