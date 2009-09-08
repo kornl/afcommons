@@ -41,7 +41,7 @@ public class ErrorHandler {
                            boolean installDefaultExceptionHandlerOnEDT, Class clazz) {
         this.developerAddress = developerAddress;
         this.reportURL = reportURL;
-        setInformDialogClass(clazz);
+        setErrorDialogClass(clazz);
         if (installDefaultExceptionHandlerOnCurrentThread)
             installDefaultExceptionHandlerOnCurrentThread();
         if (installDefaultExceptionHandlerOnEDT)
@@ -138,7 +138,7 @@ public class ErrorHandler {
     	Class[] parameterTypes = {String.class, Throwable.class, boolean.class};
     	Constructor con;
 		try {
-			con = informDialog.getConstructor(parameterTypes);
+			con = errorDialog.getConstructor(parameterTypes);
 			con.newInstance(msg, e, fatal);
 		} catch (Exception ex) {
 			// TODO Oh, what now?
@@ -163,10 +163,10 @@ public class ErrorHandler {
     }
 
 
-    protected static Class informDialog;
+    protected static Class errorDialog;
     
-    public static void setInformDialogClass(Class clazz) {
-    	informDialog = clazz;
+    public static void setErrorDialogClass(Class clazz) {
+    	errorDialog = clazz;
     }
     
     

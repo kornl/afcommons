@@ -84,8 +84,6 @@ abstract public class ErrorDialog extends JDialog implements ActionListener {
         this.msg = msg;
         this.e = e;
         this.withOkButton = fatal;
-        setResizable(true);
-        setModal(true);
         // if throwable was given, dump it to logger and std err
         // this prints the msg twice, but it only happens at the the end, so we don't care
         // and we make sure not to let it slip
@@ -95,7 +93,6 @@ abstract public class ErrorDialog extends JDialog implements ActionListener {
         }
         setTitle("Error");
 
-        // call onExit on close action, derived classes can override
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -105,12 +102,14 @@ abstract public class ErrorDialog extends JDialog implements ActionListener {
         makeComponents();
         doTheLayout();
         setVisible(true);
+        setResizable(true);
+        setModal(true);
     }
 
     /**
      * create and initialize the widgets
      */
-    private void makeComponents() {
+    protected void makeComponents() {
         bInform.addActionListener(this);
         bExit.addActionListener(this);
         taHeader = new JTextArea(4,40);
@@ -173,11 +172,10 @@ abstract public class ErrorDialog extends JDialog implements ActionListener {
             onInform();
         }
     }
-
     
 
     /**
-     * handler for inform button
+     * Handler for inform button
      */
     protected void onInform() {
         lockableUI.setLocked(true);
@@ -211,31 +209,30 @@ abstract public class ErrorDialog extends JDialog implements ActionListener {
     }
 
     /**
-     * handler for exit action
+     * Handler for exit action
      */
     protected void onExit() {
     	dispose();
     }
 
     /**
-     * handler for ok action
+     * Handler for ok action
      */
     protected void onOk() {
         dispose();
     }
 
     /**
-     * handler for closing of window
+     * Handler for closing of window
      */
     protected void onCloseWindow() {
-        
-    }
+    	dispose();        
+    }    
     
     protected JPanel getPanel(){
         JPanel p = new JPanel();
         String cols = "left:pref, 5dlu, pref:grow";
-        // two additional rows to add something in subclasses, otherwise have to redo layout completely
-        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref";
+        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref";
         FormLayout layout = new FormLayout(cols, rows);
 
         p.setLayout(layout);
@@ -256,28 +253,26 @@ abstract public class ErrorDialog extends JDialog implements ActionListener {
         p.add(new JLabel("OPTIONAL: If you want to help or get feedback, give us some way to contact you:"), cc.xyw(1, row, 3));
         
         row += 2;
-
-        p.add(new JLabel("Your name"),                                  cc.xy(1, row));
-        p.add(tfName,                                                   cc.xy(3, row));
         
-        row += 2;
-
-        p.add(new JLabel("Email address"),                              cc.xy(1, row));
+        p.add(new JLabel("Optional contact (email, phone)"),            cc.xy(1, row));
         p.add(tfEMail,                                                  cc.xy(3, row));
+                
+        row += 2;
+        
+        p.add(getOptionalPanel(),                                       cc.xyw(1, row, 3));
         
         row += 2;
 
-        p.add(new JLabel("Other way of contact(e.g phone)"),            cc.xy(1, row));
-        p.add(tfOtherContact,                                           cc.xy(3, row));
-        
-        row += 2;
-
-        p.add(buttonPane,                                               cc.xyw(1, 15, 3, "right, bottom"));
+        p.add(buttonPane,                                               cc.xyw(1, 11, 3, "right, bottom"));
 
         p.setBorder(new EmptyBorder(5,5,5,5));
         return p;
     }
 
+    protected static JPanel getOptionalPanel() {
+    	return  new JPanel();
+    }
+    
     /**
      * Override this if you want to attach some files to the inform message.
      * @return list of files
