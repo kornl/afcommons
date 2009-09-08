@@ -109,7 +109,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
     /**
      * create and initialize the widgets
      */
-    protected void makeComponents() {
+    private void makeComponents() {
         bInform.addActionListener(this);
         bExit.addActionListener(this);
         taHeader = new JTextArea(4,40);
@@ -285,7 +285,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
         return p;
     }
 
-    protected static JPanel getOptionalPanel() {
+    protected JPanel getOptionalPanel() {
     	return  new JPanel();
     }
     
