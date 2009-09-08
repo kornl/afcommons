@@ -14,10 +14,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.af.commons.io.FileTools;
 import org.af.commons.logging.LoggingSystem;
 import org.af.commons.logging.widgets.DetailsPanel;
 import org.af.commons.threading.SafeSwingWorker;
@@ -147,7 +149,28 @@ abstract public class ErrorDialog extends JDialog implements ActionListener {
         String msg2 = msg.replaceAll("\n", "<br>");
         cp.add(new JLabel("<html>" + msg2 + "</html>"), cc.xyw(1, 1, 6));
         
-        DetailsPanel dd = LoggingSystem.getInstance().makeDetailsPanel();
+        JTabbedPane dd = new JTabbedPane();
+        dd.add("Report", getPanel());
+        
+        Hashtable<String, File> files = new Hashtable<String, File>();
+        try {
+			files = getAttachedFiles();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        for (File file : files.values()) {
+        	JTextArea textArea = new JTextArea(5, 10);
+            try {
+				textArea.setText(FileTools.readFileAsString(file));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            textArea.setEditable(false);
+            dd.add(file.getName(), new JScrollPane(textArea));
+        }
         cp.add(dd, cc.xyw(1, 3, 6));
         
         cp.add(bExit, cc.xy(4, 5));
@@ -229,10 +252,10 @@ abstract public class ErrorDialog extends JDialog implements ActionListener {
     	dispose();        
     }    
     
-    protected JPanel getPanel(){
+    protected JPanel getPanel() {
         JPanel p = new JPanel();
         String cols = "left:pref, 5dlu, pref:grow";
-        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow, 5dlu, pref";
+        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow";
         FormLayout layout = new FormLayout(cols, rows);
 
         p.setLayout(layout);
@@ -260,12 +283,7 @@ abstract public class ErrorDialog extends JDialog implements ActionListener {
         row += 2;
         
         p.add(getOptionalPanel(),                                       cc.xyw(1, row, 3));
-        
-        row += 2;
 
-        p.add(buttonPane,                                               cc.xyw(1, 11, 3, "right, bottom"));
-
-        p.setBorder(new EmptyBorder(5,5,5,5));
         return p;
     }
 
