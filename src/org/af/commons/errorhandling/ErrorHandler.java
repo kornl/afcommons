@@ -134,12 +134,14 @@ public class ErrorHandler {
      */
     public void makeErrDialog(String msg, Throwable e, boolean fatal) {
     	Class[] parameterTypes = {String.class, Throwable.class, boolean.class};
-    	Constructor con;
+    	Constructor con = null;
 		try {
 			con = errorDialog.getConstructor(parameterTypes);
 			con.newInstance(msg, e, fatal);
 		} catch (Exception ex) {
 			// TODO Oh, what now?
+			ex.printStackTrace();
+			System.out.println("Tried to instantiate "+errorDialog.getCanonicalName()+" with "+con.toGenericString()+".");
 		}    
     }
     

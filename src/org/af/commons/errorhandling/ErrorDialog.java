@@ -36,7 +36,7 @@ import com.jgoodies.forms.layout.FormLayout;
  * If you provided a DetailsPanelFactory in the ErrorHandler you can switch on the details panel.
  */
 
-abstract public class ErrorDialog extends JDialog implements ActionListener {
+public class ErrorDialog extends JDialog implements ActionListener {
 
     private static final long serialVersionUID = 1L;
 

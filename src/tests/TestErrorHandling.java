@@ -32,14 +32,17 @@ public class TestErrorHandling extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b1) {
+        	System.out.println("B1");
             ErrorHandler.getInstance().makeErrDialog(
                     "crit error!!!!", new RuntimeException("error!!!!"), true);
         }
         if (e.getSource() == b2) {
+        	System.out.println("B2");
             ErrorHandler.getInstance().makeErrDialog(
                     "recov error", new RuntimeException("recov error"), false);
         }
         if (e.getSource() == b3) {
+        	System.out.println("B3");
             throw new RuntimeException("sneaky");
         }
     }
