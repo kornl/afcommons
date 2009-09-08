@@ -1,17 +1,13 @@
 package tests;
 
-import java.awt.HeadlessException;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.logging.ApplicationLog;
 import org.af.commons.logging.LoggingSystem;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class TestErrorHandling extends JFrame implements ActionListener {
@@ -52,21 +48,22 @@ public class TestErrorHandling extends JFrame implements ActionListener {
 
         ApplicationLog appLog = new ApplicationLog();
 
-        if (JOptionPane.showConfirmDialog(null, "Init log. system?", "", JOptionPane.OK_CANCEL_OPTION)
-                == JOptionPane.OK_OPTION) {
-            LoggingSystem.init("/commons-logging.properties", false, true, appLog);
-            // TODO remove
-            LoggingSystem.getInstance();
-        }
+//        if (JOptionPane.showConfirmDialog(null, "Init log. system?", "", JOptionPane.OK_CANCEL_OPTION)
+//                == JOptionPane.OK_OPTION) {
+//            LoggingSystem.init("/commons-logging.properties", false, true, appLog);
+//            // TODO remove
+//            LoggingSystem.getInstance();
+//        }
 
+        LoggingSystem.init("/commons-logging.properties", false, true, appLog);
         ErrorHandler.init("bernd_bischl@gmx.net", "", true, true);
 
-//        TestErrorHandling teh = new TestErrorHandling();
-//        teh.pack();
-//        teh.setVisible(true);
+        TestErrorHandling teh = new TestErrorHandling();
+        teh.pack();
+        teh.setVisible(true);
 
 //         exc. on main thread / comment out to test rest
-        throw new RuntimeException("on main thread");
+//        throw new RuntimeException("on main thread");
     }
 
 }
