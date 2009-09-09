@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.logging.ApplicationLog;
+import org.af.commons.logging.LoggingSystem;
 
 
 public class TestErrorHandling extends JFrame implements ActionListener {
@@ -59,7 +60,8 @@ public class TestErrorHandling extends JFrame implements ActionListener {
 //            // TODO remove
 //            LoggingSystem.getInstance();
 //        }
-
+        
+        LoggingSystem.init("/commons-logging.properties", false, true, appLog);
         ErrorHandler.init("bernd_bischl@gmx.net", "", true, true);
 
         TestErrorHandling teh = new TestErrorHandling();
