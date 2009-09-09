@@ -1,13 +1,15 @@
 package tests;
 
-import org.af.commons.errorhandling.ErrorHandler;
-import org.af.commons.logging.ApplicationLog;
-import org.af.commons.logging.LoggingSystem;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+import org.af.commons.errorhandling.ErrorHandler;
+import org.af.commons.logging.ApplicationLog;
 
 
 public class TestErrorHandling extends JFrame implements ActionListener {
@@ -58,7 +60,6 @@ public class TestErrorHandling extends JFrame implements ActionListener {
 //            LoggingSystem.getInstance();
 //        }
 
-        LoggingSystem.init("/commons-logging.properties", false, true, appLog);
         ErrorHandler.init("bernd_bischl@gmx.net", "", true, true);
 
         TestErrorHandling teh = new TestErrorHandling();

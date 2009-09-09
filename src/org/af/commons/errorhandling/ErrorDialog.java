@@ -31,9 +31,8 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 /**
- * Base class for crit. & recoverable error dialogs. Error dialog is always a modal JFrame.
- * It conatins at least a message, a button to inform the developers and a button to exit.
- * If you provided a DetailsPanelFactory in the ErrorHandler you can switch on the details panel.
+ * Base class for critical and recoverable error dialogs.
+ * You can set the class which should be used as ErrorDialog.
  */
 
 public class ErrorDialog extends JDialog implements ActionListener {
@@ -43,7 +42,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
     protected static final Log logger = LogFactory.getLog(ErrorDialog.class);
 
 
-    // displayed err msg
+    // displayed error message
     protected final String msg;
     // throwable which caused the error, might be null
     protected final Throwable e;
@@ -52,10 +51,10 @@ public class ErrorDialog extends JDialog implements ActionListener {
     protected final JButton bInform = new JButton("Ok");
     // exit button
     protected final JButton bExit = new JButton("Cancel");
-    // display ok button?
+    // is this a fatal error?
     protected final boolean fatal;
     
-    // header, for err msg
+    // header, for error message
     protected JTextArea taHeader;
     // other contact details of user
     protected JTextField tfEMail;
@@ -63,7 +62,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
     protected JTextArea taDesc;
     // buttons on bottom
     protected OkCancelButtonPane buttonPane;
-    // msg in header
+    // message in header
     protected String informMsg = null;
     // to disable the whole dialog
     protected LockableUI lockableUI;
@@ -139,6 +138,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
         cp.setLayout(layout);
         
         JTabbedPane dd = new JTabbedPane();
+        dd.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         dd.add("Report", getPanel());
         
         Hashtable<String, File> files = new Hashtable<String, File>();
@@ -249,7 +249,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
     protected JPanel getPanel() {
         JPanel p = new JPanel();
         String cols = "left:pref, 5dlu, pref:grow";
-        String rows = "pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, fill:pref:grow";
+        String rows = "pref, 5dlu, pref:grow, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
         FormLayout layout = new FormLayout(cols, rows);
 
         p.setLayout(layout);

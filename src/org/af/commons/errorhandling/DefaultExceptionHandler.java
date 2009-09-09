@@ -5,19 +5,19 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * This class handles all throwables / exceptions in a consistent manner.
- * The handler has to be installed on every thread running in the programm.
+ * The handler has to be installed on every thread running in the program.
  * <p/>
  * At the moment all exceptions, their traces and causes are plotted
  * in the main log file. If GUI is present the user is informed
- * about the error by a popup window.
+ * about the error by a pop-up window.
  */
 
-// cannot make this singelton as EDT has to generate an instance by reflection...
+// cannot make this singleton as EDT has to generate an instance by reflection...
 public class DefaultExceptionHandler implements Thread.UncaughtExceptionHandler {
     private static final Log logger = LogFactory.getLog(DefaultExceptionHandler.class);
 
     /**
-     * Contructor
+     * Constructor
      */
     public DefaultExceptionHandler() {
         logger.info("DefaultExceptionHandler constructed.");
@@ -26,7 +26,7 @@ public class DefaultExceptionHandler implements Thread.UncaughtExceptionHandler 
     /**
      * Inherited method. Called when an uncaught exception is passed to the handler.
      *
-     * @param t Thread were exc. occured
+     * @param t Thread were the exception occurred
      * @param e Exception
      */
 
@@ -48,7 +48,7 @@ public class DefaultExceptionHandler implements Thread.UncaughtExceptionHandler 
      * Dump exception trace to log file. Then pop up window
      * to inform user about the error
      *
-     * @param threadName Thread were exc. occured
+     * @param threadName Thread were exception occurred
      * @param e Exception
      */
     private void handle(String threadName, Throwable e) {
