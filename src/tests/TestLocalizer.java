@@ -1,19 +1,11 @@
 package tests;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.HeadlessException;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-
 import org.af.commons.Localizer;
 import org.af.commons.widgets.WidgetFactory;
 import org.af.commons.widgets.validate.RealTextField;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class TestLocalizer extends JFrame{
 
@@ -32,10 +24,12 @@ public class TestLocalizer extends JFrame{
 
     public static void main(String[] args) {
         Localizer loc = Localizer.getInstance();
+        loc.setLanguage("en");
+//        loc.addResourceBundle("MessageBundleDef");
+        System.out.println(loc.getString("AFCOMMONS_WIDGETS_BUTTONS_APPLY"));
         loc.setLanguage("de");
 //        loc.addResourceBundle("MessageBundleDef");
-        loc.addResourceBundle("org.af.commons.widgets.ResourceBundle");
-        System.out.println(loc.getString("AFCOMMONS_WIDGETS_BUTTONS_OK"));
+        System.out.println(loc.getString("AFCOMMONS_WIDGETS_BUTTONS_APPLY"));
 
         new TestLocalizer();
 

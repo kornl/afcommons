@@ -1,82 +1,244 @@
 package org.af.commons.widgets;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import javax.swing.*;
+import java.awt.*;
+import java.util.Enumeration;
+import java.util.Vector;
 
-import javax.swing.JTextArea;
 
 /**
- * Special subclass of JTextArea to display long labels across multiple lines with word wrapping.
+ * Special subclass of Canvas to display long labels across multiple lines with word wrapping.
  */
-public class MultiLineLabel extends JTextArea{
 
-    private Color textColor;
-    private boolean antiAlias = false;
+public class MultiLineLabel extends JPanel {
 
-    /**
-     * Constructor
-     * @param text Displayed text
-     */
-    public MultiLineLabel(String text) {
-        this();
-        setText(text);
-    }
+    protected String text;
+    protected float m_nHAlign;
+    protected float m_nVAlign;
+    protected int baseline;
+    protected FontMetrics fm;
 
-    /**
-     * Constructor
-     */
     public MultiLineLabel() {
-        setEditable(false);
-        setEnabled(false);
-        setWrapStyleWord(true);
-        setLineWrap(true);
-        setOpaque(false);
-        setTextColor(Color.black);
+        this("");
     }
 
-    /**
-     * Returns color of displayed text. Default is Color.black.
-     * @return Color of displayed text.
-     */
-    public Color getTextColor() {
-        return textColor;
+    public MultiLineLabel(String s) {
+        this(s, Canvas.LEFT_ALIGNMENT, Canvas.CENTER_ALIGNMENT);
     }
 
-    /**
-     * Sets color of displayed text. Default is Color.black.
-     * @param textColor Color of displayed text.
-     */
-    public void setTextColor(Color textColor) {
-        this.textColor = textColor;
-        setForeground(textColor);
-        setDisabledTextColor(textColor);
+    public MultiLineLabel(String s, float nHorizontal, float nVertical) {
+        setText(s);
+        setHAlignStyle(nHorizontal);
+        setVAlignStyle(nVertical);
     }
 
-    /**
-     * Set whether anti-aliasing should be enabled for the text.
-     * @param antiAlias True if anti-aliasing should be enabled for the text.
-     */
-    public void setAntiAlias(boolean antiAlias) {
-        this.antiAlias = antiAlias;
+    public float getHAlignStyle() {
+        return m_nHAlign;
     }
 
-    /**
-     * Is anti-aliasing enabled for the text?
-     * @return Is true if anti-aliasing is enabled for the text.
-     */
-    public boolean isAntiAlias() {
-        return antiAlias;
+    public float getVAlignStyle() {
+        return m_nVAlign;
     }
 
+    public String getText() {
+        return text;
+    }
 
-    @Override
+    public void setHAlignStyle(float a) {
+        m_nHAlign = a;
+        invalidate();
+    }
+
+    public void setVAlignStyle(float a) {
+        m_nVAlign = a;
+        invalidate();
+    }
+
+    public void setText(String s) {
+        text = s;
+        repaint();
+    }
+
+    public String paramString() {
+        return "";
+    }
+
     public void paint(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
-        if (antiAlias) {
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        if (text != null) {
+            Dimension d;
+            int currentY = 0;
+            Vector lines;
+
+            // Set up some class variables
+
+            fm = getFontMetrics(getFont());
+            baseline = fm.getMaxAscent();
+
+            // Get the maximum height and width of the current control
+
+            d = getSize();
+
+            lines = breakIntoLines(text, d.width);
+
+            //if (m_nVAlign == V_ALIGN_CENTER)
+
+            if (m_nVAlign == Canvas.CENTER_ALIGNMENT) {
+                int center = (d.height / 2);
+                currentY = center - ((lines.size() / 2) * fm.getHeight());
+            }
+            //else if (m_nVAlign == V_ALIGN_BOTTOM)
+
+            else if (m_nVAlign == Canvas.BOTTOM_ALIGNMENT) {
+                currentY = d.height - (lines.size() * fm.getHeight());
+            }
+
+            // now we have broken into substrings, print them
+
+            Enumeration elements = lines.elements();
+            while (elements.hasMoreElements()) {
+                drawAlignedString(g,
+                        (String) (elements.nextElement()),
+                        0, currentY, d.width);
+                currentY += fm.getHeight();
+            }
+
+            // We're done with the font metrics...
+
+            fm = null;
         }
-        super.paint(g);
+    }
+
+
+    protected Vector breakIntoLines(String s, int width) {
+        int fromIndex = 0;
+        int pos = 0;
+        int bestpos;
+        String largestString;
+        Vector lines = new Vector();
+
+        // while we haven't run past the end of the string...
+
+        while (fromIndex != -1) {
+            // Automatically skip any spaces at the beginning of the line
+
+            while (fromIndex < text.length()
+                    && text.charAt(fromIndex) == ' ') {
+                ++fromIndex;
+                // If we hit the end of line
+
+                // while skipping spaces, we're done.
+
+                if (fromIndex >= text.length()) break;
+            }
+
+            // fromIndex represents the beginning of the line
+
+            pos = fromIndex;
+            bestpos = -1;
+            largestString = null;
+
+            while (pos >= fromIndex) {
+                boolean bHardNewline = false;
+                int newlinePos = text.indexOf('\n', pos);
+                int spacePos = text.indexOf(' ', pos);
+
+                if (newlinePos != -1 &&    // there is a newline and either
+
+                        ((spacePos == -1) ||  // 1. there is no space, or
+
+                                (spacePos != -1 &&
+                                        newlinePos < spacePos)))
+                // 2. the newline is first
+
+                {
+                    pos = newlinePos;
+                    bHardNewline = true;
+                } else {
+                    pos = spacePos;
+                    bHardNewline = false;
+                }
+
+                // Couldn't find another space?
+
+                if (pos == -1) {
+                    s = text.substring(fromIndex);
+                } else {
+                    s = text.substring(fromIndex, pos);
+                }
+
+                // If the string fits, keep track of it.
+
+                if (fm.stringWidth(s) < width) {
+                    largestString = s;
+                    bestpos = pos;
+
+                    // If we've hit the end of the
+
+                    // string or a newline, use it.
+
+                    if (bHardNewline)
+                        bestpos++;
+                    if (pos == -1 || bHardNewline) break;
+                } else {
+                    break;
+                }
+
+                ++pos;
+            }
+
+            if (largestString == null) {
+                // Couldn't wrap at a space, so find the largest line
+
+                // that fits and print that.  Note that this will be
+
+                // slightly off -- the width of a string will not necessarily
+
+                // be the sum of the width of its characters, due to kerning.
+
+                int totalWidth = 0;
+                int oneCharWidth = 0;
+
+                pos = fromIndex;
+
+                while (pos < text.length()) {
+                    oneCharWidth = fm.charWidth(text.charAt(pos));
+                    if ((totalWidth + oneCharWidth) >= width) break;
+                    totalWidth += oneCharWidth;
+                    ++pos;
+                }
+
+                lines.addElement(text.substring(fromIndex, pos));
+                fromIndex = pos;
+            } else {
+                lines.addElement(largestString);
+                fromIndex = bestpos;
+            }
+        }
+
+        return lines;
+    }
+
+
+    protected void drawAlignedString(Graphics g,
+                                     String s, int x, int y, int width) {
+        int drawx;
+        int drawy;
+
+        drawx = x;
+        drawy = y + baseline;
+
+        if (m_nHAlign != Canvas.LEFT_ALIGNMENT) {
+            int sw;
+
+            sw = fm.stringWidth(s);
+
+            if (m_nHAlign == Canvas.CENTER_ALIGNMENT) {
+                drawx += (width - sw) / 2;
+            } else if (m_nHAlign == Canvas.RIGHT_ALIGNMENT) {
+                drawx = drawx + width - sw;
+            }
+        }
+
+        g.drawString(s, drawx, drawy);
     }
 }

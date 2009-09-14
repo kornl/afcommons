@@ -1,5 +1,20 @@
 package org.af.commons.errorhandling;
 
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
+import org.af.commons.Localizer;
+import org.af.commons.io.FileTools;
+import org.af.commons.threading.SafeSwingWorker;
+import org.af.commons.widgets.GUIToolKit;
+import org.af.commons.widgets.MultiLineLabel;
+import org.af.commons.widgets.WidgetFactory;
+import org.af.commons.widgets.buttons.HorizontalButtonPane;
+import org.af.commons.widgets.buttons.OkCancelButtonPane;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.jdesktop.jxlayer.plaf.ext.LockableUI;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -8,29 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Hashtable;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
-
-import org.af.commons.Localizer;
-import org.af.commons.io.FileTools;
-import org.af.commons.threading.SafeSwingWorker;
-import org.af.commons.widgets.GUIToolKit;
-import org.af.commons.widgets.buttons.OkCancelButtonPane;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.jdesktop.jxlayer.plaf.ext.LockableUI;
-
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
-
 /**
  * Base class for critical and recoverable error dialogs.
  * You can set the class which should be used as ErrorDialog.
@@ -38,33 +30,24 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class ErrorDialog extends JDialog implements ActionListener {
 
-    private static final long serialVersionUID = 1L;
-
     protected static final Log logger = LogFactory.getLog(ErrorDialog.class);
-
 
     // displayed error message
     protected final String msg;
     // throwable which caused the error, might be null
     protected final Throwable e;
 
-    // button to inform about the error
-    protected final JButton bInform = new JButton(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_INFORM"));
-    // exit button
-    protected final JButton bExit = new JButton(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_EXIT"));
     // is this a fatal error?
     protected final boolean fatal;
     
     // header, for error message
-    protected JTextArea taHeader;
+    protected MultiLineLabel taHeader;
     // other contact details of user
     protected JTextField tfEMail;
     // description of error
     protected JTextArea taDesc;
-    // buttons on bottom
-    protected OkCancelButtonPane buttonPane;
     // message in header
-    protected String informMsg = null;
+    protected String informMsg = "";
     // to disable the whole dialog
     protected LockableUI lockableUI;
 
@@ -106,19 +89,9 @@ public class ErrorDialog extends JDialog implements ActionListener {
      * Create and initialize the widgets.
      */
     private void makeComponents() {
-        bInform.addActionListener(this);
-        bExit.addActionListener(this);
-        taHeader = new JTextArea(4,40);
-        taHeader.setEditable(false);
-        taHeader.setOpaque(false);
-        taHeader.setBorder(new EmptyBorder(20,20,20,20));
-        taHeader.setText(informMsg);
-        taHeader.setWrapStyleWord(true);
-        taHeader.setLineWrap(true);
+        taHeader = new MultiLineLabel(informMsg);
         tfEMail = new JTextField();
         taDesc = new JTextArea(4,30);
-        buttonPane = new OkCancelButtonPane();
-        buttonPane.addActionListener(this);
     }
 
 
@@ -127,17 +100,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
      */
     private void doTheLayout() {
     	lockableUI = GUIToolKit.setContentPaneAsLockableJXLayer(getRootPane(), getPanel());
-    	
-        CellConstraints cc = new CellConstraints();
 
-        JPanel cp = new JPanel();
-        String cols = "pref:grow, 5dlu, pref, 5dlu, pref";
-        String rows = "fill:pref:grow, 5dlu, pref";
-        FormLayout layout = new FormLayout(cols, rows);
-        int row = 1;
-
-        cp.setLayout(layout);
-        
         JTabbedPane dd = new JTabbedPane();
         dd.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
         dd.add(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_REPORT"), getPanel());
@@ -161,15 +124,10 @@ public class ErrorDialog extends JDialog implements ActionListener {
             textArea.setEditable(false);
             dd.add(file.getName(), new JScrollPane(textArea));
         }
-        cp.add(dd, cc.xyw(1, row, 5));
-        
-        row +=2;
-        
-        cp.add(bExit, cc.xy(3, row));
-
-        cp.add(bInform, cc.xy(5, row));
-        cp.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(cp);
+        HorizontalButtonPane bp = new OkCancelButtonPane(
+                Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_INFORM"),
+                Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_EXIT"));
+        setContentPane(WidgetFactory.makeDialogPanelWithButtons(dd, bp, this));
         pack();
         setLocationRelativeTo(getParent());
     }
@@ -180,10 +138,10 @@ public class ErrorDialog extends JDialog implements ActionListener {
      * @param e the action event
      */
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == bExit) {
+        if (e.getActionCommand().equals(HorizontalButtonPane.CANCEL_CMD)) {
             onExit();
         }
-        if (e.getSource() == bInform) {
+        if (e.getActionCommand().equals(HorizontalButtonPane.OK_CMD)) {
             onInform();
         }
     }
@@ -255,8 +213,9 @@ public class ErrorDialog extends JDialog implements ActionListener {
     
     protected JPanel getPanel() {
         JPanel p = new JPanel();
-        String cols = "left:pref, 5dlu, pref:grow";
-        String rows = "pref, 5dlu, pref:grow, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
+//        String cols = "left:pref, 5dlu, f:d:g";
+        String cols = "left:pref, 5dlu, f:d:g";
+        String rows = "pref, 5dlu, f:p:g, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
         FormLayout layout = new FormLayout(cols, rows);
 
         p.setLayout(layout);
@@ -266,26 +225,26 @@ public class ErrorDialog extends JDialog implements ActionListener {
         
         String msg2 = msg.replaceAll("\n", "<br>");
         p.add(new JLabel("<html>" + msg2 + "</html>"),                  cc.xyw(1, row, 3));
-        
+
         p.add(taHeader,                                                 cc.xyw(1, row, 3));
 
         row += 2;
-        
+
         p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_ERRORDESCRIPTION")),           cc.xy(1, row));
         JScrollPane sp1 = new JScrollPane(taDesc);
         p.add(sp1,                                                      cc.xy(3, row));
 
         row += 2;
-        
+
         p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_OPTIONAL")), cc.xyw(1, row, 3));
-        
+
         row += 2;
-        
+
         p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_CONTACT")),            cc.xy(1, row));
         p.add(tfEMail,                                                  cc.xy(3, row));
-                
+
         row += 2;
-        
+
         p.add(getOptionalPanel(),                                       cc.xyw(1, row, 3));
 
         return p;

@@ -1,10 +1,8 @@
 package tests;
 
-import java.awt.Color;
-
-import javax.swing.JFrame;
-
 import org.af.commons.widgets.MultiLineLabel;
+
+import javax.swing.*;
 
 public class TestMultiLineLabel {
     public static void main(String[] args) {
@@ -20,8 +18,8 @@ public class TestMultiLineLabel {
                 "aaa aaaaa bbbb aaaaaaaaaaaaaaa bbb aabbababa aabba aaabbxxx\n" +
                 "test dsf sdfsd f dsf sdfsdf sdfsdfsdfsdsdf  sdffsdsdfsdf sdfsdf"
         ) ;
-        lab.setAntiAlias(false);
-        lab.setTextColor(Color.green);
+//        lab.setAntiAlias(false);
+//        lab.setTextColor(Color.green);
         f.getContentPane().add(lab);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setVisible(true);
