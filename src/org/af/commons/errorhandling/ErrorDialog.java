@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.af.commons.Localizer;
 import org.af.commons.io.FileTools;
 import org.af.commons.threading.SafeSwingWorker;
 import org.af.commons.widgets.GUIToolKit;
@@ -48,9 +49,9 @@ public class ErrorDialog extends JDialog implements ActionListener {
     protected final Throwable e;
 
     // button to inform about the error
-    protected final JButton bInform = new JButton("Ok");
+    protected final JButton bInform = new JButton(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_INFORM"));
     // exit button
-    protected final JButton bExit = new JButton("Cancel");
+    protected final JButton bExit = new JButton(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_EXIT"));
     // is this a fatal error?
     protected final boolean fatal;
     
@@ -86,7 +87,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
             e.printStackTrace();
             logger.error("Exception:", e);
         }
-        setTitle("Error");
+        setTitle(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_TITLE"));
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -139,7 +140,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
         
         JTabbedPane dd = new JTabbedPane();
         dd.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-        dd.add("Report", getPanel());
+        dd.add(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_REPORT"), getPanel());
         
         Hashtable<String, File> files = new Hashtable<String, File>();
         try {
@@ -193,7 +194,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
      */
     protected void onExit() {
     	if (fatal) {
-    		int answer = JOptionPane.showConfirmDialog(this, "Since there was an unexpected severe error, it would be best to close the whole application. Is this okay?");
+    		int answer = JOptionPane.showConfirmDialog(this, Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_CONFIRM"));
     		if (answer == JOptionPane.OK_OPTION) {
     			onShutdown();
     		}
@@ -237,13 +238,13 @@ public class ErrorDialog extends JDialog implements ActionListener {
             }
             @Override
             protected void onSuccess(Void result) {
-                JOptionPane.showMessageDialog(ErrorDialog.this, "Report was sent.");
+                JOptionPane.showMessageDialog(ErrorDialog.this, Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_REPORT"));
                 dispose();
             }
 
             @Override
             protected void onFailure(Throwable t) {
-                String msg = "Could not connect to server and send report.\nPlease send mail manually!";
+                String msg = Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_PLEASE_MAIL");
                 logger.error(msg, t);
                 JOptionPane.showMessageDialog(ErrorDialog.this, msg);
                 lockableUI.setLocked(false);
@@ -270,17 +271,17 @@ public class ErrorDialog extends JDialog implements ActionListener {
 
         row += 2;
         
-        p.add(new JLabel("When / How did the error happen?"),           cc.xy(1, row));
+        p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_ERRORDESCRIPTION")),           cc.xy(1, row));
         JScrollPane sp1 = new JScrollPane(taDesc);
         p.add(sp1,                                                      cc.xy(3, row));
 
         row += 2;
         
-        p.add(new JLabel("OPTIONAL: If you want to help or get feedback, give us some way to contact you:"), cc.xyw(1, row, 3));
+        p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_OPTIONAL")), cc.xyw(1, row, 3));
         
         row += 2;
         
-        p.add(new JLabel("Optional contact (email, phone)"),            cc.xy(1, row));
+        p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_CONTACT")),            cc.xy(1, row));
         p.add(tfEMail,                                                  cc.xy(3, row));
                 
         row += 2;
