@@ -108,22 +108,16 @@ public class ErrorDialog extends JDialog implements ActionListener {
         Hashtable<String, File> files = new Hashtable<String, File>();
         try {
 			files = getAttachedFiles();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+            for (File file : files.values()) {
+                JTextArea textArea = new JTextArea(5, 10);
+                textArea.setText(FileTools.readFileAsString(file));
+                textArea.setEditable(false);
+                dd.add(file.getName(), new JScrollPane(textArea));
+            }
+        } catch (IOException e) {
+			JOptionPane.showMessageDialog(this, Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_IOERR"));
 		}
         
-        for (File file : files.values()) {
-        	JTextArea textArea = new JTextArea(5, 10);
-            try {
-				textArea.setText(FileTools.readFileAsString(file));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            textArea.setEditable(false);
-            dd.add(file.getName(), new JScrollPane(textArea));
-        }
         HorizontalButtonPane bp = new OkCancelButtonPane(
                 Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_INFORM"),
                 Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_EXIT"));
@@ -196,7 +190,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
             }
             @Override
             protected void onSuccess(Void result) {
-                JOptionPane.showMessageDialog(ErrorDialog.this, Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_REPORT"));
+                JOptionPane.showMessageDialog(ErrorDialog.this, Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_REPORTSENT"));
                 dispose();
             }
 
