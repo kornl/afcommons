@@ -50,8 +50,8 @@ public class TestErrorHandling extends JFrame implements ActionListener {
         }
     }
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) {   	
+    
         ApplicationLog appLog = new ApplicationLog();
 
 //        if (JOptionPane.showConfirmDialog(null, "Init log. system?", "", JOptionPane.OK_CANCEL_OPTION)
@@ -64,6 +64,13 @@ public class TestErrorHandling extends JFrame implements ActionListener {
         LoggingSystem.init("/commons-logging.properties", false, true, appLog);
         ErrorHandler.init("bernd_bischl@gmx.net", "", true, true);
 
+        System.out.println("User "+ System.getProperty("user.name", "<unknown user name>")+ 
+        		" with Java "+System.getProperty("java.version", "<unknown java version>")+ 
+        		" from "+ System.getProperty( "java.vm.vendor", "<unknown vendor>" )+
+        		" on "+System.getProperty("os.name", "<unknown OS>")+" / "+ System.getProperty("os.arch", "<unknown OS architecture>")+
+        		"; Language: "+System.getProperty("user.language", "<unknown language>")+
+        		", Desktop: "+System.getProperty("sun.desktop", "<unknown desktop>")+"."); 
+        
         TestErrorHandling teh = new TestErrorHandling();
         teh.pack();
         teh.setVisible(true);

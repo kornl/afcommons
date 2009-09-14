@@ -221,9 +221,15 @@ public class ErrorDialog extends JDialog implements ActionListener {
             	Hashtable<String,String> table = new Hashtable<String,String>();
             	table.put("Contact", tfEMail.getText());
             	try {
-            		table.put("Shortinfo", "User "+ System.getProperty("user.name", "<unknown user name>")+ " with Java "+System.getProperty("java.version", "<unknown java version>")+" on "+System.getProperty("os.name", "<unknown OS>")+"; Language: "+System.getProperty("user.language", "<unknown language>")+", Desktop: "+System.getProperty("sun.desktop", "<unknown desktop>")+".");
-            	} catch (Exception e) { 
+            		table.put("Shortinfo", "User "+ System.getProperty("user.name", "<unknown user name>")+ 
+                    		" with Java "+System.getProperty("java.version", "<unknown java version>")+ 
+                    		" from "+ System.getProperty( "java.vm.vendor", "<unknown vendor>" )+
+                    		" on "+System.getProperty("os.name", "<unknown OS>")+" / "+ System.getProperty("os.arch", "<unknown OS architecture>")+
+                    		"; Language: "+System.getProperty("user.language", "<unknown language>")+
+                    		", Desktop: "+System.getProperty("sun.desktop", "<unknown desktop>")+".");
+            	} catch (Exception e) {
             		// It is totally okay to ignore errors here...
+            		e.printStackTrace();            		
             	}
             	table.put("Description", taDesc.getText());                
             	(new HTTPPoster()).post(ErrorHandler.getInstance().getReportURL(), table, getAttachedFiles());                
