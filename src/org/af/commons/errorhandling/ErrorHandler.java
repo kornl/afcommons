@@ -6,20 +6,20 @@ import java.lang.reflect.Constructor;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Manager class which handles everything concerning the errorhandling.
+ * Manager class which handles everything concerning the error handling.
  * You can:
  *   - install default exception handlers on the current thread and the EDT
  *   - make GUI dialogs for different error types
  *   - make a GUI dialog to inform about an error / bug and mail logging info 
-
- * The class is singelton but can be extended by inheritance. For that reason the only creation
+ *   
+ * The class is singleton but can be extended by inheritance. For that reason the only creation
  * of an instance is allowed thru the init method an that only once.
  */
 
 
 public class ErrorHandler {
 
-	// singelton
+	// Singleton
     protected static ErrorHandler instance;
     // to mail in case of bug
     protected final String developerAddress;
@@ -27,7 +27,7 @@ public class ErrorHandler {
 
 
     /**
-     * Constructor (protected because singelton)
+     * Constructor (protected because singleton)
      * @param developerAddress mail address of the developers, used in inform dialog (don't pass null)
      * @param installDefaultExceptionHandlerOnCurrentThread
      *    install DefaultExceptionHandler on the current thread ?

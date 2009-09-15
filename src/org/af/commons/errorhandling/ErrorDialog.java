@@ -63,8 +63,8 @@ public class ErrorDialog extends JDialog implements ActionListener {
         this.msg = msg;
         this.e = e;
         this.fatal = fatal;
-        // if throwable was given, dump it to logger and std err
-        // this prints the msg twice, but it only happens at the the end, so we don't care
+        // if throwable was given, dump it to logger and standard error
+        // this prints the message twice, but it only happens at the the end, so we don't care
         // and we make sure not to let it slip
         if (e != null) {
             e.printStackTrace();
@@ -207,7 +207,6 @@ public class ErrorDialog extends JDialog implements ActionListener {
     
     protected JPanel getPanel() {
         JPanel p = new JPanel();
-//        String cols = "left:pref, 5dlu, f:d:g";
         String cols = "left:pref, 5dlu, f:d:g";
         String rows = "pref, 5dlu, f:p:g, 5dlu, pref, 5dlu, pref, 5dlu, pref, 5dlu, pref";
         FormLayout layout = new FormLayout(cols, rows);

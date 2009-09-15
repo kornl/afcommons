@@ -10,7 +10,7 @@ import java.util.Vector;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
 
-//todo make a "tagging system" when we write specific stuff to the logger and mix it with logger.info
+//TODO make a "tagging system" when we write specific stuff to the logger and mix it with logger.info
 // or logger.debug 
 
 public class ApplicationLog extends Observable {
