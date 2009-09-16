@@ -138,7 +138,8 @@ public class ErrorHandler {
     	Constructor con = null;
 		try {
 			con = errorDialog.getConstructor(parameterTypes);
-			con.newInstance(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_PLEASE_SEND")+"\n"+msg, e, fatal);
+			Object obj = con.newInstance(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_PLEASE_SEND")+"\n"+msg, e, fatal);
+			obj.getClass().getMethod("showDialog").invoke(obj);
 		} catch (Exception ex) {
 			// TODO Oh, what now?
 			ex.printStackTrace();

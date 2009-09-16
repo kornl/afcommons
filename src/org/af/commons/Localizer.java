@@ -18,8 +18,7 @@ public class Localizer {
     private Properties props = new Properties();
     private List<String> bundles = new ArrayList<String>();
 
-    protected Localizer() {
-        setLanguage("en");
+    protected Localizer() {        
         addResourceBundle("org.af.commons.widgets.ResourceBundle");
     }
 
