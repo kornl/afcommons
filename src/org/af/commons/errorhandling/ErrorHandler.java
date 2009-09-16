@@ -3,6 +3,7 @@ package org.af.commons.errorhandling;
 
 import java.lang.reflect.Constructor;
 
+import org.af.commons.Localizer;
 import org.apache.commons.logging.LogFactory;
 
 /**
@@ -137,7 +138,7 @@ public class ErrorHandler {
     	Constructor con = null;
 		try {
 			con = errorDialog.getConstructor(parameterTypes);
-			con.newInstance(msg, e, fatal);
+			con.newInstance(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_PLEASE_SEND")+"\n"+msg, e, fatal);
 		} catch (Exception ex) {
 			// TODO Oh, what now?
 			ex.printStackTrace();

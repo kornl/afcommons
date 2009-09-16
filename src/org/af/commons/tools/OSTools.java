@@ -31,6 +31,20 @@ public class OSTools {
 	private static Boolean isVista = null;
 	
 	/**
+	 * Returns a short info about the user, java and the system.
+	 * Example: User kornel with Java 1.5.0_19 from Sun Microsystems Inc. on Linux / amd64; Language: de, Desktop: gnome.
+	 * @return short info about the user, java and the system
+	 */
+	public static String getShortInfo() {
+		return "User "+ System.getProperty("user.name", "<unknown user name>")+ 
+		" with Java "+System.getProperty("java.version", "<unknown java version>")+ 
+		" from "+ System.getProperty( "java.vm.vendor", "<unknown vendor>" )+
+		" on "+System.getProperty("os.name", "<unknown OS>")+" / "+ System.getProperty("os.arch", "<unknown OS architecture>")+
+		"; Language: "+System.getProperty("user.language", "<unknown language>")+
+		", Desktop: "+System.getProperty("sun.desktop", "<unknown desktop>")+".";
+	}
+	
+	/**
 	 * Checks whether OS is Vista by parsing the System property os.name.
 	 * @return is OS Vista?
 	 */

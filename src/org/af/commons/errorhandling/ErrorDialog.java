@@ -5,6 +5,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import org.af.commons.Localizer;
 import org.af.commons.io.FileTools;
 import org.af.commons.threading.SafeSwingWorker;
+import org.af.commons.tools.OSTools;
 import org.af.commons.widgets.GUIToolKit;
 import org.af.commons.widgets.MultiLineLabel;
 import org.af.commons.widgets.WidgetFactory;
@@ -45,7 +46,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
     // header, for error message
     protected MultiLineLabel taHeader;
     // other contact details of user
-    protected JTextField tfEMail;
+    protected JTextField tfContact;
     // description of error
     protected JTextArea taDesc;
     // message in header
@@ -61,7 +62,8 @@ public class ErrorDialog extends JDialog implements ActionListener {
      * @param fatal is the error a fatal error and the application should be shut down
      */
     public ErrorDialog(String msg, Throwable e, boolean fatal) {
-        super(GUIToolKit.findActiveFrame());
+        super(GUIToolKit.findActiveFrame(), true);
+        setTitle(getErrorDialogTitle());
         this.msg = msg;
         this.e = e;
         this.fatal = fatal;
@@ -71,8 +73,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
         if (e != null) {
             e.printStackTrace();
             logger.error("Exception:", e);
-        }
-        setTitle(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_TITLE"));
+        }        
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -82,9 +83,13 @@ public class ErrorDialog extends JDialog implements ActionListener {
         });
         makeComponents();
         doTheLayout();
-        setVisible(true);
         setResizable(true);
-        setModal(true);
+        setAlwaysOnTop(true);
+        setVisible(true);
+    }
+    
+    protected String getErrorDialogTitle() {
+    	return Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_TITLE")+": "+msg;
     }
 
     /**
@@ -92,7 +97,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
      */
     private void makeComponents() {
         taHeader = new MultiLineLabel(informMsg);
-        tfEMail = new JTextField();
+        tfContact = new JTextField();
         taDesc = new JTextArea(4,30);
     }
 
@@ -174,14 +179,9 @@ public class ErrorDialog extends JDialog implements ActionListener {
             @Override
             protected Void doInBackground() throws Exception {                
             	Hashtable<String,String> table = new Hashtable<String,String>();
-            	table.put("Contact", tfEMail.getText());
+            	table.put("Contact", tfContact.getText());
             	try {
-            		table.put("Shortinfo", "User "+ System.getProperty("user.name", "<unknown user name>")+ 
-                    		" with Java "+System.getProperty("java.version", "<unknown java version>")+ 
-                    		" from "+ System.getProperty( "java.vm.vendor", "<unknown vendor>" )+
-                    		" on "+System.getProperty("os.name", "<unknown OS>")+" / "+ System.getProperty("os.arch", "<unknown OS architecture>")+
-                    		"; Language: "+System.getProperty("user.language", "<unknown language>")+
-                    		", Desktop: "+System.getProperty("sun.desktop", "<unknown desktop>")+".");
+            		table.put("Shortinfo", OSTools.getShortInfo());
             	} catch (Exception e) {
             		// It is totally okay to ignore errors here...
             		e.printStackTrace();            		
@@ -206,7 +206,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
                 // Open mail client in Java 6:
                 String subject = "Error%20report";
                 String body = "Description%20and%20contact%20information:";
-                String mailtoURI = "mailto:"+"kornelius.walter@googlemail.com"+"?SUBJECT="+subject+"&BODY="+body;
+                String mailtoURI = "mailto:"+ErrorHandler.getInstance().getDeveloperAddress()+"?SUBJECT="+subject+"&BODY="+body;
 
                 /* This is a Wrapper for Desktop.getDesktop().mail(uriMailTo);
                  * that will do that for Java >=6 and nothing for
@@ -255,7 +255,7 @@ public class ErrorDialog extends JDialog implements ActionListener {
         row += 2;
 
         p.add(new JLabel(Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_CONTACT")),            cc.xy(1, row));
-        p.add(tfEMail,                                                  cc.xy(3, row));
+        p.add(tfContact,                                                  cc.xy(3, row));
 
         row += 2;
 
