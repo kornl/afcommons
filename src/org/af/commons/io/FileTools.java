@@ -78,6 +78,12 @@ public class FileTools {
         }
     }
     
+    /**
+     * Reads in a file and returns the content as a String.
+     * @param file file to read
+     * @return content of the file
+     * @throws java.io.IOException
+     */
     public static String readFileAsString(File file) throws java.io.IOException {
         StringBuffer fileData = new StringBuffer();
         BufferedReader reader = new BufferedReader(new FileReader(file));

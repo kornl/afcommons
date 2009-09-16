@@ -48,8 +48,8 @@ public abstract class DesktopShortcut {
     }
 
     /**
-     * Returns the visble name of the shortcut.
-     * @return The visble name of the shortcut.
+     * Returns the visible name of the shortcut.
+     * @return The visible name of the shortcut.
      */
     public String getName() {
         return name;
@@ -64,8 +64,8 @@ public abstract class DesktopShortcut {
     }
 
     /**
-     * Returns the targetted executable.
-     * @return The targetted executable.
+     * Returns the targeted executable.
+     * @return The targeted executable.
      */
     public String getExec() {
         return exec;

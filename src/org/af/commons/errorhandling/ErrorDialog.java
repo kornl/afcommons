@@ -21,6 +21,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.URI;
 import java.util.Hashtable;
 
 /**
@@ -200,6 +202,25 @@ public class ErrorDialog extends JDialog implements ActionListener {
                 logger.error(msg, t);
                 JOptionPane.showMessageDialog(ErrorDialog.this, msg);
                 lockableUI.setLocked(false);
+                
+                // Open mail client in Java 6:
+                String subject = "Error%20report";
+                String body = "Description%20and%20contact%20information:";
+                String mailtoURI = "mailto:"+"kornelius.walter@googlemail.com"+"?SUBJECT="+subject+"&BODY="+body;
+
+                /* This is a Wrapper for Desktop.getDesktop().mail(uriMailTo);
+                 * that will do that for Java >=6 and nothing for
+                 * Java 5.
+                 */    
+        		try {	
+        			URI uriMailTo = new URI(mailtoURI);
+        			Method main = Class.forName("java.awt.Desktop").getDeclaredMethod("getDesktop");
+        			Object obj = main.invoke(new Object[0]);
+        			Method second = obj.getClass().getDeclaredMethod("mail", new Class[] { URI.class }); 
+        			second.invoke(obj, uriMailTo);
+        		} catch (Exception e) {			
+        			logger.warn("No Desktop class in Java 5 or URI error.",e);
+        		}
             }
         };
         worker.execute();

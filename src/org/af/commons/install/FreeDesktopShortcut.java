@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
+import org.af.commons.errorhandling.DefaultExceptionHandler;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Creates desktop entries according to
  * the "Desktop Entry Specification 1.0" of freedesktop.org, which is implemented  
@@ -15,7 +19,8 @@ import java.lang.reflect.Method;
  */
 
 public class FreeDesktopShortcut extends DesktopShortcut {
-
+	private static final Log logger = LogFactory.getLog(FreeDesktopShortcut.class);
+	
 	protected String genericname = null;
 	protected boolean terminal = false;
 
@@ -73,7 +78,7 @@ public class FreeDesktopShortcut extends DesktopShortcut {
 			Method main = c.getDeclaredMethod("setExecutable", argTypes);
 			main.invoke(file, true);
 		} catch (Exception e) {
-			System.out.println("No method setExecutable in Java 5.");
+			logger.warn("No method File.setExecutable in Java 5. Desktop Starter is not executable.");
 		}
 		
         
