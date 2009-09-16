@@ -1,12 +1,6 @@
 package org.af.commons;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.Properties;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * A Singleton that manages ResourceBundles and allows changing Locales and Languages.
@@ -19,7 +13,7 @@ public class Localizer {
     private List<String> bundles = new ArrayList<String>();
 
     protected Localizer() {        
-        addResourceBundle("org.af.commons.widgets.ResourceBundle");
+        addResourceBundle("org.af.commons.ResourceBundle");
     }
 
 
@@ -103,7 +97,7 @@ public class Localizer {
     public void clearAllAddedBundles() {
         props.clear();
         bundles.clear();
-        addResourceBundle("org.af.commons.widgets.ResourceBundle");
+        addResourceBundle("org.af.commons.ResourceBundle");
     }
 
 }
