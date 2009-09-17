@@ -1,10 +1,12 @@
 package org.af.commons.errorhandling;
 
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
 import javax.swing.JOptionPane;
 
 import org.af.commons.Localizer;
+import org.af.commons.tools.StringTools;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -67,5 +69,14 @@ public class ErrorDialog extends InformDialog implements ActionListener {
     protected void onShutdown() {
 		System.exit(1);		
 	} 
+    
+    protected Hashtable<String, String> getInfoTable() {
+    	Hashtable<String, String> table = super.getInfoTable();
+    	if (e!=null) {
+    		if (e.getMessage()!=null) table.put("Error message", e.getMessage());
+    		table.put("A StackTrace", StringTools.stackTraceToString(e));
+    	}
+    	return table;
+    }
   
 }

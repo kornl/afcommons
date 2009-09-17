@@ -151,20 +151,12 @@ public class InformDialog extends JDialog implements ActionListener {
 
         SafeSwingWorker<Void, Void> worker = new SafeSwingWorker<Void, Void>() {
             @Override
-            protected Void doInBackground() throws Exception {                
-            	Hashtable<String,String> table = new Hashtable<String,String>();
-            	table.put("Contact", tfContact.getText());
-            	try {
-            		table.put("Shortinfo", OSTools.getShortInfo());
-            	} catch (Exception e) {
-            		// It is totally okay to ignore errors here... (btw. there should be no error, but better safe than sorry)
-            		e.printStackTrace();            		
-            	}
-            	table.put("Description", taDesc.getText());                
-            	(new HTTPPoster()).post(ErrorHandler.getInstance().getReportURL(), table, getAttachedFiles());                
+            protected Void doInBackground() throws Exception {
+            	(new HTTPPoster()).post(ErrorHandler.getInstance().getReportURL(), getInfoTable(), getAttachedFiles());                
             	return null;
             }
-            @Override
+            
+			@Override
             protected void onSuccess(Void result) {
                 JOptionPane.showMessageDialog(InformDialog.this, Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_REPORTSENT"));
                 dispose();
@@ -252,5 +244,18 @@ public class InformDialog extends JDialog implements ActionListener {
     protected Hashtable<String, File> getAttachedFiles() throws IOException {
         return new Hashtable<String, File>();
     }
+    
+    protected Hashtable<String, String> getInfoTable() {
+    	Hashtable<String,String> table = new Hashtable<String,String>();
+    	table.put("Contact", tfContact.getText());
+    	try {
+    		table.put("Shortinfo", OSTools.getShortInfo());
+    	} catch (Exception e) {
+    		// It is totally okay to ignore errors here... (btw. there should be no error, but better safe than sorry)
+    		e.printStackTrace();            		
+    	}
+    	table.put("Description", taDesc.getText());  
+		return table;
+	}
     
 }

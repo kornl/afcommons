@@ -1,4 +1,9 @@
 package org.af.commons.tools;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+
 /**
  * This class provides various static methods for handling String objects.
  */
@@ -73,4 +78,12 @@ public class StringTools {
 		}
 		return result+"]";
 	}
+	
+	public static String stackTraceToString(Throwable e) {
+	    Writer result = new StringWriter();
+	    PrintWriter printWriter = new PrintWriter(result);
+	    e.printStackTrace(printWriter);
+	    return result.toString();
+	  }
+
 }
