@@ -20,7 +20,7 @@ public class ErrorDialog extends InformDialog implements ActionListener {
     protected static final Log logger = LogFactory.getLog(ErrorDialog.class);
 
     // throwable which caused the error, might be null
-    protected final Throwable e;
+    protected final Object e;
 
     // is this a fatal error?
     protected final boolean fatal;
@@ -32,7 +32,7 @@ public class ErrorDialog extends InformDialog implements ActionListener {
      * @param e   Throwable which caused the error (don't pass null)
      * @param fatal is the error a fatal error and the application should be shut down
      */
-    public ErrorDialog(String msg, Throwable e, boolean fatal) {
+    public ErrorDialog(String msg, Object e, boolean fatal) {
         super(msg);
         this.e = e;
         this.fatal = fatal;
@@ -40,9 +40,14 @@ public class ErrorDialog extends InformDialog implements ActionListener {
         // this prints the message twice, but it only happens at the the end, so we don't care
         // and we make sure not to let it slip
         if (e != null) {
-            e.printStackTrace();
-            logger.error("Exception:", e);
-        }        
+        	if (e instanceof Throwable) {
+        		((Throwable)e).printStackTrace();
+        		logger.error("Exception:", ((Throwable)e));
+        	} else {
+        		System.out.println(e.toString());
+        		logger.error("Error: "+e.toString());
+        	}
+        }
     }
     
     protected String getDialogTitle() {
@@ -73,8 +78,12 @@ public class ErrorDialog extends InformDialog implements ActionListener {
     protected Hashtable<String, String> getInfoTable() {
     	Hashtable<String, String> table = super.getInfoTable();
     	if (e!=null) {
-    		if (e.getMessage()!=null) table.put("Error message", e.getMessage());
-    		table.put("A StackTrace", StringTools.stackTraceToString(e));
+    		if (e instanceof Throwable) {
+    			if (((Throwable)e).getMessage()!=null) table.put("Error message", ((Throwable)e).getMessage());
+    			table.put("A StackTrace", StringTools.stackTraceToString(((Throwable)e)));
+    		} else  {
+    			table.put("Error", e.toString());
+    		}
     	}
     	return table;
     }

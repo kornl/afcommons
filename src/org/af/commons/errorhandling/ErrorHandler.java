@@ -133,8 +133,8 @@ public class ErrorHandler {
      * @param e cause of error
      *  @param fatal is the error a fatal error and the application should be shut down
      */
-    public void makeErrDialog(String msg, Throwable e, boolean fatal) {
-    	Class[] parameterTypes = {String.class, Throwable.class, boolean.class};
+    public void makeErrDialog(String msg, Object e, boolean fatal) {
+    	Class[] parameterTypes = {String.class, Object.class, boolean.class};
     	Constructor con = null;
 		try {
 			con = errorDialog.getConstructor(parameterTypes);
@@ -152,7 +152,7 @@ public class ErrorHandler {
      * @param msg error message
      * @param e cause of error
      */
-    public void makeErrDialog(String msg, Throwable e) {
+    public void makeErrDialog(String msg, Object e) {
     	makeErrDialog(msg, e, false);
     }
     
