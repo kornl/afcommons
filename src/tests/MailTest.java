@@ -3,8 +3,6 @@ package tests;
 import java.lang.reflect.Method;
 import java.net.URI;
 
-import org.af.commons.errorhandling.ErrorHandler;
-
 public class MailTest {
 
 	/**

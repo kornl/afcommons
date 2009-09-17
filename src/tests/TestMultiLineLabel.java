@@ -1,8 +1,8 @@
 package tests;
 
-import org.af.commons.widgets.MultiLineLabel;
+import javax.swing.JFrame;
 
-import javax.swing.*;
+import org.af.commons.widgets.MultiLineLabel;
 
 public class TestMultiLineLabel {
     public static void main(String[] args) {

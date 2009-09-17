@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 
 import org.af.commons.Localizer;
 import org.af.commons.errorhandling.ErrorDialog;
-import org.af.commons.errorhandling.InformDialog;
 
 public class MiscTest {
 

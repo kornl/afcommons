@@ -20,22 +20,13 @@ public class FileTransfer {
 	
 	private static final Log logger = LogFactory.getLog(FileTransfer.class);
 	
-	private static FileTransfer ft = null;
-	
-	public static FileTransfer getFileTransfer() {
-		if (ft == null) {
-			ft = new FileTransfer();
-		}
-		return ft;
-	} 
-	
-	public File copyFileToLocalDir(String name, File localDir) throws IOException {
+	public static File copyFileToLocalDir(String name, File localDir) throws IOException {
 		 return copyFileToLocalDir("", name, localDir);
 	}
 	
-    public File copyFileToLocalDir(String path, String name, File localDir) throws IOException {
+    public static File copyFileToLocalDir(String path, String name, File localDir) throws IOException {
         logger.info("Retrieving File:" + path + "/" + name);
-        URL resource = getClass().getResource(path + "/" + name);
+        URL resource = FileTransfer.class.getResource(path + "/" + name);
         if (resource.toString().startsWith("file:")) {
         	logger.info("No need for copying - this is a local file.");
             try {
@@ -95,7 +86,7 @@ public class FileTransfer {
      * @param name new name of the file
      * @throws IOException
      */
-    public void moveFile(File f, File targetDir, String name) throws IOException {
+    public static void moveFile(File f, File targetDir, String name) throws IOException {
     	moveFile(f, targetDir, name, true);
     }
 
@@ -107,7 +98,7 @@ public class FileTransfer {
      * @param overwrite should an existing file be overwritten?
      * @throws IOException
      */
-    public void moveFile(File f, File targetDir, String name, boolean overwrite) throws IOException{
+    public static void moveFile(File f, File targetDir, String name, boolean overwrite) throws IOException{
         if (!f.exists()) {
             throw new FileNotFoundException("Tried to move file but it does not exist:" + f);
         }
@@ -138,7 +129,7 @@ public class FileTransfer {
      * @param targetDir directory to that the file should be moved
      * @throws IOException
      */
-    public void moveFile(File f, File targetDir) throws IOException{
+    public static void moveFile(File f, File targetDir) throws IOException{
         moveFile(f, targetDir, f.getName());
     }
 }

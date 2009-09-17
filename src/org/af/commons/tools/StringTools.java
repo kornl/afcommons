@@ -79,10 +79,14 @@ public class StringTools {
 		return result+"]";
 	}
 	
+	/**
+	 * Returns the printed stack trace of a Trowable as a String
+	 * @param e Trowable whose stack trace should be returned
+	 * @return the printed stack trace of a Trowable as a String
+	 */
 	public static String stackTraceToString(Throwable e) {
-	    Writer result = new StringWriter();
-	    PrintWriter printWriter = new PrintWriter(result);
-	    e.printStackTrace(printWriter);
+	    Writer result = new StringWriter();	    
+	    e.printStackTrace(new PrintWriter(result));
 	    return result.toString();
 	  }
 

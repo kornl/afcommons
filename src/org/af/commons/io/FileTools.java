@@ -1,18 +1,29 @@
 package org.af.commons.io;
 
 import java.awt.Component;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 import javax.swing.JFileChooser;
 
 import org.af.commons.widgets.MyJFileChooser;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This class provides miscellaneous static methods for handling files.
  */
 public class FileTools {
+	
+	protected static final Log logger = LogFactory.getLog(FileTools.class);
 	
 	/**
 	 * Returns the filename without last suffix.
@@ -94,6 +105,44 @@ public class FileTools {
         }
         reader.close();
         return fileData.toString();
+    }
+    
+    /**
+     * Download a single file specified by an URL
+     *
+     * @param from        URL to file to download
+     * @param destination directory to download to
+     * @throws IOException 
+     */
+
+    public static void downloadFile(URL from, File destination) throws IOException {
+        OutputStream out = null;
+        URLConnection conn = null;
+        InputStream in = null;
+        try {
+            String fileName = new File(from.getPath()).getName();
+            File localFile = new File(destination, fileName);
+            out = new BufferedOutputStream(
+                    new FileOutputStream(localFile));
+            conn = from.openConnection();
+            in = conn.getInputStream();
+            byte[] buffer = new byte[1024];
+            int numRead;
+            while ((numRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, numRead);
+            }
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException ioe) {
+                logger.error("Could not close streams!", ioe);
+            }
+        }
     }
 
 
