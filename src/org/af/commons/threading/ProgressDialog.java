@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import org.af.commons.Localizer;
 import org.af.commons.errorhandling.ErrorHandler;
 import org.af.commons.widgets.WidgetFactory;
 import org.af.commons.widgets.buttons.OKButtonPane;
@@ -163,7 +164,7 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
      */
     private void makeComponents() {
         progressPanel = new ProgressPanel<T, V>(task);
-        buttonPane = new OKButtonPane("Abort");
+        buttonPane = new OKButtonPane(Localizer.getInstance().getString("AFCOMMONS_THREADING_PROGRESSDIALOG_ABORT"));
         buttonPane.setEnabled(true);
     }
 
@@ -265,7 +266,7 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
         } else {
             if (abortable) {
                 // really abort?
-                int i = JOptionPane.showConfirmDialog(this, "Really abort this task?", "Abort?", JOptionPane.YES_NO_OPTION);
+                int i = JOptionPane.showConfirmDialog(this, Localizer.getInstance().getString("AFCOMMONS_THREADING_PROGRESSDIALOG_ABORT_QUESTION"), Localizer.getInstance().getString("AFCOMMONS_THREADING_PROGRESSDIALOG_ABORT_QUESTION_TITLE"), JOptionPane.YES_NO_OPTION);
                 if (i == JOptionPane.YES_OPTION) {
                     int tries = 100;
                     InterruptedException interrupt = null;
@@ -279,15 +280,16 @@ public class ProgressDialog<T, V> extends JDialog implements PropertyChangeListe
                     }
                     // we could not cancel for some reason
                     if (tries <= 0 || interrupt != null) {
-                        ErrorHandler.getInstance().makeErrDialog("Could not abort this task!",
+                        ErrorHandler.getInstance().makeErrDialog(Localizer.getInstance().getString("AFCOMMONS_THREADING_PROGRESSDIALOG_COULDNT_ABORT"),
                                 interrupt == null ? new RuntimeException() : interrupt, false);
                     } else {
                         dispose();
                     }
                 }
             } else {
-                // cant abort, really quit?
-                int i = JOptionPane.showConfirmDialog(this, "This task is not abortable!\nReally quit program?", "Quit?", JOptionPane.YES_NO_OPTION);
+                // can not abort, really quit?
+                int i = JOptionPane.showConfirmDialog(this, Localizer.getInstance().getString("AFCOMMONS_THREADING_PROGRESSDIALOG_QUIT_QUESTION"),
+                		Localizer.getInstance().getString("AFCOMMONS_THREADING_PROGRESSDIALOG_QUIT_QUESTION_TITLE"), JOptionPane.YES_NO_OPTION);
                 if (i == JOptionPane.YES_OPTION) {
                 	criticalAbort();
                 }
