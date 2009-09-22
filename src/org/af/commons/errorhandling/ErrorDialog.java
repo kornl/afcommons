@@ -79,8 +79,10 @@ public class ErrorDialog extends InformDialog implements ActionListener {
     	Hashtable<String, String> table = super.getInfoTable();
     	if (e!=null) {
     		if (e instanceof Throwable) {
-    			if (((Throwable)e).getMessage()!=null) table.put("Error message", ((Throwable)e).getMessage());
     			table.put("A StackTrace", StringTools.stackTraceToString(((Throwable)e)));
+    			if (((Throwable)e).getMessage()!=null) {
+    				table.put("Error message", ((Throwable)e).getMessage());
+    			}    			
     		} else  {
     			table.put("Error", e.toString());
     		}
