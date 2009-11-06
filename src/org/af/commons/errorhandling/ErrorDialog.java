@@ -24,6 +24,8 @@ public class ErrorDialog extends InformDialog implements ActionListener {
 
     // is this a fatal error?
     protected final boolean fatal;
+    
+    static int count = 0;
 
     /**
      * Constructor
@@ -53,17 +55,18 @@ public class ErrorDialog extends InformDialog implements ActionListener {
     protected String getDialogTitle() {
     	return Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_TITLE")+": "+msg;
     }
-
+    
     /**
      * Handler for exit action. Overwrite this method if you want another behavior.
      */
     protected void onExit() {
-    	if (fatal) {
+    	if (fatal || count > 1) {
     		int answer = JOptionPane.showConfirmDialog(this, Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_CONFIRM"));
     		if (answer == JOptionPane.OK_OPTION) {
     			onShutdown();
     		}
     	}
+    	count++;
     	dispose();
     }
 
