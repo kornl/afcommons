@@ -6,9 +6,9 @@ import java.awt.event.KeyEvent;
 import javax.swing.JTextField;
 
 abstract public class ValidatedTextField<E> extends JTextField implements ValidatedComponent<E> {
-    private String descriptiveName;
-    private final Color normalCol;
-    private final Color errorCol = new Color(255, 100, 100);
+    protected String descriptiveName;
+    protected final Color normalCol;
+    protected final Color errorCol = new Color(255, 100, 100);
 
     public ValidatedTextField(String descriptiveName) {
         this.descriptiveName = descriptiveName;
