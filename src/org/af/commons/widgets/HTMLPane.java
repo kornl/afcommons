@@ -27,16 +27,20 @@ public class HTMLPane extends JTextPane {
         body = html.getElement(0);
     }
 
-    public void appendParagraph(String s) throws BadLocationException, IOException {
+    public void appendParagraph(String s) {
         appendHTML("<P align=\"left\">" + s + "</P>");
     }
 
-    public void appendHeadline(String s) throws BadLocationException, IOException {
+    public void appendHeadline(String s) {
         appendHTML("<h1>" + s + "</h1>");
     }
 
-    public void appendHTML(String s) throws BadLocationException, IOException {        
-    	doc.insertBeforeEnd(body, s);
+    public void appendHTML(String s) {        
+    	try {
+			doc.insertBeforeEnd(body, s);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     	setCaretPosition(doc.getLength());
     }
 
