@@ -43,10 +43,10 @@ public class LoggingSystem {
                                  ApplicationLog appLog) {
         LoggingSystem.log4JpropsResourceName = log4JpropsResourceName;
         LoggingSystem.appLog = appLog;
+        configureLog4J(printToConsole);
+        
         if (redirectSystemStreams)
-            redirectSystemStreams(printToConsole);
-
-        configureLog4J();
+            redirectSystemStreams(printToConsole);        
     }
     
     public static boolean alreadyInitiated() {
@@ -67,7 +67,7 @@ public class LoggingSystem {
                                  ApplicationLog appLog) {
         if (instance != null)
             throw new RuntimeException("Second call to LoggingSystem:init!");
-        System.out.println("Configuring LoggingSystem...");
+        if (printToConsole) System.out.println("Configuring LoggingSystem...");
         instance = new LoggingSystem(log4JpropsResourceName,
                 redirectSystemStreams, printToConsole, appLog);
         System.out.println("LoggingSystem: instance created.");
@@ -89,10 +89,10 @@ public class LoggingSystem {
     /**
      * Configure log4J thru the properties file
      */
-    protected void configureLog4J() {
-        System.out.println("Configuring log4J...");
+    protected void configureLog4J(boolean printToConsole) {
+    	if (printToConsole) System.out.println("Configuring log4J...");
         URL logPropUrl = getClass().getResource(log4JpropsResourceName);
-        System.out.println("Configure log4J from props at " + logPropUrl);
+        if (printToConsole) System.out.println("Configure log4J from props at " + logPropUrl);
         PropertyConfigurator.configure(logPropUrl);
         logger = LogFactory.getLog(LoggingSystem.class);
         logger.info("Configure log4J from props at " + logPropUrl);
