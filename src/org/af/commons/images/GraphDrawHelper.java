@@ -400,15 +400,15 @@ public class GraphDrawHelper {
 		phi3 = (phi3 + 360) % 360;
 		if (phi2 > phi1) {
 			if (phi2 > phi3 && phi3 > phi1) {		
-				return new double[] {phi1, phi2-phi1, phi1, phi2};			
+				return new double[] {phi1, phi2-phi1, phi1, phi2, phi3};			
 			} else {
-				return new double[] {phi2, (phi1-phi2+360) % 360, phi1, phi2};			
+				return new double[] {phi2, (phi1-phi2+360) % 360, phi1, phi2, phi3};			
 			}
 		}
 		if (phi1 > phi3 && phi3 > phi2) {
-			return new double[] {phi1, phi2-phi1, phi1, phi2};
+			return new double[] {phi1, phi2-phi1, phi1, phi2, phi3};
 		} else {
-			return new double[] {phi1, (phi2-phi1+360) % 360, phi1, phi2};
+			return new double[] {phi1, (phi2-phi1+360) % 360, phi1, phi2, phi3};
 		}
 	}
 	
