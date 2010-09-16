@@ -325,12 +325,52 @@ public class GraphDrawHelper {
 		} else {
 			x2 = - (b1-c1)/(b2-c2);
 			x1 = 1;
+		}	
+		double z1, z2;
+		if ((a2-b2)==0) {
+			z2=1; z1=0;
+		} else {
+			z2 = - (a1-b1)/(a2-b2);
+			z1 = 1;
 		}		
-		if ((2*(b1-a1)*(b2-c2)-2*(c1-b1)*(a2-b2))==0) {
-			throw new GraphException("All three points are on a line.");
+		double eps = 0.1; 
+		if (Math.abs((b1-a1)/(b2-a2)-(c1-b1)/(c2-b2))<eps && Math.signum(b1-a1)==Math.signum(c1-b1)) {
+			throw new GraphException("Slopes are too similar.");
 		}
-		double d = ((c2-a2)*(a2-b2)*(b2-c2)-(c1-a1)*(b1-a1)*(b2-c2))/(2*(b1-a1)*(b2-c2)-2*(c1-b1)*(a2-b2));		
-		//
+		double c, d;
+		if (z1!=0 && x1==0) {			
+			c = (c1-a1)/(2*z1);
+			double m1 = (a1+b1)/2+c*z1;
+			double m2 = (a2+b2)/2+c*z2;
+			return new double[] {m1, m2};
+		} else if (x1!=0 && z1==0) {
+			d = (a1-c1)/(2*x1);
+			double m1 = (b1+c1)/2+d*x1;
+			double m2 = (b2+c2)/2+d*x2;
+			return new double[] {m1, m2};
+		} else if ((x1==0 && z1==0)||(x2==0 && z2==0)) {
+			throw new GraphException("Slopes are too similar.");
+		} else if (z2!=0 && x2==0) {			
+			c = (c2-a2)/(2*z2);
+			double m1 = (a1+b1)/2+c*z1;
+			double m2 = (a2+b2)/2+c*z2;
+			return new double[] {m1, m2};
+		} else if (x2!=0 && z2==0) {			
+			d = (a2-c2)/(2*x2);
+			double m1 = (b1+c1)/2+d*x1;
+			double m2 = (b2+c2)/2+d*x2;
+			return new double[] {m1, m2};
+		} else {
+			if ((x2-x1*z2/z1)==0) {
+				if ((z2-z1*x2/x1)==0) throw new GraphException("Can this happen?");
+				c = ((c2-a2)/2+((a1-c1)/2*x1)*x2)/(z2-z1*x2/x1);
+				double m1 = (a1+b1)/2+c*z1;
+				double m2 = (a2+b2)/2+c*z2;
+				return new double[] {m1, m2};				
+			}
+			d = ((a2-c2)/2+((c1-a1)/2*z1)*z2)/(x2-x1*z2/z1);		
+		}
+
 		double m1 = (b1+c1)/2+d*x1;
 		double m2 = (b2+c2)/2+d*x2;
 		return new double[] {m1, m2};
@@ -384,29 +424,32 @@ public class GraphDrawHelper {
 	 * @param l die Länge der Pfeilspitze
 	 * @param grad der Winkel zwischen Pfeilspitzenschenkeln und Pfeilrumpf (0-360)
 	 */
-	public static void drawEdge(Graphics g, double a1, double a2, double b1, double b2, double c1, double c2, int l, int grad) {
+	public static void drawEdge(Graphics g, double a1, double a2, double b1, double b2, double c1, double c2, int l, int grad, boolean fill) {
 		try {
 			double[] m = getCenter(a1, a2, b1, b2, c1, c2);
-			g.drawOval((int)m[0]-1, (int)m[1]-1, 2, 2);
-			g.drawString("M", (int)m[0], (int)m[1]);
 			double r = Math.sqrt((m[0]-a1)*(m[0]-a1)+(m[1]-a2)*(m[1]-a2));
 			double d = Math.sqrt((c1-a1)*(c1-a1)+(c2-a2)*(c2-a2));
-			if (r/d>10) throw new GraphException("Edge is too linear.");			
+			if (2*Math.PI*r/360>6) throw new GraphException("Edge is too linear.");			
 			double[] phi = getAngle(a1, a2, b1, b2, c1, c2, m[0], m[1]);
 			g.drawArc((int)(m[0]-r), (int)(m[1]-r), (int)(2*r), (int)(2*r), (int)(phi[0]), (int)(phi[1]));
-			drawArrowHead(g, c1, c2, (phi[0]==phi[2]&&phi[1]>0)||(phi[0]==phi[1]&&phi[1]<0)?phi[3]+90:(phi[3]+90+180)%360, l, grad);			
+			drawArrowHead(g, c1, c2, (phi[0]==phi[2]&&phi[1]>0)||(phi[0]==phi[1]&&phi[1]<0)?phi[3]+90:(phi[3]+90+180)%360, l, grad, fill);			
 		} catch (GraphException e) {
-			GraphDrawHelper.malPfeil(g, (int)a1, (int)a2, (int)c1, (int)c2, l, grad);			
+			GraphDrawHelper.malVollenPfeil(g, (int)a1, (int)a2, (int)c1, (int)c2, l, grad);			
 		}
 	}
 
-	private static void drawArrowHead(Graphics g, double c1, double c2, double phi, int l, int grad) {	
+	private static void drawArrowHead(Graphics g, double c1, double c2, double phi, int l, int grad, boolean fill) {	
 		phi = (phi + 180) % 360;
 		int px = (int) (c1 + Math.cos((2 * Math.PI * (phi+grad) / 360)) * l );
-		int py = (int) (c2 - Math.sin((2 * Math.PI * (phi+grad) / 360)) * l );
-		g.drawLine((int)c1, (int)c2, px, py);		
-		px = (int) (c1 + Math.cos((2 * Math.PI * (phi-grad) / 360)) * l );
-		py = (int) (c2 - Math.sin((2 * Math.PI * (phi-grad) / 360)) * l );
-		g.drawLine((int)c1, (int)c2, px, py);			
+		int py = (int) (c2 - Math.sin((2 * Math.PI * (phi+grad) / 360)) * l );				
+		int px2 = (int) (c1 + Math.cos((2 * Math.PI * (phi-grad) / 360)) * l );
+		int py2 = (int) (c2 - Math.sin((2 * Math.PI * (phi-grad) / 360)) * l );
+		if (fill) {
+			g.fillPolygon(new int[] { (int)c1, px, px2 }, new int[] { (int)c2, py, py2 }, 3);
+		} else {
+			g.drawLine((int)c1, (int)c2, px, py);
+			g.drawLine((int)c1, (int)c2, px2, py2);
+		}
+		
 	}
 }
