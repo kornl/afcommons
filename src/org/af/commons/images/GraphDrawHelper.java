@@ -429,7 +429,7 @@ public class GraphDrawHelper {
 			double[] m = getCenter(a1, a2, b1, b2, c1, c2);
 			double r = Math.sqrt((m[0]-a1)*(m[0]-a1)+(m[1]-a2)*(m[1]-a2));
 			double d = Math.sqrt((c1-a1)*(c1-a1)+(c2-a2)*(c2-a2));
-			if (2*Math.PI*r/360>6) throw new GraphException("Edge is too linear.");			
+			if (2*Math.PI*r/360>6*d/200) throw new GraphException("Edge is too linear.");			
 			double[] phi = getAngle(a1, a2, b1, b2, c1, c2, m[0], m[1]);
 			g.drawArc((int)(m[0]-r), (int)(m[1]-r), (int)(2*r), (int)(2*r), (int)(phi[0]), (int)(phi[1]));
 			drawArrowHead(g, c1, c2, (phi[0]==phi[2]&&phi[1]>0)||(phi[0]==phi[1]&&phi[1]<0)?phi[3]+90:(phi[3]+90+180)%360, l, grad, fill);			
