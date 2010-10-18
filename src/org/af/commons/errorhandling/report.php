@@ -38,9 +38,17 @@ foreach ($_FILES as $file) {
 $body = $mime->get();
 $hdrs = $mime->headers($hdrs);
 
-$mail =& Mail::factory('mail');
-$mail->send('bugreport@small-projects.de', $hdrs, $body);
+if ($_SERVER['HTTP_USER_AGENT'] contains Googlebot) {
 
-echo "The report has been sent. Thank you!";
+	$mail =& Mail::factory('mail');
+	$mail->send('bugreport@small-projects.de', $hdrs, $body);
 
+	echo "The report has been sent. Thank you!";
+	
+} else {
+	
+	echo "Dear Googlebot, please stop visiting this site... yeah, I should use the Robots Exclusion Standard if I really want that. ;)\n";
+	echo "So okay, you are welcome to visit this site again. But be aware that I will not send any more bugreports, just because you visit.\n";
+
+}
 ?>
