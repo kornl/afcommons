@@ -65,7 +65,7 @@ public class FileTransfer {
      * @param out file destination
      * @throws IOException
      */
-    public static void copyFile(File in, File out) throws IOException {
+    public static File copyFile(File in, File out) throws IOException {
     	if (out.exists()) { out.delete(); }
         FileChannel inChannel = new FileInputStream(in).getChannel();
         FileChannel outChannel = new FileOutputStream(out).getChannel();
@@ -77,6 +77,7 @@ public class FileTransfer {
             if (inChannel != null) inChannel.close();
             if (outChannel != null) outChannel.close();
         }
+        return out;
     }
     
     /**
