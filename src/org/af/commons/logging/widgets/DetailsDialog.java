@@ -1,5 +1,8 @@
 package org.af.commons.logging.widgets;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
 import javax.swing.JFrame;
 
 import com.jgoodies.forms.layout.CellConstraints;
@@ -27,13 +30,16 @@ public class DetailsDialog extends JFrame {
     }
 
     private void doTheLayout() {
-        String cols = "fill:pref:grow";
-        String rows = "fill:pref:grow";
-        FormLayout layout = new FormLayout(cols, rows);
+    	getContentPane().setLayout(new GridBagLayout());
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.fill = GridBagConstraints.BOTH;		
+		c.gridx=0; c.gridy=0;
+		c.gridwidth = 1; c.gridheight = 1;
+		c.ipadx=10; c.ipady=10;
+		c.weightx=1; c.weighty=1;
 
-        CellConstraints cc = new CellConstraints();
-        setLayout(layout);
-
-        getContentPane().add(detailsPanel , cc.xy(1,1));
+        getContentPane().add(detailsPanel , c);
     }
 }
