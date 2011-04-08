@@ -8,6 +8,10 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * Based on Code from Romain Guy and his book Swing Hacks
+ * Subject to the BSD license.
+ */
 public class Star extends Area implements AnimatedObject {
     private Area[] ticker = null;
     int alphaLevel = 0;
