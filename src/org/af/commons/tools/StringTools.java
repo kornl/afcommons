@@ -3,6 +3,7 @@ package org.af.commons.tools;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.List;
 
 /**
  * This class provides various static methods for handling String objects.
@@ -89,5 +90,25 @@ public class StringTools {
 	    e.printStackTrace(new PrintWriter(result));
 	    return result.toString();
 	  }
+	
+	public static String collapseStringArray(String[] ss, String sep) {
+        String result = "";
+        for (String s : ss) {
+            result  += s + sep;
+        }
+        return result;
+    }
+    
+	public static String collapseStringList(List<String> ss, String sep) {
+        String result = "";
+        for (String s : ss) {
+            result  += s + sep;
+        }
+        return result;
+    }
+
+	public static String collapseStringArray(String[] ss) {
+        return collapseStringArray(ss, "\n");
+    }
 
 }
