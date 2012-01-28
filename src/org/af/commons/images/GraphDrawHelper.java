@@ -3,6 +3,8 @@ package org.af.commons.images;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Arc2D.Double;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 
@@ -431,7 +433,13 @@ public class GraphDrawHelper {
 			double d = Math.sqrt((c1-a1)*(c1-a1)+(c2-a2)*(c2-a2));
 			if (2*Math.PI*r/360>6*d/200) throw new GraphException("Edge is too linear.");			
 			double[] phi = getAngle(a1, a2, b1, b2, c1, c2, m[0], m[1]);
-			g.drawArc((int)(m[0]-r), (int)(m[1]-r), (int)(2*r), (int)(2*r), (int)(phi[0]), (int)(phi[1]));
+			try {
+				Double arc = new Arc2D.Double(m[0]-r, m[1]-r, 2*r, 2*r, phi[0], phi[1], Arc2D.OPEN);
+				Graphics2D g2d = (Graphics2D)g;
+				g2d.draw(arc);
+			} catch (Exception e) {
+				g.drawArc((int)(m[0]-r), (int)(m[1]-r), (int)(2*r), (int)(2*r), (int)(phi[0]), (int)(phi[1]));
+			}			
 			drawArrowHead(g, c1, c2, (phi[0]==phi[2]&&phi[1]>0)||(phi[0]==phi[1]&&phi[1]<0)?phi[3]+90:(phi[3]+90+180)%360, l, grad, fill);			
 		} catch (GraphException e) {
 			GraphDrawHelper.malVollenPfeil(g, (int)a1, (int)a2, (int)c1, (int)c2, l, grad);			
