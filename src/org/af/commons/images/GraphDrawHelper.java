@@ -315,12 +315,21 @@ public class GraphDrawHelper {
 		
 		return new int[] {c1,c2};
 	}
-	
+
 	/*
 	 * Given three points (a1, a2), (b1, b2), (c1, c2) this function returns
 	 * the center of the well-defined circle that goes through all of the three points.  
 	 */
 	public static double[] getCenter(double a1, double a2, double b1, double b2, double c1, double c2) throws GraphException {
+		return getCenter(a1, a2, b1, b2, c1, c2, 0.05);
+	}
+ 
+	
+	/*
+	 * Given three points (a1, a2), (b1, b2), (c1, c2) this function returns
+	 * the center of the well-defined circle that goes through all of the three points.  
+	 */
+	public static double[] getCenter(double a1, double a2, double b1, double b2, double c1, double c2, double eps) throws GraphException {
 		double x1, x2;
 		if ((b2-c2)==0) {
 			x2=1; x1=0;
@@ -335,7 +344,6 @@ public class GraphDrawHelper {
 			z2 = - (a1-b1)/(a2-b2);
 			z1 = 1;
 		}		
-		double eps = 0.1; 
 		if (Math.abs((b1-a1)/(b2-a2)-(c1-b1)/(c2-b2))<eps && Math.signum(b1-a1)==Math.signum(c1-b1)) {
 			throw new GraphException("Slopes are too similar.");
 		}
@@ -428,10 +436,10 @@ public class GraphDrawHelper {
 	 */
 	public static void drawEdge(Graphics g, double a1, double a2, double b1, double b2, double c1, double c2, int l, int grad, boolean fill) {
 		try {
-			double[] m = getCenter(a1, a2, b1, b2, c1, c2);
+			double[] m = getCenter(a1, a2, b1, b2, c1, c2, 0.001);
 			double r = Math.sqrt((m[0]-a1)*(m[0]-a1)+(m[1]-a2)*(m[1]-a2));
 			double d = Math.sqrt((c1-a1)*(c1-a1)+(c2-a2)*(c2-a2));
-			if (2*Math.PI*r/360>6*d/200) throw new GraphException("Edge is too linear.");			
+			//if (2*Math.PI*r/360>6*d/200) throw new GraphException("Edge is too linear.");			
 			double[] phi = getAngle(a1, a2, b1, b2, c1, c2, m[0], m[1]);
 			try {
 				Double arc = new Arc2D.Double(m[0]-r, m[1]-r, 2*r, 2*r, phi[0], phi[1], Arc2D.OPEN);
