@@ -454,7 +454,7 @@ public class GraphDrawHelper {
 		}
 	}
 
-	private static void drawArrowHead(Graphics g, double c1, double c2, double phi, int l, int grad, boolean fill) {	
+	public static void drawArrowHead(Graphics g, double c1, double c2, double phi, int l, int grad, boolean fill) {	
 		phi = (phi + 180) % 360;
 		int px = (int) (c1 + Math.cos((2 * Math.PI * (phi+grad) / 360)) * l );
 		int py = (int) (c2 - Math.sin((2 * Math.PI * (phi+grad) / 360)) * l );				
