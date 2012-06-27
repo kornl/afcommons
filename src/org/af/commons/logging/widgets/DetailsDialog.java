@@ -5,9 +5,6 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
 
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
-
 public class DetailsDialog extends JFrame {
     private DetailsPanel detailsPanel;
 

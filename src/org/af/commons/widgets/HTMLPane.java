@@ -1,9 +1,6 @@
 package org.af.commons.widgets;
 
-import java.io.IOException;
-
 import javax.swing.JTextPane;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.Element;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
