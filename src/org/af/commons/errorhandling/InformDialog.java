@@ -113,10 +113,12 @@ public class InformDialog extends JDialog implements ActionListener {
         try {
 			files = getAttachedFiles();
             for (File file : files.values()) {
-                JTextArea textArea = new JTextArea(5, 10);
-                textArea.setText(FileTools.readFileAsString(file));
-                textArea.setEditable(false);
-                dd.add(file.getName(), new JScrollPane(textArea));
+            	if (!file.getName().toLowerCase().endsWith(".jpg")) {
+            		JTextArea textArea = new JTextArea(5, 10);
+            		textArea.setText(FileTools.readFileAsString(file));
+            		textArea.setEditable(false);
+            		dd.add(file.getName(), new JScrollPane(textArea));
+            	}
             }
         } catch (IOException e) {
 			JOptionPane.showMessageDialog(this, Localizer.getInstance().getString("AFCOMMONS_ERRORHANDLING_ERRORDIALOG_IOERR"));
