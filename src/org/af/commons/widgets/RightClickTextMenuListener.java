@@ -16,32 +16,39 @@ public class RightClickTextMenuListener extends MouseAdapter {
 	    private JPopupMenu pm = new JPopupMenu();
 	    private JTextComponent tc;
 	    
-    	Action copyAction;
-    	Action cutAction;
-    	Action pasteAction;
-    	
-    	Action selectAllAction;
+    	Action copyAction = null;
+    	Action cutAction = null;
+    	Action pasteAction = null;    	
+    	Action selectAllAction = null;
     	
 	    public RightClickTextMenuListener(JTextComponent tc) {
 	    	this.tc = tc;
 	    	
 	    	for (Action a : tc.getActions()) {
+	    		//System.out.println(a.getValue(Action.NAME));
 	    		if (a.getValue(Action.NAME).equals(DefaultEditorKit.copyAction)) copyAction = a;
 	    		if (a.getValue(Action.NAME).equals(DefaultEditorKit.cutAction))	cutAction = a;
 	    		if (a.getValue(Action.NAME).equals(DefaultEditorKit.pasteAction)) pasteAction = a;
 	    		if (a.getValue(Action.NAME).equals(DefaultEditorKit.selectAllAction)) selectAllAction = a;
 	    	}
 
-	    	copyAction.putValue(Action.NAME, "Copy");	    	
-	    	cutAction.putValue(Action.NAME, "Cut");
-	    	pasteAction.putValue(Action.NAME, "Paste");	    	
-	    	selectAllAction.putValue(Action.NAME, "Select All");
-	    	
-	    	pm.add(cutAction);
-	    	pm.add(copyAction);
-	    	pm.add(pasteAction);
-	    	pm.addSeparator();
-	    	pm.add(selectAllAction);
+	    	if (copyAction!=null) {
+	    		copyAction.putValue(Action.NAME, "Copy");
+	    		pm.add(copyAction);
+	    	}
+	    	if (cutAction!=null) {
+	    		cutAction.putValue(Action.NAME, "Cut");
+	    		pm.add(cutAction);
+	    	}
+	    	if (pasteAction!=null) {
+	    		pasteAction.putValue(Action.NAME, "Paste");
+	    		pm.add(pasteAction);
+	    	}
+	    	if (selectAllAction!=null) {
+	    		selectAllAction.putValue(Action.NAME, "Select All");
+	    		pm.addSeparator();
+		    	pm.add(selectAllAction);
+	    	}
 	    	
 	    }
 
