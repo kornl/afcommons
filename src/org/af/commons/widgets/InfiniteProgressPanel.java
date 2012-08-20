@@ -59,6 +59,7 @@ public class InfiniteProgressPanel extends JComponent implements MouseListener, 
     protected Component defaultGlassPane;
     protected AbortListener abortListener;
 
+    protected boolean interruptable = true;
 
     enum State {FADE_IN, MAIN, FADE_OUT, DONE}
 
@@ -129,6 +130,9 @@ public class InfiniteProgressPanel extends JComponent implements MouseListener, 
     			//animatedObject = new AnimatedImage(AnimatedImage.juggle);
     		}		
     	}
+    }
+    
+    public void setInterruptable(boolean b) {
     	
     }
 
@@ -239,7 +243,7 @@ public class InfiniteProgressPanel extends JComponent implements MouseListener, 
     }
 
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE && interruptable) {
             interrupt();
         }
     }
