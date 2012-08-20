@@ -36,13 +36,13 @@ public class RightClickTextMenuListener extends MouseAdapter {
 	    				a.getValue(Action.NAME).equals("Select All")) selectAllAction = a;
 	    	}
 
-	    	if (copyAction!=null) {
-	    		copyAction.putValue(Action.NAME, "Copy");
-	    		pm.add(copyAction);
-	    	}
 	    	if (cutAction!=null) {
 	    		cutAction.putValue(Action.NAME, "Cut");
 	    		pm.add(cutAction);
+	    	}
+	    	if (copyAction!=null) {
+	    		copyAction.putValue(Action.NAME, "Copy");
+	    		pm.add(copyAction);
 	    	}
 	    	if (pasteAction!=null) {
 	    		pasteAction.putValue(Action.NAME, "Paste");
