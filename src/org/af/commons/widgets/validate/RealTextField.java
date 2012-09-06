@@ -27,7 +27,7 @@ public class RealTextField extends NumberTextField<Double> {
                 min, max);
     }
     public RealTextField(String name) {
-        this(name, Double.MIN_VALUE, Double.MAX_VALUE);
+        this(name, -Double.MAX_VALUE, Double.MAX_VALUE);
     }
 
     protected Double parseNumberString(String s) {
