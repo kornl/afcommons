@@ -35,6 +35,8 @@ public class LoggingSystem {
      * @param log4JpropsResourceName Name of log4J properties file. Must be on classpath
      * @param redirectSystemStreams should the stdout/err streams be redirected to the logger?
      * @param printToConsole should the stdout/err streams be printed to the console?
+     *        TODO I'm not sure whether this option really works or if one has to configure 
+     *        a log4j.ConsoleAppender. 
      * @param appLog contains all logging info
      */
     protected LoggingSystem(String log4JpropsResourceName,
