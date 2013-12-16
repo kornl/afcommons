@@ -66,6 +66,6 @@ public class ApplicationLog extends Observable {
 				s+=(propName + " : " + System.getProperty(propName)+"\n");
 			}
 		} 
-		return s;
+		return s + SystemInfo.getSystemInfo(true, true, true);
     }
 }
