@@ -125,6 +125,12 @@ public class ErrorHandler {
      */
     private void installDefaultExceptionHandlerOnEDT() {
         System.setProperty("sun.awt.exception.handler", DefaultExceptionHandler.class.getName());
+        // Java 7 does not respect system property "sun.awt.exception.handler".
+   		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+   			public void run() {		
+   				Thread.currentThread().setUncaughtExceptionHandler(new DefaultExceptionHandler());
+     		}
+     	});
     }
 
     /**
