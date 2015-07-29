@@ -1,6 +1,7 @@
 package org.af.commons.logging;
 
 import java.net.URL;
+import java.util.Properties;
 
 import org.af.commons.logging.widgets.DetailsPanel;
 import org.af.commons.logging.widgets.DetailsPanelSimpleLog;
@@ -23,8 +24,6 @@ public class LoggingSystem {
     // singleton
     protected static LoggingSystem instance = null;
 
-    //  log4J stuff
-    private static String log4JpropsResourceName = null;
     private static Log logger = null;
 
     // application specific stuff
@@ -39,13 +38,24 @@ public class LoggingSystem {
      *        a log4j.ConsoleAppender. 
      * @param appLog contains all logging info
      */
-    protected LoggingSystem(String log4JpropsResourceName,
+    protected LoggingSystem(Object log4Jprops,
                                  boolean redirectSystemStreams,
                                  boolean printToConsole,
                                  ApplicationLog appLog) {
-        LoggingSystem.log4JpropsResourceName = log4JpropsResourceName;
+
         LoggingSystem.appLog = appLog;
-        configureLog4J(printToConsole);
+    	if (printToConsole) System.out.println("Configuring log4J...");
+		logger = LogFactory.getLog(LoggingSystem.class);
+    	if (log4Jprops instanceof String) {
+    		URL logPropUrl = getClass().getResource((String)log4Jprops);
+    		if (printToConsole) System.out.println("Configure log4J from props at " + logPropUrl);
+    		PropertyConfigurator.configure(logPropUrl);
+    		logger.info("Configure log4J from props at " + logPropUrl);
+    	} else {
+    		PropertyConfigurator.configure((Properties)log4Jprops);
+    	}
+        Logger.getRootLogger().addAppender(new Log4JToAppLogAppender(appLog));
+        logger.info("Added Log4JToAppLogAppender");
         
         if (redirectSystemStreams)
             redirectSystemStreams(printToConsole);        
@@ -54,7 +64,7 @@ public class LoggingSystem {
     public static boolean alreadyInitiated() {
     	return instance != null;
     }
-
+	
     /**
      * Call this to setup the singelton instance at the beginning. Only one call allowed.
      * @param log4JpropsResourceName Name of log4J properties file. Must be on classpath
@@ -74,6 +84,20 @@ public class LoggingSystem {
                 redirectSystemStreams, printToConsole, appLog);
         System.out.println("LoggingSystem: instance created.");
     }
+    
+    public static void init(Properties log4Jprops,
+    		boolean redirectSystemStreams,
+    		boolean printToConsole,
+    		ApplicationLog appLog) {
+    	if (instance != null)
+    		throw new RuntimeException("Second call to LoggingSystem:init!");
+    	if (printToConsole) System.out.println("Configuring LoggingSystem...");
+    	instance = new LoggingSystem(log4Jprops,
+    			redirectSystemStreams, printToConsole, appLog);
+    	System.out.println("LoggingSystem: instance created.");
+    }
+
+    
 
     /**
      * @return Singleton instance.
@@ -86,20 +110,6 @@ public class LoggingSystem {
                 new ApplicationLog());
         }
         return instance;
-    }
-
-    /**
-     * Configure log4J thru the properties file
-     */
-    protected void configureLog4J(boolean printToConsole) {
-    	if (printToConsole) System.out.println("Configuring log4J...");
-        URL logPropUrl = getClass().getResource(log4JpropsResourceName);
-        if (printToConsole) System.out.println("Configure log4J from props at " + logPropUrl);
-        PropertyConfigurator.configure(logPropUrl);
-        logger = LogFactory.getLog(LoggingSystem.class);
-        logger.info("Configure log4J from props at " + logPropUrl);
-        Logger.getRootLogger().addAppender(new Log4JToAppLogAppender(appLog));
-        logger.info("Added Log4JToAppLogAppender");
     }
 
     /**
