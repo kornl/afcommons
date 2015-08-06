@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 public class HorizontalButtonPane extends JPanel {
     protected final String[] cmds;
     protected final JButton[] buttons;
+    protected final boolean rightSpace;
 
     public static final String OK_CMD = "OK";
     public static final String CANCEL_CMD = "CANCEL";
@@ -30,7 +31,27 @@ public class HorizontalButtonPane extends JPanel {
         this(captions.toArray(new String[1]), cmds.toArray(new String[1]));
     }
 
+    /**
+     * Constructor
+     *
+     * @param buttons List of buttons.
+     */
+    public HorizontalButtonPane(List<JButton> buttons, boolean rightSpace) {
+        this(buttons.toArray(new JButton[1]), rightSpace);        
+    }
 
+    /**
+     * Constructor
+     *
+     * @param buttons List of buttons.
+     */
+    public HorizontalButtonPane(JButton[] buttons, boolean rightSpace) {
+        this.buttons = buttons;
+        cmds = new String[buttons.length];
+        this.rightSpace = rightSpace;
+        setLayout();
+    }
+    
     /**
      * Constructor
      *
@@ -40,17 +61,24 @@ public class HorizontalButtonPane extends JPanel {
     public HorizontalButtonPane(String[] captions, String[] cmds) {
         this.cmds = cmds;
         buttons = new JButton[cmds.length];
-
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         for (int i = 0; i < buttons.length; i++) {
             buttons[i] = new JButton(captions[i]);
             buttons[i].setActionCommand(cmds[i]);
-            add(buttons[i]);
-            add(Box.createHorizontalStrut(5));
         }
+        this.rightSpace = true;
+        setLayout();
     }
 
-    /**
+    private void setLayout() {
+    	setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+    	add(Box.createHorizontalGlue());
+        for (int i = 0; i < buttons.length; i++) {
+            add(buttons[i]);
+            if (rightSpace || i!=buttons.length-1) add(Box.createHorizontalStrut(5));
+        }
+	}
+
+	/**
      * Add an action listener to all buttons.
      *
      * @param al The ActionListener.
