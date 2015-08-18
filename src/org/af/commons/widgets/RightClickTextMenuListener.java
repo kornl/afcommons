@@ -56,6 +56,7 @@ public class RightClickTextMenuListener extends MouseAdapter {
 	    }
 
 	    public void mouseClicked(MouseEvent e) {
+	    	tc.requestFocus();
 	        if (e.getModifiers() == InputEvent.BUTTON3_MASK) {
 	            if (!tc.isEnabled()) {
 	                return;
