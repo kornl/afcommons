@@ -211,7 +211,7 @@ public class OSTools {
      */
     public static String guessPDFViewerPath() {
     	if (OSTools.isWindows()) {
-    		String[] search = {"C:\\Programme", "C:\\Program Files" };
+    		String[] search = {"C:\\Programme", "C:\\Program Files", "C:\\Program Files (x86)"};
     		String[] searchDir = {"ADOBE", "ACR", "READER"};
     		String[] searchFile = {"ACRORD32.EXE", "ACRORD64.EXE"};
     		return searchDir(search, searchDir, searchFile, false);
